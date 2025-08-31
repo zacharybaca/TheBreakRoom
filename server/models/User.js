@@ -72,6 +72,4 @@ function removeSensitive(doc, ret) {
 userSchema.set("toJSON", { transform: removeSensitive });
 userSchema.set("toObject", { transform: removeSensitive });
 
-const User = mongoose.model("User", userSchema);
-
-export default User;
+module.exports = mongoose.model("User", userSchema);
