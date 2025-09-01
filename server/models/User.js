@@ -1,20 +1,27 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true, select: false },
-  role: {
-    type: String,
-    enum: ["user", "admin"],
-    default: "user",
+const userSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true, select: false },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    bio: { type: String },
+    gender: {
+      type: String,
+      enum: ["male", "female", "other"],
+      default: "other",
+    },
+    avatarUrl: { type: String },
   },
-  bio: { type: String },
-  gender: { type: String, enum: ["male", "female", "other"], default: "other" },
-  avatarUrl: { type: String },
-  createdAt: { type: Date, default: Date.now },
-});
+  { timestamps: true }
+);
 
 // Hash password + set avatar
 userSchema.pre("save", async function (next) {
@@ -53,16 +60,14 @@ userSchema.methods.resetPassword = async function (newPassword) {
 // Hash password if updated via findOneAndUpdate
 userSchema.pre("findOneAndUpdate", async function (next) {
   const update = this.getUpdate();
-
   if (update && update.password) {
     update.password = await bcrypt.hash(update.password, 10);
     this.setUpdate(update);
   }
-
   next();
 });
 
-// Transform for both toJSON and toObject
+// Transform response (remove sensitive fields)
 function removeSensitive(doc, ret) {
   delete ret.password;
   delete ret.__v;
@@ -72,4 +77,4 @@ function removeSensitive(doc, ret) {
 userSchema.set("toJSON", { transform: removeSensitive });
 userSchema.set("toObject", { transform: removeSensitive });
 
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);
