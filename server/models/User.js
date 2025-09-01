@@ -12,6 +12,15 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    job: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Job",
+      required: true,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
     bio: { type: String },
     gender: {
       type: String,

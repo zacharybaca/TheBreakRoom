@@ -3,12 +3,16 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
+import { errorHandler } from "./middleware/errorHandler.js";
+
+// Route imports
+import userRoutes from "./routes/userRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
+import jobRoutes from "./routes/jobRoutes.js";
 
 // Load environment variables
 dotenv.config();
-
-// Connect to MongoDB
-connectDB();
 
 // Initialize Express
 const app = express();
@@ -17,29 +21,29 @@ const app = express();
 app.use(express.json()); // Parse JSON bodies
 app.use(cors()); // Enable CORS for cross-origin requests
 
-// Routes (placeholder for now)
+// Routes
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-// Route imports (you'll create these files later)
-import authRoutes from "./routes/authRoutes.js";
-import postRoutes from "./routes/postRoutes.js";
-import commentRoutes from "./routes/commentRoutes.js";
-
-// Mount routes
-app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/jobs", jobRoutes);
 
-// Error handling middleware (optional placeholder)
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "Server Error" });
-});
+// Error handling
+app.use(errorHandler);
 
-// Server listen
+// Start server only after DB connection succeeds
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
-);
+
+connectDB()
+  .then(() => {
+    app.listen(PORT, () =>
+      console.log(`🚀 Server running on http://localhost:${PORT}`)
+    );
+  })
+  .catch((err) => {
+    console.error("❌ Failed to connect to MongoDB:", err.message);
+    process.exit(1); // Exit if DB connection fails
+  });
