@@ -3,12 +3,12 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
-import { errorHandler } from "./middleware/errorHandler.js";
+import { errorMiddleware } from "./middleware/errorMiddleware.js";
 
 // Route imports
 import userRoutes from "./routes/userRoutes.js";
-import postRoutes from "./routes/postRoutes.js";
-import commentRoutes from "./routes/commentRoutes.js";
+// import postRoutes from "./routes/postRoutes.js";
+// import commentRoutes from "./routes/commentRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 
 // Load environment variables
@@ -32,7 +32,7 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/jobs", jobRoutes);
 
 // Error handling
-app.use(errorHandler);
+app.use(errorMiddleware);
 
 // Start server only after DB connection succeeds
 const PORT = process.env.PORT || 5000;
