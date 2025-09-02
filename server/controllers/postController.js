@@ -71,6 +71,8 @@ export const updatePost = async (req, res) => {
 
         if (!updatedPost) return res.status(404).json({ message: "Post not found" });
         res.status(500).json({ message: "Error updating post", error: err.message });
+    } catch (err) {
+      res.status(500).json({ message: "Error updating post", error: err.message });
     }
 };
 
