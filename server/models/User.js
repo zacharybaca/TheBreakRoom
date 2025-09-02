@@ -32,13 +32,15 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Hash password + set avatar
+// Hash password + set avatar + sync isAdmin
 userSchema.pre("save", async function (next) {
   try {
+    // hash password if modified
     if (this.isModified("password")) {
       this.password = await bcrypt.hash(this.password, 10);
     }
 
+    // assign default avatar
     if (!this.avatarUrl) {
       if (this.gender === "male") {
         this.avatarUrl = "https://avatar.iran.liara.run/public/boy";
@@ -48,6 +50,9 @@ userSchema.pre("save", async function (next) {
         this.avatarUrl = "https://avatar.iran.liara.run/public";
       }
     }
+
+    // keep isAdmin in sync with role
+    this.isAdmin = this.role === "admin";
 
     next();
   } catch (err) {
@@ -66,13 +71,21 @@ userSchema.methods.resetPassword = async function (newPassword) {
   await this.save();
 };
 
-// Hash password if updated via findOneAndUpdate
+// Handle updates: hash password if updated + sync isAdmin with role
 userSchema.pre("findOneAndUpdate", async function (next) {
   const update = this.getUpdate();
+
+  // hash password if being updated
   if (update && update.password) {
     update.password = await bcrypt.hash(update.password, 10);
-    this.setUpdate(update);
   }
+
+  // sync isAdmin with role if role is updated
+  if (update && update.role) {
+    update.isAdmin = update.role === "admin";
+  }
+
+  this.setUpdate(update);
   next();
 });
 
