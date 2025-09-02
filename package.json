@@ -7,13 +7,9 @@
 },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zacharybaca/react-starter-template.git"
+    "url": "https://github.com/zacharybaca/nine2five.git"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zacharybaca/react-starter-template/issues"
-  },
-  "homepage": "https://github.com/zacharybaca/react-starter-template#readme"
+  "license": "ISC"
 }
