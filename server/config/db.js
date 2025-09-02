@@ -4,7 +4,7 @@ import "dotenv/config";
 const uri = process.env.MONGODB_URI;
 const dbName = process.env.DB_NAME;
 
-export async function connectDB() {
+const connectDB = async () => {
   try {
     await mongoose.connect(uri, { dbName });
     console.log(`✅ Connected to MongoDB Atlas → ${dbName}`);
@@ -13,3 +13,5 @@ export async function connectDB() {
     process.exit(1);
   }
 }
+
+export default connectDB;
