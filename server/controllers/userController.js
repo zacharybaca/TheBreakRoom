@@ -112,7 +112,7 @@ export const getUserById = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select("+password");
+    const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
     // Check permissions (only self or admin)
@@ -141,50 +141,47 @@ export const updateUser = async (req, res) => {
       : userAllowedFields;
 
     // Apply only allowed updates
-    Object.keys(req.body).forEach((field) => {
-      if (allowedFields.includes(field)) {
+    for (const field of Object.keys(req.body)) {
+      if (!allowedFields.includes(field)) continue;
+
+      if (field === "job") {
+        const jobValue = req.body.job;
+        let jobDoc;
+
+        if (mongoose.Types.ObjectId.isValid(jobValue)) {
+          jobDoc = await Job.findById(jobValue);
+          if (!jobDoc) {
+            return res.status(400).json({ message: "Job not found" });
+          }
+        } else {
+          jobDoc = await Job.findOne({ title: jobValue });
+          if (!jobDoc) {
+            jobDoc = await Job.create({ title: jobValue, description: "" });
+          }
+        }
+
+        user.job = jobDoc._id;
+      } else {
         user[field] = req.body[field];
-      }
-    });
-
-    // Ensure at least username or email exists after update
-    if (!user.username && !user.email) {
-      return res.status(400).json({
-        message: "User must have at least a username or an email",
-      });
-    }
-
-    // Check duplicates when changing username/email
-    if (req.body.username || req.body.email) {
-      const conditions = [];
-      if (req.body.username) conditions.push({ username: req.body.username });
-      if (req.body.email) conditions.push({ email: req.body.email });
-
-      const duplicate = await User.findOne({
-        $or: conditions,
-        _id: { $ne: user._id }, // exclude self
-      });
-
-      if (duplicate) {
-        return res.status(400).json({
-          message: "Another user already has that username/email",
-        });
       }
     }
 
     const updated = await user.save();
+
+    // Populate job details
+    await updated.populate("job", "title description");
 
     res.status(200).json({
       _id: updated._id,
       name: updated.name,
       username: updated.username,
       email: updated.email,
-      job: updated.job,
+      job: updated.job, // populated job details
       role: updated.role,
       isAdmin: updated.isAdmin,
       bio: updated.bio,
       avatarUrl: updated.avatarUrl,
-      token: isSelf ? generateToken(updated._id, updated.username || updated.email) : undefined, // only refresh token for self
+      token: isSelf ? generateToken(updated._id) : undefined, // only return token for self
     });
   } catch (err) {
     res
