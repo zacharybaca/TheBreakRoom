@@ -9,36 +9,47 @@ const seedAdmin = async () => {
   try {
     await connectDB();
 
-    // ensure admin job exists
-    let adminJob = await Job.findOne({ title: "Administrator" });
-    if (!adminJob) {
-      adminJob = new Job({
-        title: "Administrator",
-        description: "System administrator with full privileges",
-      });
-      await adminJob.save();
-      console.log("✅ Job created:", adminJob.title);
+    // 🔹 Step 1: Seed default jobs
+    const jobData = [
+      { title: "Administrator", description: "System administrator with full privileges" },
+      { title: "Manager", description: "Manages teams and workflows" },
+      { title: "Developer", description: "Builds and maintains features" },
+    ];
+
+    const seededJobs = {};
+    for (const job of jobData) {
+      let existingJob = await Job.findOne({ title: job.title });
+      if (!existingJob) {
+        existingJob = await Job.create(job);
+        console.log(`✅ Job created: ${existingJob.title}`);
+      } else {
+        console.log(`⚠️ Job already exists: ${existingJob.title}`);
+      }
+      // store refs for later use
+      seededJobs[job.title] = existingJob;
     }
 
-    // check if admin user already exists
-    const adminExists = await User.findOne({ email: "admin@example.com" });
+    // 🔹 Step 2: Seed admin user if not already present
+    const adminEmail = "admin@example.com";
+    const adminExists = await User.findOne({ email: adminEmail });
+
     if (adminExists) {
       console.log("⚠️ Admin user already exists");
-      process.exit();
+    } else {
+      const admin = new User({
+        name: "Admin User",
+        username: "admin",
+        email: adminEmail,
+        password: "password123", // pre-save hook will hash
+        role: "admin",
+        isAdmin: true,
+        job: seededJobs["Administrator"]._id, // 👈 Reference seeded job
+      });
+
+      await admin.save();
+      console.log("✅ Admin user created successfully");
     }
 
-    const admin = new User({
-      name: "Admin User",
-      username: "admin",
-      email: "admin@example.com",
-      password: "password123", // will get hashed in pre-save
-      role: "admin",
-      isAdmin: true,
-      job: adminJob._id, // 🔑 link Job by ObjectId
-    });
-
-    await admin.save();
-    console.log("✅ Admin user created successfully");
     process.exit();
   } catch (err) {
     console.error("❌ Error seeding admin:", err.message);
