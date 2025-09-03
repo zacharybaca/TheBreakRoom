@@ -19,7 +19,7 @@ export const createUser = async (req, res) => {
       username: saved.username,
       email: saved.email,
       job: saved.job,
-      token: generateToken(saved._id),
+      token: generateToken(saved._id, saved.username),
     });
   } catch (err) {
     res

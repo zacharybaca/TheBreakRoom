@@ -1,10 +1,10 @@
 import express from "express";
 import {
-    createPost,
-    getPosts,
-    getPostById,
-    updatePost,
-    deletePost,
+  createPost,
+  getPosts,
+  getPostById,
+  updatePost,
+  deletePost,
 } from "../controllers/postController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -25,3 +25,5 @@ router.put("/:id", protect, updatePost);
 
 // Delete post
 router.delete("/:id", protect, deletePost);
+
+export default router;
