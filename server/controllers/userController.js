@@ -1,6 +1,7 @@
+import mongoose from "mongoose";
 import User from "../models/User.js";
+import Job from "../models/Job.js";
 import generateToken from "../utils/generateToken.js";
-
 
 export const createUser = async (req, res) => {
   try {
@@ -14,39 +15,59 @@ export const createUser = async (req, res) => {
     }
 
     // Check for duplicates
-    const conditions = [];
-    if (username) conditions.push({ username });
-    if (email) conditions.push({ email });
-
-    const userExists = await User.findOne({ $or: conditions });
+    const userExists = await User.findOne({
+      $or: [{ username }, { email }].filter((field) => field),
+    });
     if (userExists) {
       return res
         .status(400)
         .json({ message: "User with that username/email already exists" });
     }
 
-    // Create user
+    // Resolve or create Job
+    let jobDoc;
+    if (!job) {
+      return res.status(400).json({ message: "Job is required" });
+    }
+
+    if (mongoose.Types.ObjectId.isValid(job)) {
+      jobDoc = await Job.findById(job);
+      if (!jobDoc) {
+        return res.status(400).json({ message: "Job not found" });
+      }
+    } else {
+      // Look for existing job by title
+      jobDoc = await Job.findOne({ title: job });
+      if (!jobDoc) {
+        // Job doesn't exist, create it
+        jobDoc = await Job.create({ title: job, description: "" });
+      }
+    }
+
     const newUser = new User({
       name,
       username,
       email,
       password,
-      job,
+      job: jobDoc._id,
     });
 
     const saved = await newUser.save();
+
+    // Populate job for the response
+    await saved.populate("job", "title description");
 
     res.status(201).json({
       _id: saved._id,
       name: saved.name,
       username: saved.username,
       email: saved.email,
-      job: saved.job,
+      job: saved.job, // full job details
       role: saved.role,
       isAdmin: saved.isAdmin,
       bio: saved.bio,
       avatarUrl: saved.avatarUrl,
-      token: generateToken(saved._id, saved.username || saved.email),
+      token: generateToken(saved._id, saved.username),
     });
   } catch (err) {
     res
