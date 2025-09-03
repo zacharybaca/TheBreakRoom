@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Job from "../models/Job.js";
 
 // Create Job
@@ -32,6 +33,10 @@ export const getJobs = async (req, res) => {
 // Get Job by ID
 export const getJobById = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid Job ID" });
+    };
+
     const job = await Job.findById(req.params.id);
     if (!job) return res.status(404).json({ message: "Job not found" });
 
@@ -44,6 +49,10 @@ export const getJobById = async (req, res) => {
 // Update Job
 export const updateJob = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid Job ID" });
+    };
+
     const { title, description } = req.body;
     const updatedJob = await Job.findByIdAndUpdate(
       req.params.id,
@@ -58,15 +67,15 @@ export const updateJob = async (req, res) => {
   }
 };
 
-// Delete Job
+// Delete Job 
 export const deleteJob = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid Job ID" });
+    };
+    
     const job = await Job.findById(req.params.id);
     if (!job) return res.status(404).json({ message: "Job not found" });
-
-    if (!req.user || req.user.role !== "admin") {
-      return res.status(403).json({ message: "Not authorized to delete this job" });
-    }
 
     await job.deleteOne();
     res.status(200).json({ message: "Job deleted successfully" });
