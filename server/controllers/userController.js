@@ -1,16 +1,39 @@
 import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
 
+
 export const createUser = async (req, res) => {
   try {
     const { name, username, email, password, job } = req.body;
 
-    const userExists = await User.findOne({ $or: [{ username }, { email }] });
-    if (userExists) {
-      return res.status(400).json({ message: "User already exists" });
+    // Require at least username OR email
+    if (!username && !email) {
+      return res.status(400).json({
+        message: "A username or an email is required to create an account",
+      });
     }
 
-    const newUser = new User({ name, username, email, password, job });
+    // Check for duplicates
+    const conditions = [];
+    if (username) conditions.push({ username });
+    if (email) conditions.push({ email });
+
+    const userExists = await User.findOne({ $or: conditions });
+    if (userExists) {
+      return res
+        .status(400)
+        .json({ message: "User with that username/email already exists" });
+    }
+
+    // Create user
+    const newUser = new User({
+      name,
+      username,
+      email,
+      password,
+      job,
+    });
+
     const saved = await newUser.save();
 
     res.status(201).json({
@@ -19,7 +42,11 @@ export const createUser = async (req, res) => {
       username: saved.username,
       email: saved.email,
       job: saved.job,
-      token: generateToken(saved._id, saved.username),
+      role: saved.role,
+      isAdmin: saved.isAdmin,
+      bio: saved.bio,
+      avatarUrl: saved.avatarUrl,
+      token: generateToken(saved._id, saved.username || saved.email),
     });
   } catch (err) {
     res
