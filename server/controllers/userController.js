@@ -91,7 +91,7 @@ export const getUserById = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).select("+password");
     if (!user) return res.status(404).json({ message: "User not found" });
 
     // Check permissions (only self or admin)
@@ -126,6 +126,31 @@ export const updateUser = async (req, res) => {
       }
     });
 
+    // Ensure at least username or email exists after update
+    if (!user.username && !user.email) {
+      return res.status(400).json({
+        message: "User must have at least a username or an email",
+      });
+    }
+
+    // Check duplicates when changing username/email
+    if (req.body.username || req.body.email) {
+      const conditions = [];
+      if (req.body.username) conditions.push({ username: req.body.username });
+      if (req.body.email) conditions.push({ email: req.body.email });
+
+      const duplicate = await User.findOne({
+        $or: conditions,
+        _id: { $ne: user._id }, // exclude self
+      });
+
+      if (duplicate) {
+        return res.status(400).json({
+          message: "Another user already has that username/email",
+        });
+      }
+    }
+
     const updated = await user.save();
 
     res.status(200).json({
@@ -138,7 +163,7 @@ export const updateUser = async (req, res) => {
       isAdmin: updated.isAdmin,
       bio: updated.bio,
       avatarUrl: updated.avatarUrl,
-      token: isSelf ? generateToken(updated._id) : undefined, // only return token for self
+      token: isSelf ? generateToken(updated._id, updated.username || updated.email) : undefined, // only refresh token for self
     });
   } catch (err) {
     res
