@@ -4,8 +4,8 @@ import bcrypt from "bcrypt";
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    username: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
+    username: { type: String, unique: true, sparse: true }, // now optional
+    email: { type: String, unique: true, sparse: true }, // now optional
     password: { type: String, required: true, select: false },
     role: {
       type: String,
@@ -32,15 +32,28 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Require at least one identifier (username or email)
+userSchema.pre("validate", function (next) {
+  if (!this.username && !this.email) {
+    this.invalidate(
+      "username",
+      "Either username or email is required."
+    );
+    this.invalidate(
+      "email",
+      "Either username or email is required."
+    );
+  }
+  next();
+});
+
 // Hash password + set avatar + sync isAdmin
 userSchema.pre("save", async function (next) {
   try {
-    // hash password if modified
     if (this.isModified("password")) {
       this.password = await bcrypt.hash(this.password, 10);
     }
 
-    // assign default avatar
     if (!this.avatarUrl) {
       if (this.gender === "male") {
         this.avatarUrl = "https://avatar.iran.liara.run/public/boy";
@@ -51,9 +64,7 @@ userSchema.pre("save", async function (next) {
       }
     }
 
-    // keep isAdmin in sync with role
     this.isAdmin = this.role === "admin";
-
     next();
   } catch (err) {
     next(err);
@@ -75,12 +86,10 @@ userSchema.methods.resetPassword = async function (newPassword) {
 userSchema.pre("findOneAndUpdate", async function (next) {
   const update = this.getUpdate();
 
-  // hash password if being updated
   if (update && update.password) {
     update.password = await bcrypt.hash(update.password, 10);
   }
 
-  // sync isAdmin with role if role is updated
   if (update && update.role) {
     update.isAdmin = update.role === "admin";
   }
