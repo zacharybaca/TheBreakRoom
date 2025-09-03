@@ -3,8 +3,7 @@ import generateToken from "../utils/generateToken.js";
 
 export const login = async (req, res) => {
   try {
-    const { identifier, password } = req.body; 
-    // identifier = username OR email
+    const { identifier, password } = req.body; // identifier = username OR email
 
     if (!identifier || !password) {
       return res.status(400).json({ message: "Identifier and password are required" });
@@ -38,7 +37,7 @@ export const login = async (req, res) => {
       job: user.job,
       bio: user.bio,
       avatarUrl: user.avatarUrl,
-      token: generateToken(user._id, user.username || user.email), // 👈 fallback
+      token: generateToken(user._id, user.username), // ✅ always use username
     });
   } catch (err) {
     res.status(500).json({ message: "Error logging in", error: err.message });
