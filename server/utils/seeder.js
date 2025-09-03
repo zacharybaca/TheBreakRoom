@@ -9,6 +9,13 @@ const seedAdmin = async () => {
   try {
     await connectDB();
 
+    // ⚠️ Danger zone: wipe collections
+    await User.deleteMany({});
+    console.log("🧹 Cleared Users collection");
+
+    await Job.deleteMany({});
+    console.log("🧹 Cleared Jobs collection");
+
     // 🔹 Step 1: Seed default jobs
     const jobData = [
       { title: "Administrator", description: "System administrator with full privileges" },
@@ -18,37 +25,24 @@ const seedAdmin = async () => {
 
     const seededJobs = {};
     for (const job of jobData) {
-      let existingJob = await Job.findOne({ title: job.title });
-      if (!existingJob) {
-        existingJob = await Job.create(job);
-        console.log(`✅ Job created: ${existingJob.title}`);
-      } else {
-        console.log(`⚠️ Job already exists: ${existingJob.title}`);
-      }
-      // store refs for later use
-      seededJobs[job.title] = existingJob;
+      const newJob = await Job.create(job);
+      console.log(`✅ Job created: ${newJob.title}`);
+      seededJobs[job.title] = newJob;
     }
 
-    // 🔹 Step 2: Seed admin user if not already present
-    const adminEmail = "admin@example.com";
-    const adminExists = await User.findOne({ email: adminEmail });
+    // 🔹 Step 2: Seed admin user
+    const admin = new User({
+      name: "Admin User",
+      username: "admin",
+      email: "admin@example.com",
+      password: "password123", // pre-save hook will hash
+      role: "admin",
+      isAdmin: true,
+      job: seededJobs["Administrator"]._id, // 👈 Reference Administrator job
+    });
 
-    if (adminExists) {
-      console.log("⚠️ Admin user already exists");
-    } else {
-      const admin = new User({
-        name: "Admin User",
-        username: "admin",
-        email: adminEmail,
-        password: "password123", // pre-save hook will hash
-        role: "admin",
-        isAdmin: true,
-        job: seededJobs["Administrator"]._id, // 👈 Reference seeded job
-      });
-
-      await admin.save();
-      console.log("✅ Admin user created successfully");
-    }
+    await admin.save();
+    console.log("✅ Admin user created successfully");
 
     process.exit();
   } catch (err) {
