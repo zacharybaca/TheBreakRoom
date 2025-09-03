@@ -78,8 +78,11 @@ export const createUser = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
-    // explicitly exclude password field
-    const users = await User.find().select("-password");
+    // Exclude password, populate job details
+    const users = await User.find()
+      .select("-password")
+      .populate("job", "title description");
+
     res.status(200).json(users);
   } catch (err) {
     res
@@ -92,7 +95,8 @@ export const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
       .select("-password")
-      .populate("job", "title description"); // 👈 get job details
+      .populate("job", "title description");
+
     if (!user) return res.status(404).json({ message: "User not found" });
 
     // allow self or admin
