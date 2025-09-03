@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./High-Resolution-Color-Logo.png" height="300px"/>
+</p>
+
 # Nine2Five
 
 The backend server for Nine2Five, a social platform designed for workers in retail, customer service, and other public-facing roles. The application provides a space where users can share their daily experiences, vent frustrations, and seek advice from peers who understand the challenges of working the 9-to-5 grind.
