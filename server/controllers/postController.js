@@ -9,21 +9,18 @@ export const createPost = async (req, res) => {
       return res.status(400).json({ message: "Content is required" });
     }
 
-    const newPost = new Post({
-      authorId: req.user._id,   // 🔑 link to logged-in user
+    let newPost = new Post({
+      authorId: req.user._id,
       content,
       imageUrl,
       anonymous: anonymous ?? false,
-      tags,
-      reactions: [],            // start with no reactions
+      tags: tags || []
     });
 
-    let saved = await newPost.save();
+    newPost = await newPost.save();
+    newPost = await newPost.populate("authorId", "username name avatarUrl");
 
-    // Populate author info (but exclude sensitive stuff like password)
-    saved = await saved.populate("authorId", "username name avatarUrl");
-
-    res.status(201).json(saved);
+    res.status(201).json(newPost);
   } catch (err) {
     res.status(400).json({ message: "Error creating post", error: err.message });
   }
@@ -32,15 +29,18 @@ export const createPost = async (req, res) => {
 // Get all Posts
 export const getPosts = async (req, res) => {
   try {
-    // Find posts sorted by newest first
-    const posts = await Post.find()
+    const query = Post.find({ isDeleted: false })
       .sort({ createdAt: -1 })
-      .populate("authorId", "username name avatarUrl") // Populate author
-      .populate({
-        path: "reactions",
-        populate: { path: "user", select: "username avatarUrl" } // Populate users who reacted
-      });
+      .populate("authorId", "username name avatarUrl");
 
+    if (req.query.withReactions === "true") {
+      query.populate({
+        path: "reactions",
+        populate: { path: "user", select: "username avatarUrl" }
+      });
+    }
+
+    const posts = await query;
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ message: "Error fetching posts", error: err.message });
@@ -49,46 +49,56 @@ export const getPosts = async (req, res) => {
 
 // Get Post by ID
 export const getPostById = async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id);
-        if (!post) return res.status(404).json({ message: "Post not found" });
+  try {
+    const post = await Post.findOne({ _id: req.params.id, isDeleted: false })
+      .populate("authorId", "username name avatarUrl")
+      .populate({
+        path: "reactions",
+        populate: { path: "user", select: "username avatarUrl" }
+      });
 
-        res.status(200).json(post);
-    } catch (err) {
-        res.status(500).json({ message: "Error fetching post", error: err.message });
-    }
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching post", error: err.message });
+  }
 };
 
-// Updated Post
+// Update Post
 export const updatePost = async (req, res) => {
-    try {
-        const { content, imageUrl, anonymous, tags } = req.body;
-        const updatedPost = await Post.findByIdAndUpdate(
-            req.params.id,
-            { content, imageUrl, anonymous, tags },
-            { new: true, runValidators: true }
-        );
+  try {
+    const { content, imageUrl, anonymous, tags } = req.body;
 
-        if (!updatedPost) return res.status(404).json({ message: "Post not found" });
-        res.status(500).json({ message: "Error updating post", error: err.message });
-    } catch (err) {
-      res.status(500).json({ message: "Error updating post", error: err.message });
-    }
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.id,
+      { content, imageUrl, anonymous, tags },
+      { new: true, runValidators: true }
+    ).populate("authorId", "username name avatarUrl");
+
+    if (!updatedPost) return res.status(404).json({ message: "Post not found" });
+
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    res.status(500).json({ message: "Error updating post", error: err.message });
+  }
 };
 
-// Delete Post
+// Soft Delete Post
 export const deletePost = async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id);
-        if (!post) return res.status(404).json({ message: "Post not found" });
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: "Post not found" });
 
-        if (!req.user || req.user.role !== "admin") {
-            return res.status(403).json({ message: "Not authorized to delete this post" });
-        }
-
-        await post.deleteOne();
-        res.status(200).json({ message: "Post deleted successfully" });
-    } catch (err) {
-        res.status(500).json({ message: "Error deleting post", error: err.message });
+    if (!req.user || (req.user.role !== "admin" && !post.authorId.equals(req.user._id))) {
+      return res.status(403).json({ message: "Not authorized to delete this post" });
     }
+
+    post.isDeleted = true;
+    await post.save();
+
+    res.status(200).json({ message: "Post deleted successfully (soft delete)" });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting post", error: err.message });
+  }
 };
