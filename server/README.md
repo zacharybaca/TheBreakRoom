@@ -209,6 +209,12 @@ Ensure you have the following installed on your machine:
 4. Soft deletion is used for posts; deleted posts have `isDeleted=true`.
 5. Only owners or admins can update/delete posts, comments, or users.
 6. Admin users can access all users; regular users can only update their own info.
+7. Use JWT tokens in headers for all private routes:
+    Authorization: Bearer <token>
+8. Posts support withReactions=true query to fetch reaction details.
+9. Soft delete means deleted posts have isDeleted=true but still exist in DB.
+10. Admin users can access all users and delete posts/comments.
+11. Reactions are one per user per post (upserted).
 
 ---
 
