@@ -4,10 +4,11 @@ import Post from "../models/Post.js";
 // Add or Update Reaction
 export const addReaction = async (req, res) => {
   try {
-    const { postId, type } = req.body;
+    const { type } = req.body;
+    const postId = req.params.id; // 👈 get from params
 
-    if (!postId || !type) {
-      return res.status(400).json({ message: "postId and type are required" });
+    if (!type) {
+      return res.status(400).json({ message: "Reaction type is required" });
     }
 
     // Make sure the post exists and isn’t deleted
@@ -30,11 +31,7 @@ export const addReaction = async (req, res) => {
 // Remove Reaction
 export const removeReaction = async (req, res) => {
   try {
-    const { postId } = req.body;
-
-    if (!postId) {
-      return res.status(400).json({ message: "postId is required" });
-    }
+    const postId = req.params.id; // 👈 get from params
 
     const reaction = await Reaction.findOneAndDelete({
       post: postId,
@@ -54,7 +51,7 @@ export const removeReaction = async (req, res) => {
 // Get all reactions for a post
 export const getReactionsForPost = async (req, res) => {
   try {
-    const { postId } = req.params;
+    const postId = req.params.id; // 👈 get from params
 
     const reactions = await Reaction.find({ post: postId })
       .populate("user", "username avatarUrl")
