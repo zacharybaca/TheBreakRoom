@@ -10,7 +10,8 @@ import {
 import {
   addReaction,
   removeReaction,
-} from "../controllers/reactionController.js"; // 👈 new controller
+  getReactionsForPost,   // 👈 bring in the getter
+} from "../controllers/reactionController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -32,7 +33,7 @@ router.get("/", protect, getPosts);
 
 /**
  * @route   GET /api/posts/:id
- * @desc    Get post by Id (includes reactions)
+ * @desc    Get post by Id (includes reactions if populated)
  * @access  Private
  */
 router.get("/:id", protect, getPostById);
@@ -64,5 +65,12 @@ router.post("/:id/reactions", protect, addReaction);
  * @access  Private
  */
 router.delete("/:id/reactions", protect, removeReaction);
+
+/**
+ * @route   GET /api/posts/:id/reactions
+ * @desc    Get all reactions for a post
+ * @access  Private
+ */
+router.get("/:id/reactions", protect, getReactionsForPost);
 
 export default router;
