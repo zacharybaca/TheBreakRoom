@@ -30,7 +30,7 @@ app.get("/", (req, res) => res.send("API is running..."));
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
-app.use("/api/comments", commentRoutes); // ✅ mount comments
+// app.use("/api/comments", commentRoutes);
 app.use("/api/jobs", jobRoutes);
 
 // 404 fallback
