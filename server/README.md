@@ -14,7 +14,6 @@ The backend server for Nine2Five, a social platform designed for workers in reta
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
 - [API Documentation](#api-documentation)
-- [WebSocket Messaging](#websocket-messaging)
 - [Project Structure](#project-structure)
 - [Deployment](#deployment)
 - [Future Enhancements](#future-enhancements)
@@ -97,89 +96,90 @@ Ensure you have the following installed on your machine:
 
 # API Documentation
 
-## User Management
+---
 
-   1. Get All Users
-      - <code>GET /api/users</code>
-      - Retrieves a list of all users.
-      - Example Response:
-         ```bash
-         [
-            {
-               "_id": "taskId123",
-               "title": "Fix login issue",
-               "description": "Resolve authentication bug in login",
-               "assignedEmployee": "employeeId456",
-               "taskCompleted": false
-            }
-         ]
+## **1. Users Routes (`/api/users`)**
 
-   2. Get a Specific Task
-      - <code>GET /api/tasks/:id</code>
-      - Retrieves a task by its unique ID.
+| Method | Endpoint | Description | Access | Request Body | Response |
+|--------|---------|-------------|--------|--------------|----------|
+| GET | `/` | Get all users | Private (admin) | None | Array of users (id, username, name, avatarUrl, role, etc.) |
+| GET | `/:id` | Get a single user by ID | Private | None | User object with selected fields (no password) |
+| PUT | `/:id` | Update user info | Private (self/admin) | JSON: `{ username?, name?, avatarUrl?, role? }` | Updated user object |
+| DELETE | `/:id` | Delete a user | Private (admin) | None | `{ message: "User deleted successfully" }` |
 
-   3. Create a New Task
-      - <code>POST /api/tasks</code>
-      - Requires the task data in the request body.
-      - Example Request Body:
-         ```bash
-         {
-            "title": "Fix CSS issue",
-            "description": "Resolve layout alignment",
-            "assignedEmployee": "employeeId456"
-         }
+---
 
-   4. Update an Existing Task
-      - <code>PUT /api/tasks/:id</code>
-      - Updates the details of an existing task.
+## **2. Auth Routes (`/api/auth`)**
 
-   5. Delete a Task
-      - <code>DELETE /api/tasks/:id</code>
-      - Deletes a task by ID.
+| Method | Endpoint | Description | Access | Request Body | Response |
+|--------|---------|-------------|--------|--------------|----------|
+| POST | `/login` | Login user | Public | JSON: `{ username, password }` | JWT token and user info |
+| POST | `/register` | Register new user | Public | JSON: `{ username, password, name, avatarUrl? }` | Created user object + token |
+| POST | `/logout` | Logout user | Private | None | `{ message: "Logged out successfully" }` |
 
-   6. Retrieve Unassigned Tasks
-      - <code>GET /api/tasks/unassigned</code>
-      - Retrieves All Tasks That Hasn't Been Assigned An Employee
+---
 
-## Employee Management
-   
-   1. Get All Employees
-      - <code>GET /api/employees</code>
-      - Retrieves a list of all employees.
+## **3. Posts Routes (`/api/posts`)**
 
-   2. Get a Specific Employee
-      - <code>GET /api/employees/:id</code>
-      - Retrieves employee details by their unique ID.
+| Method | Endpoint | Description | Access | Request Body / Query | Response |
+|--------|---------|-------------|--------|--------------------|----------|
+| POST | `/` | Create a new post | Private (logged-in) | JSON: `{ content, imageUrl?, anonymous?, tags? }` | Created post object with author info and reactionCounts |
+| GET | `/` | Get all posts | Private | Query: `?withReactions=true` (optional) | Array of post objects with author info and reactionCounts |
+| GET | `/:id` | Get a single post | Private | Query: `?withReactions=true` (optional) | Single post object with author info and reactionCounts |
+| PUT | `/:id` | Update a post | Private (owner/admin) | JSON: `{ content, imageUrl?, anonymous?, tags? }` | Updated post object |
+| DELETE | `/:id` | Soft delete post | Private (owner/admin) | None | `{ message: "Post deleted successfully (soft delete)" }` |
 
-   3. Update an Employee's Information
-      - <code>PUT /api/employees/:id</code>
-      - Updates employee details by their unique ID.
+---
 
-   4. Delete an Employee
-      - <code>DELETE /api/employees/:id</code>
-      - Deletes an employee from the system, as well as unassign the tasks that employee was assigned.
+## **4. Reactions Routes (nested under posts)**
 
-## Authentication
+| Method | Endpoint | Description | Access | Request Body | Response |
+|--------|---------|-------------|--------|--------------|----------|
+| POST | `/:id/reactions` | Add or update a reaction to a post | Private | JSON: `{ type: "like"|"love"|"haha"|"wow"|"sad"|"angry" }` | Created/updated reaction object with populated user info |
+| DELETE | `/:id/reactions` | Remove current user's reaction from a post | Private | None | `{ message: "Reaction removed successfully" }` |
 
-   1. Login
-      - <code>POST /api/auth/login</code>
-      - Authenticates the user and returns a JWT token.
-      - Example Request Body:
-         ```bash
-         {
-            "email": "user@example.com",
-            "password": "password123"
-         }
+---
 
-   2. Register A New Employee in the System
-      - <code>POST /api/employees/signup</code>
-      - Adds a new employee to the database.
+## **5. Comments Routes (`/api/comments`)** *(if implemented)*
 
-## WebSocket Messaging
-   1. Server That Provides Real Time Communication for the Built-In Messaging System
-      - <code>ws://localhost:9000</code>
-      - Real-time chat communication and user online status updates.
-      - Typing indicator feature that shows which user is currently typing a message.
+| Method | Endpoint | Description | Access | Request Body | Response |
+|--------|---------|-------------|--------|--------------|----------|
+| POST | `/` | Create a comment for a post | Private | JSON: `{ postId, content }` | Created comment with populated user info |
+| GET | `/:postId` | Get all comments for a post | Private | None | Array of comment objects for the post |
+| PUT | `/:id` | Update a comment | Private (owner/admin) | JSON: `{ content }` | Updated comment object |
+| DELETE | `/:id` | Delete a comment | Private (owner/admin) | None | `{ message: "Comment deleted successfully" }` |
+
+---
+
+## **6. Route Flow Summary**
+
+```bash
+/api/users
+├─ GET / → get all users (admin)
+├─ GET /:id → get single user
+├─ PUT /:id → update user
+├─ DELETE /:id → delete user (admin)
+
+/api/auth
+├─ POST /login → login
+├─ POST /register → register
+├─ POST /logout → logout
+
+/api/posts
+├─ POST / → create post
+├─ GET / → get all posts
+├─ GET /:id → get single post
+├─ PUT /:id → update post
+├─ DELETE /:id → soft delete post
+├─ POST /:id/reactions → add/update reaction
+├─ DELETE /:id/reactions → remove reaction
+
+/api/comments
+├─ POST / → create comment
+├─ GET /:postId → get comments for post
+├─ PUT /:id → update comment
+├─ DELETE /:id → delete comment
+```
 
 # Project Structure
   - Structure of How Project File System is Set Up
