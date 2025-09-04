@@ -14,7 +14,7 @@ export const createPost = async (req, res) => {
       content,
       imageUrl,
       anonymous: anonymous ?? false,
-      tags: tags || []
+      tags: tags || [],
     });
 
     newPost = await newPost.save();
@@ -33,15 +33,23 @@ export const getPosts = async (req, res) => {
       .sort({ createdAt: -1 })
       .populate("authorId", "username name avatarUrl");
 
+    // If client requests full reaction details
     if (req.query.withReactions === "true") {
       query.populate({
         path: "reactions",
-        populate: { path: "user", select: "username avatarUrl" }
+        populate: { path: "user", select: "username avatarUrl" },
       });
     }
 
     const posts = await query;
-    res.status(200).json(posts);
+
+    // Always include reactionCounts (lightweight, aggregated view)
+    const result = posts.map((post) => ({
+      ...post.toObject(),
+      reactionCounts: post.reactionCounts,
+    }));
+
+    res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: "Error fetching posts", error: err.message });
   }
@@ -50,16 +58,24 @@ export const getPosts = async (req, res) => {
 // Get Post by ID
 export const getPostById = async (req, res) => {
   try {
-    const post = await Post.findOne({ _id: req.params.id, isDeleted: false })
-      .populate("authorId", "username name avatarUrl")
-      .populate({
+    const query = Post.findOne({ _id: req.params.id, isDeleted: false })
+      .populate("authorId", "username name avatarUrl");
+
+    if (req.query.withReactions === "true") {
+      query.populate({
         path: "reactions",
-        populate: { path: "user", select: "username avatarUrl" }
+        populate: { path: "user", select: "username avatarUrl" },
       });
+    }
+
+    const post = await query;
 
     if (!post) return res.status(404).json({ message: "Post not found" });
 
-    res.status(200).json(post);
+    res.status(200).json({
+      ...post.toObject(),
+      reactionCounts: post.reactionCounts,
+    });
   } catch (err) {
     res.status(500).json({ message: "Error fetching post", error: err.message });
   }
@@ -78,7 +94,10 @@ export const updatePost = async (req, res) => {
 
     if (!updatedPost) return res.status(404).json({ message: "Post not found" });
 
-    res.status(200).json(updatedPost);
+    res.status(200).json({
+      ...updatedPost.toObject(),
+      reactionCounts: updatedPost.reactionCounts,
+    });
   } catch (err) {
     res.status(500).json({ message: "Error updating post", error: err.message });
   }
