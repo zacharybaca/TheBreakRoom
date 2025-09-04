@@ -16,6 +16,7 @@ The backend server for Nine2Five, a social platform designed for workers in reta
 - [API Documentation](#api-documentation)
 - [Project Structure](#project-structure)
 - [Deployment](#deployment)
+- [Notes for Frontend Integration](#notes-for-frontend-integration)
 - [Future Enhancements](#future-enhancements)
 
 ## Features
@@ -196,6 +197,20 @@ Ensure you have the following installed on your machine:
 # Deployment
    1. The application is deployed on Render.
       - Configure the environment variables on Render to match your <code>.env</code> file.
+
+
+---
+
+# Notes for Frontend Integration
+
+1. Use `?withReactions=true` when fetching posts to include detailed reactions.
+2. Reactions are nested under posts, no separate reaction routes are required.
+3. Comments are fetched per post via `/api/comments/:postId`.
+4. Soft deletion is used for posts; deleted posts have `isDeleted=true`.
+5. Only owners or admins can update/delete posts, comments, or users.
+6. Admin users can access all users; regular users can only update their own info.
+
+---
 
 # Future Enhancements
    - Email Notifications: Notify users when tasks are assigned or updated.
