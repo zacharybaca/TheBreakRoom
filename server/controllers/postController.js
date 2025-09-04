@@ -1,4 +1,19 @@
 import Post from "../models/Post.js";
+import Reaction from "../models/Reaction.js";
+
+// Helper to count reactions by type for a given postId
+const getReactionCounts = async (postId) => {
+  const counts = await Reaction.aggregate([
+    { $match: { post: postId } },
+    { $group: { _id: "$type", count: { $sum: 1 } } },
+  ]);
+
+  // Turn array into object: { like: 3, love: 2, ... }
+  return counts.reduce((acc, curr) => {
+    acc[curr._id] = curr.count;
+    return acc;
+  }, {});
+};
 
 // Create Post
 export const createPost = async (req, res) => {
@@ -20,7 +35,12 @@ export const createPost = async (req, res) => {
     newPost = await newPost.save();
     newPost = await newPost.populate("authorId", "username name avatarUrl");
 
-    res.status(201).json(newPost);
+    const reactionCounts = await getReactionCounts(newPost._id);
+
+    res.status(201).json({
+      ...newPost.toObject(),
+      reactionCounts,
+    });
   } catch (err) {
     res.status(400).json({ message: "Error creating post", error: err.message });
   }
@@ -33,7 +53,6 @@ export const getPosts = async (req, res) => {
       .sort({ createdAt: -1 })
       .populate("authorId", "username name avatarUrl");
 
-    // If client requests full reaction details
     if (req.query.withReactions === "true") {
       query.populate({
         path: "reactions",
@@ -43,13 +62,17 @@ export const getPosts = async (req, res) => {
 
     const posts = await query;
 
-    // Always include reactionCounts (lightweight, aggregated view)
-    const result = posts.map((post) => ({
-      ...post.toObject(),
-      reactionCounts: post.reactionCounts,
-    }));
+    const postsWithCounts = await Promise.all(
+      posts.map(async (post) => {
+        const reactionCounts = await getReactionCounts(post._id);
+        return {
+          ...post.toObject(),
+          reactionCounts,
+        };
+      })
+    );
 
-    res.status(200).json(result);
+    res.status(200).json(postsWithCounts);
   } catch (err) {
     res.status(500).json({ message: "Error fetching posts", error: err.message });
   }
@@ -72,9 +95,11 @@ export const getPostById = async (req, res) => {
 
     if (!post) return res.status(404).json({ message: "Post not found" });
 
+    const reactionCounts = await getReactionCounts(post._id);
+
     res.status(200).json({
       ...post.toObject(),
-      reactionCounts: post.reactionCounts,
+      reactionCounts,
     });
   } catch (err) {
     res.status(500).json({ message: "Error fetching post", error: err.message });
@@ -94,9 +119,11 @@ export const updatePost = async (req, res) => {
 
     if (!updatedPost) return res.status(404).json({ message: "Post not found" });
 
+    const reactionCounts = await getReactionCounts(updatedPost._id);
+
     res.status(200).json({
       ...updatedPost.toObject(),
-      reactionCounts: updatedPost.reactionCounts,
+      reactionCounts,
     });
   } catch (err) {
     res.status(500).json({ message: "Error updating post", error: err.message });
