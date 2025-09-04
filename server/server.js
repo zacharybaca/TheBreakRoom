@@ -8,7 +8,7 @@ import { errorMiddleware } from "./middleware/errorMiddleware.js";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
-import commentRoutes from "./routes/commentRoutes.js"; // ✅ add this
+// import commentRoutes from "./routes/commentRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 
 import path from "path";
