@@ -1,42 +1,43 @@
-// server.js
+
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import { errorMiddleware } from "./middleware/errorMiddleware.js";
 
-// Route imports
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
-// import commentRoutes from "./routes/commentRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js"; // ✅ add this
 import jobRoutes from "./routes/jobRoutes.js";
 
-// Load environment variables
+import path from "path";
+import { fileURLToPath } from "url";
+
 dotenv.config();
 
-// Initialize Express
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 
-// Middleware
-app.use(express.json()); // Parse JSON bodies
-app.use(cors()); // Enable CORS for cross-origin requests
+app.use(express.json());
+app.use(cors());
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // ✅ serve images
 
-// Routes
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
+app.get("/", (req, res) => res.send("API is running..."));
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
-// app.use("/api/comments", commentRoutes);
+app.use("/api/comments", commentRoutes); // ✅ mount comments
 app.use("/api/jobs", jobRoutes);
 
-// Error handling
+// 404 fallback
+app.use((req, res, next) => res.status(404).json({ message: "Route not found" }));
+
 app.use(errorMiddleware);
 
-// Start server only after DB connection succeeds
 const PORT = process.env.PORT || 5000;
 
 connectDB()
@@ -47,5 +48,5 @@ connectDB()
   })
   .catch((err) => {
     console.error("❌ Failed to connect to MongoDB:", err.message);
-    process.exit(1); // Exit if DB connection fails
+    process.exit(1);
   });
