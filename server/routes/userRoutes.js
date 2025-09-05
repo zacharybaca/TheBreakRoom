@@ -1,3 +1,4 @@
+// routes/userRoutes.js
 import express from "express";
 import {
   createUser,
@@ -6,44 +7,33 @@ import {
   updateUser,
   deleteUser,
 } from "../controllers/userController.js";
-
 import { protect, requireAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-/**
- * @route   POST /api/users
- * @desc    Register a new user
- * @access  Public
- */
-router.post("/", createUser);
+// @desc    Create a new user (Admin only)
+// @route   POST /api/users
+// @access  Private/Admin
+router.post("/", protect, requireAdmin, createUser);
 
-/**
- * @route   GET /api/users
- * @desc    Get all users
- * @access  Private (Admin only in real-world apps, but you can adjust)
- */
+// @desc    Get all users (Admin only)
+// @route   GET /api/users
+// @access  Private/Admin
 router.get("/", protect, requireAdmin, getUsers);
 
-/**
- * @route   GET /api/users/:id
- * @desc    Get user by ID
- * @access  Private (self or admin)
- */
-router.get("/:id", protect, getUserById);
+// @desc    Get user by ID (Admin only)
+// @route   GET /api/users/:id
+// @access  Private/Admin
+router.get("/:id", protect, requireAdmin, getUserById);
 
-/**
- * @route   PUT /api/users/:id
- * @desc    Update user by ID
- * @access  Private (self or admin)
- */
-router.put("/:id", protect, updateUser);
+// @desc    Update user (Admin only)
+// @route   PUT /api/users/:id
+// @access  Private/Admin
+router.put("/:id", protect, requireAdmin, updateUser);
 
-/**
- * @route   DELETE /api/users/:id
- * @desc    Delete user by ID
- * @access  Private (self or admin)
- */
-router.delete("/:id", protect, deleteUser);
+// @desc    Delete user (Admin only)
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+router.delete("/:id", protect, requireAdmin, deleteUser);
 
 export default router;
