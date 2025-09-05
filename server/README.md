@@ -103,10 +103,10 @@ Ensure you have the following installed on your machine:
 
 | Method | Endpoint | Description | Access | Request Body | Response |
 |--------|---------|-------------|--------|--------------|----------|
-| GET | `/` | Get all users | Private (admin) | None | Array of users (id, username, name, avatarUrl, role, etc.) |
-| GET | `/:id` | Get a single user by ID | Private | None | User object with selected fields (no password) |
-| PUT | `/:id` | Update user info | Private (self/admin) | JSON: `{ username?, name?, avatarUrl?, role? }` | Updated user object |
-| DELETE | `/:id` | Delete a user | Private (admin) | None | `{ message: "User deleted successfully" }` |
+| GET | `/` | Get all users | Private (admin) | None | Array of users (id, username, name, avatarUrl, role, job, etc.) |
+| GET | `/:id` | Get a single user by ID | Private (self/admin) | None | User object with selected fields (no password), includes populated `job` |
+| PUT | `/:id` | Update user info | Private (self/admin) | JSON: `{ username?, name?, avatarUrl?, role?, job? }` | Updated user object with populated `job` |
+| DELETE | `/:id` | Delete a user | Private (self/admin) | None | `{ message: "User deleted successfully" }` |
 
 ---
 
@@ -114,13 +114,26 @@ Ensure you have the following installed on your machine:
 
 | Method | Endpoint | Description | Access | Request Body | Response |
 |--------|---------|-------------|--------|--------------|----------|
-| POST | `/login` | Login user | Public | JSON: `{ username, password }` | JWT token and user info |
-| POST | `/register` | Register new user | Public | JSON: `{ username, password, name, avatarUrl? }` | Created user object + token |
-| POST | `/logout` | Logout user | Private | None | `{ message: "Logged out successfully" }` |
+| POST | `/login` | Login user | Public | JSON: `{ username/email, password }` | JWT token and user info with populated `job` |
+| POST | `/register` | Register new user | Public | JSON: `{ username, password, name, job, avatarUrl? }` | Created user object + token, includes populated `job` |
+
+> Note: `/logout` endpoint not included unless implemented.
 
 ---
 
-## **3. Posts Routes (`/api/posts`)**
+## **3. Jobs Routes (`/api/jobs`)**
+
+| Method | Endpoint | Description | Access | Request Body | Response |
+|--------|---------|-------------|--------|--------------|----------|
+| GET | `/` | Get all jobs | Public | None | Array of job objects (`_id`, `title`, `description`) |
+| GET | `/:id` | Get job by ID | Public | None | Single job object |
+| POST | `/` | Create a new job | Private (admin) | JSON: `{ title, description? }` | Created job object |
+| PUT | `/:id` | Update a job | Private (admin) | JSON: `{ title?, description? }` | Updated job object |
+| DELETE | `/api/jobs/:id` | Delete a job | Private (admin) | None | `{ message: "Job deleted successfully" }` |
+
+---
+
+## **4. Posts Routes (`/api/posts`)**
 
 | Method | Endpoint | Description | Access | Request Body / Query | Response |
 |--------|---------|-------------|--------|--------------------|----------|
@@ -132,7 +145,7 @@ Ensure you have the following installed on your machine:
 
 ---
 
-## **4. Reactions Routes (nested under posts)**
+## **5. Reactions Routes (nested under posts)**
 
 | Method | Endpoint | Description | Access | Request Body | Response |
 |--------|---------|-------------|--------|--------------|----------|
@@ -141,7 +154,7 @@ Ensure you have the following installed on your machine:
 
 ---
 
-## **5. Comments Routes (`/api/comments`)** *(if implemented)*
+## **6. Comments Routes (`/api/comments`)** *(if implemented)*
 
 | Method | Endpoint | Description | Access | Request Body | Response |
 |--------|---------|-------------|--------|--------------|----------|
@@ -152,32 +165,38 @@ Ensure you have the following installed on your machine:
 
 ---
 
-## **6. Route Flow Summary**
+## **7. Route Flow Summary**
 
 ```bash
-/api/users
-├─ GET / → get all users (admin)
-├─ GET /:id → get single user
-├─ PUT /:id → update user
-├─ DELETE /:id → delete user (admin)
-
 /api/auth
 ├─ POST /login → login
 ├─ POST /register → register
-├─ POST /logout → logout
+
+/api/users
+├─ GET / → get all users (admin)
+├─ GET /:id → get single user (self/admin)
+├─ PUT /:id → update user (self/admin)
+├─ DELETE /:id → delete user (self/admin)
+
+/api/jobs
+├─ GET / → get all jobs (public)
+├─ GET /:id → get job by ID (public)
+├─ POST / → create job (admin)
+├─ PUT /:id → update job (admin)
+├─ DELETE /:id → delete job (admin)
 
 /api/posts
-├─ POST / → create post
+├─ POST / → create post (logged-in)
 ├─ GET / → get all posts
 ├─ GET /:id → get single post
-├─ PUT /:id → update post
+├─ PUT /:id → update post (owner/admin)
 ├─ DELETE /:id → soft delete post
 ├─ POST /:id/reactions → add/update reaction
 ├─ DELETE /:id/reactions → remove reaction
 
 /api/comments
 ├─ POST / → create comment
-├─ GET /:postId → get comments for post
+├─GET /:postId → get comments for post
 ├─ PUT /:id → update comment
 ├─ DELETE /:id → delete comment
 ```
