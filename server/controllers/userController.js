@@ -1,6 +1,7 @@
 // controllers/userController.js
 import User from "../models/User.js";
 import Job from "../models/Job.js";
+import Comment from "../models/Comment.js";
 
 // @desc    Create a new user (Admin only)
 // @route   POST /api/users
@@ -117,17 +118,38 @@ export const updateUser = async (req, res) => {
 // @desc    Delete user (Admin only)
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
+// Delete user (admin or self)
 export const deleteUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const { id } = req.params;
 
-    if (user) {
-      await user.deleteOne();
-      res.json({ message: "User removed" });
-    } else {
-      res.status(404).json({ message: "User not found" });
+    // Only admin or the user themselves can delete
+    if (req.user.id !== id && !req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this user" });
     }
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Cascade delete: remove all posts and comments by this user
+    await Post.deleteMany({ author: user._id });
+    await Comment.deleteMany({ author: user._id });
+
+    // Delete user
+    await user.deleteOne();
+
+    res.json({
+      message: "User and all related posts/comments deleted successfully",
+    });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error("❌ Error deleting user:", error.message);
+    res
+      .status(500)
+      .json({ message: "Error deleting user", error: error.message });
   }
 };
