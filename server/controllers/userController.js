@@ -1,216 +1,133 @@
-import mongoose from "mongoose";
+// controllers/userController.js
 import User from "../models/User.js";
 import Job from "../models/Job.js";
-import generateToken from "../utils/generateToken.js";
 
+// @desc    Create a new user (Admin only)
+// @route   POST /api/users
+// @access  Private/Admin
 export const createUser = async (req, res) => {
   try {
-    const { name, username, email, password, job } = req.body;
+    const { username, password, isAdmin, jobTitle } = req.body;
 
-    // Require at least username OR email
-    if (!username && !email) {
-      return res.status(400).json({
-        message: "A username or an email is required to create an account",
-      });
-    }
-
-    // Check for duplicates
-    const userExists = await User.findOne({
-      $or: [{ username }, { email }].filter((field) => field),
-    });
+    // Check if username already exists
+    const userExists = await User.findOne({ username });
     if (userExists) {
-      return res
-        .status(400)
-        .json({ message: "User with that username/email already exists" });
+      return res.status(400).json({ message: "Username already exists" });
     }
 
-    // Resolve or create Job
-    let jobDoc;
+    // Handle job: either select existing or create new
+    let job = await Job.findOne({ title: jobTitle });
     if (!job) {
-      return res.status(400).json({ message: "Job is required" });
+      job = await Job.create({ title: jobTitle });
     }
 
-    if (mongoose.Types.ObjectId.isValid(job)) {
-      jobDoc = await Job.findById(job);
-      if (!jobDoc) {
-        return res.status(400).json({ message: "Job not found" });
-      }
-    } else {
-      // Look for existing job by title
-      jobDoc = await Job.findOne({ title: job });
-      if (!jobDoc) {
-        // Job doesn't exist, create it
-        jobDoc = await Job.create({ title: job, description: "" });
-      }
-    }
-
-    const newUser = new User({
-      name,
+    // Create user
+    const user = await User.create({
       username,
-      email,
       password,
-      job: jobDoc._id,
+      isAdmin: isAdmin || false,
+      job: job._id,
     });
 
-    const saved = await newUser.save();
-
-    // Populate job for the response
-    await saved.populate("job", "title description");
-
-    res.status(201).json({
-      _id: saved._id,
-      name: saved.name,
-      username: saved.username,
-      email: saved.email,
-      job: saved.job, // full job details
-      role: saved.role,
-      isAdmin: saved.isAdmin,
-      bio: saved.bio,
-      avatarUrl: saved.avatarUrl,
-      token: generateToken(saved._id, saved.username),
-    });
-  } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error creating user", error: err.message });
+    if (user) {
+      res.status(201).json({
+        _id: user._id,
+        username: user.username,
+        isAdmin: user.isAdmin,
+        job: job.title,
+      });
+    } else {
+      res.status(400).json({ message: "Invalid user data" });
+    }
+  } catch (error) {
+    console.error("Error in createUser:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
+// @desc    Get all users (Admin only)
+// @route   GET /api/users
+// @access  Private/Admin
 export const getUsers = async (req, res) => {
   try {
-    // Exclude password, populate job details
-    const users = await User.find()
-      .select("-password")
-      .populate("job", "title description");
-
-    res.status(200).json(users);
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error fetching users", error: err.message });
+    const users = await User.find().populate("job", "title");
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
   }
 };
 
+// @desc    Get user by ID (Admin only)
+// @route   GET /api/users/:id
+// @access  Private/Admin
 export const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id)
-      .select("-password")
-      .populate("job", "title description");
-
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    // allow self or admin
-    if (req.user._id.toString() !== user._id.toString() && !req.user.isAdmin) {
-      return res
-        .status(403)
-        .json({ message: "Not authorized to view this user" });
+    const user = await User.findById(req.params.id).populate("job", "title");
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ message: "User not found" });
     }
-
-    res.status(200).json(user);
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error fetching user", error: err.message });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
   }
 };
 
+// @desc    Update user (Admin only)
+// @route   PUT /api/users/:id
+// @access  Private/Admin
 export const updateUser = async (req, res) => {
   try {
+    const { username, password, isAdmin, jobTitle } = req.body;
+
     const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Check permissions (only self or admin)
-    const isSelf = req.user._id.toString() === user._id.toString();
-    if (!isSelf && !req.user.isAdmin) {
-      return res
-        .status(403)
-        .json({ message: "Not authorized to update this user" });
-    }
-
-    // Define fields user can update vs. admin
-    const userAllowedFields = [
-      "name",
-      "username",
-      "email",
-      "password",
-      "job",
-      "bio",
-      "gender",
-      "avatarUrl",
-    ];
-    const adminAllowedFields = [...userAllowedFields, "role", "isAdmin"];
-
-    const allowedFields = req.user.isAdmin
-      ? adminAllowedFields
-      : userAllowedFields;
-
-    // Apply only allowed updates
-    for (const field of Object.keys(req.body)) {
-      if (!allowedFields.includes(field)) continue;
-
-      if (field === "job") {
-        const jobValue = req.body.job;
-        let jobDoc;
-
-        if (mongoose.Types.ObjectId.isValid(jobValue)) {
-          jobDoc = await Job.findById(jobValue);
-          if (!jobDoc) {
-            return res.status(400).json({ message: "Job not found" });
-          }
-        } else {
-          jobDoc = await Job.findOne({ title: jobValue });
-          if (!jobDoc) {
-            jobDoc = await Job.create({ title: jobValue, description: "" });
-          }
-        }
-
-        user.job = jobDoc._id;
-      } else {
-        user[field] = req.body[field];
+    if (user) {
+      user.username = username || user.username;
+      if (password) {
+        user.password = password;
       }
+      user.isAdmin = isAdmin !== undefined ? isAdmin : user.isAdmin;
+
+      if (jobTitle) {
+        let job = await Job.findOne({ title: jobTitle });
+        if (!job) {
+          job = await Job.create({ title: jobTitle });
+        }
+        user.job = job._id;
+      }
+
+      const updatedUser = await user.save();
+
+      res.json({
+        _id: updatedUser._id,
+        username: updatedUser.username,
+        isAdmin: updatedUser.isAdmin,
+        job: jobTitle || (await Job.findById(updatedUser.job)).title,
+      });
+    } else {
+      res.status(404).json({ message: "User not found" });
     }
-
-    const updated = await user.save();
-
-    // Populate job details
-    await updated.populate("job", "title description");
-
-    res.status(200).json({
-      _id: updated._id,
-      name: updated.name,
-      username: updated.username,
-      email: updated.email,
-      job: updated.job, // populated job details
-      role: updated.role,
-      isAdmin: updated.isAdmin,
-      bio: updated.bio,
-      avatarUrl: updated.avatarUrl,
-      token: isSelf ? generateToken(updated._id) : undefined, // only return token for self
-    });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error updating user", error: err.message });
+  } catch (error) {
+    console.error("Error in updateUser:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
+// @desc    Delete user (Admin only)
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
 export const deleteUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Check permissions
-    if (req.user._id.toString() !== user._id.toString() && !req.user.isAdmin) {
-      return res
-        .status(403)
-        .json({ message: "Not authorized to delete this user" });
+    if (user) {
+      await user.deleteOne();
+      res.json({ message: "User removed" });
+    } else {
+      res.status(404).json({ message: "User not found" });
     }
-
-    await user.deleteOne();
-    res.status(200).json({ message: "User deleted successfully" });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error deleting user", error: err.message });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
   }
 };
