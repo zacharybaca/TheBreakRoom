@@ -1,18 +1,16 @@
-// controllers/authController.js
+// authController.js
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import Job from "../models/Job.js";
 import generateToken from "../utils/generateToken.js";
 
-// Login
+// Login existing user
 export const login = async (req, res) => {
   try {
-    const { identifier, password } = req.body; // identifier = username OR email
+    const { identifier, password } = req.body; // username OR email
 
     if (!identifier || !password) {
-      return res
-        .status(400)
-        .json({ message: "Identifier and password are required" });
+      return res.status(400).json({ message: "Identifier and password are required" });
     }
 
     const user = await User.findOne({
@@ -47,47 +45,46 @@ export const login = async (req, res) => {
   }
 };
 
-// Register (self-service, no admin required)
+// Register new user (admin-only creation can be handled via userController if needed)
 export const register = async (req, res) => {
   try {
-    const { name, username, email, password, job } = req.body;
+    const { username, password, name, avatarUrl, job } = req.body;
 
-    if (!username && !email) {
-      return res.status(400).json({
-        message: "A username or an email is required to register",
-      });
+    if (!username && !name) {
+      return res.status(400).json({ message: "Username and name are required" });
     }
 
+    // Check duplicates
     const userExists = await User.findOne({
-      $or: [{ username }, { email }].filter((field) => field),
+      $or: [{ username }, { email: req.body.email }].filter(Boolean),
     });
     if (userExists) {
-      return res
-        .status(400)
-        .json({ message: "User with that username/email already exists" });
+      return res.status(400).json({ message: "User with that username/email already exists" });
     }
 
-    // Optional job assignment during register
-    let jobDoc = null;
-    if (job) {
-      if (Job && (await Job.exists({}))) {
-        if (mongoose.Types.ObjectId.isValid(job)) {
-          jobDoc = await Job.findById(job);
-        } else {
-          jobDoc = await Job.findOne({ title: job });
-          if (!jobDoc) {
-            jobDoc = await Job.create({ title: job, description: "" });
-          }
-        }
+    if (!job) {
+      return res.status(400).json({ message: "Job is required" });
+    }
+
+    let jobDoc;
+    if (mongoose.Types.ObjectId.isValid(job)) {
+      jobDoc = await Job.findById(job);
+      if (!jobDoc) {
+        return res.status(400).json({ message: "Job not found" });
+      }
+    } else {
+      jobDoc = await Job.findOne({ title: job });
+      if (!jobDoc) {
+        jobDoc = await Job.create({ title: job, description: "" });
       }
     }
 
     const newUser = new User({
-      name,
       username,
-      email,
       password,
-      job: jobDoc ? jobDoc._id : undefined,
+      name,
+      avatarUrl,
+      job: jobDoc._id,
     });
 
     const saved = await newUser.save();
@@ -106,8 +103,6 @@ export const register = async (req, res) => {
       token: generateToken(saved._id, saved.username),
     });
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Error registering user", error: err.message });
+    res.status(400).json({ message: "Error registering user", error: err.message });
   }
 };
