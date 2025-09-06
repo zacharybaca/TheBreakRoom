@@ -11,7 +11,7 @@ import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // CRUD & membership
-router.post("/", protect, createBreakroom); // Admin or power user can create breakroom
+router.post("/", protect, createBreakroom); // User can create breakroom
 router.get("/", protect, getBreakrooms); // Get all breakrooms
 router.get("/:id", protect, getBreakroomById); // Get single breakroom
 router.post("/:id/join", protect, joinBreakroom); // Join breakroom
