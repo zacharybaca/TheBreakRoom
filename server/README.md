@@ -25,6 +25,7 @@ The backend server for Nine2Five, a social platform designed for workers in reta
 - **Role-Based Access**: Users and Admins have different access permissions based on their roles.
 - **User Management**: Users with admin rights can create and delete any user. They can also edit certain information on a user's profile as well.
 - **Jobs Management**: Users can dynamically add jobs to the database. When a user signs up, and if their job title isn't listed in the database, it is automatically created and added upon account creation.
+- **Breakrooms**: A community-style feature where users can join groups that relate to their job, industry, or shared interests. Breakrooms act as smaller spaces within Nine2Five for more focused discussions.
 
 ## Technologies Used
 
@@ -182,6 +183,20 @@ Ensure you have the following installed on your machine:
 | PUT    | `/:id`   | Update a job     | Private (admin only) | JSON: `{ title }` | Updated job object                        |
 | DELETE | `/:id`   | Delete a job     | Private (admin only) | None              | `{ message: "Job deleted successfully" }` |
 
+---
+
+## **7. BreakRoom Routes (`/api/breakrooms`)**
+
+| Method | Endpoint | Description      | Access               | Request Body      | Response                                  |
+| ------ | -------- | ---------------- | -------------------- | ----------------- | ----------------------------------------- |
+| POST   | `/`      | Create a new breakroom | Private (admin only) | JSON: `{ name, secription, jobTags }` | Created breakroom object                        |
+| GET    | `/`      | Get all breakrooms     | Private               | None              | Array of breakroom objects                      |
+| GET    | `/:id`   | Get a single breakroom by ID  | Private               | None              | Breakroom object                                |
+| POST    | `/:id/join`   | Join a breakroom     | Private (logged-in) | JSON: `{ title }` | Updated job object                        |
+| POST | `/:id/leave`   | Leave a breakroom     | Private (logged-in) | None              | `{ message: "Left breakroom successfully" }` |
+
+---
+
 ### 📝 Notes
 
 - Jobs are referenced by users on registration (`job` field).
@@ -224,6 +239,13 @@ Ensure you have the following installed on your machine:
 ├─ GET /:id → get single job
 ├─ PUT /:id → update job (admin)
 ├─ DELETE /:id → delete job (admin)
+
+/api/breakrooms
+├─ POST / → create breakroom (admin)
+├─ GET / → get all breakrooms
+├─ GET /:id → get single breakroom
+├─ POST /:id/join → join breakroom
+├─ POST /:id/leave → leave breakroom
 ```
 
 ![API Routes Overview](./api_routes.png)
@@ -263,6 +285,8 @@ software-bug-tracker/
 9. Soft delete means deleted posts have isDeleted=true but still exist in DB.
 10. Admin users can access all users and delete posts/comments.
 11. Reactions are one per user per post (upserted).
+12. Breakrooms allow multiple memberships per user (users can join more than one).
+13. Jobs link users with their profession and can be tied to Breakrooms for auto-suggestions.
 
 ---
 

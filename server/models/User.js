@@ -34,6 +34,12 @@ const userSchema = new mongoose.Schema(
       default: "other",
     },
     avatarUrl: { type: String },
+    breakrooms: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Breakroom",
+      },
+    ],
   },
   { timestamps: true }
 );

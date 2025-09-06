@@ -11,6 +11,7 @@ import { errorMiddleware } from "./middleware/errorMiddleware.js";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import breakroomRoutes from "./routes/breakRoomRoutes.js";
 // import commentRoutes from "./routes/commentRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 
@@ -32,14 +33,15 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.get("/", (req, res) => res.json({ message: "API is running..." }));
 
 // Routes
-app.use("/api/auth", authRoutes);   // login & registration
-app.use("/api/users", userRoutes);  // admin-only user management
-app.use("/api/posts", postRoutes);  
+app.use("/api/auth", authRoutes); // login & registration
+app.use("/api/users", userRoutes); // admin-only user management
+app.use("/api/posts", postRoutes);
 // app.use("/api/comments", commentRoutes);
-app.use("/api/jobs", jobRoutes);    // job CRUD + public GET
+app.use("/api/jobs", jobRoutes); // job CRUD + public GET
+app.use("/api/breakrooms", breakroomRoutes);
 
 // 404 fallback
-app.use((req, res, next) => 
+app.use((req, res, next) =>
   res.status(404).json({ message: `Route not found: ${req.originalUrl}` })
 );
 
@@ -51,7 +53,7 @@ const PORT = process.env.PORT || 5000;
 
 connectDB()
   .then(() => {
-    app.listen(PORT, () => 
+    app.listen(PORT, () =>
       console.log(`🚀 Server running on http://localhost:${PORT}`)
     );
   })
