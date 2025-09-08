@@ -12,7 +12,7 @@ import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import breakroomRoutes from "./routes/breakRoomRoutes.js";
-// import commentRoutes from "./routes/commentRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 
 dotenv.config();
@@ -36,7 +36,7 @@ app.get("/", (req, res) => res.json({ message: "API is running..." }));
 app.use("/api/auth", authRoutes); // login & registration
 app.use("/api/users", userRoutes); // admin-only user management
 app.use("/api/posts", postRoutes);
-// app.use("/api/comments", commentRoutes);
+app.use("/api/comments", commentRoutes);
 app.use("/api/jobs", jobRoutes); // job CRUD + public GET
 app.use("/api/breakrooms", breakroomRoutes);
 

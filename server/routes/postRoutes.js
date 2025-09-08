@@ -13,7 +13,7 @@ import {
   getReactionsForPost,   // 👈 bring in the getter
 } from "../controllers/reactionController.js";
 
-import { protect } from "../middleware/authMiddleware.js";
+import { protect, requireAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -43,14 +43,14 @@ router.get("/:id", protect, getPostById);
  * @desc    Update post by Id
  * @access  Private (owner or admin)
  */
-router.put("/:id", protect, updatePost);
+router.put("/:id", protect, requireAdmin, updatePost);
 
 /**
  * @route   DELETE /api/posts/:id
  * @desc    Soft delete post by Id
  * @access  Private (owner or admin)
  */
-router.delete("/:id", protect, deletePost);
+router.delete("/:id", protect, requireAdmin, deletePost);
 
 /**
  * @route   POST /api/posts/:id/reactions
