@@ -6,14 +6,22 @@ const commentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
       required: true,
+      index: true, // optimize queries for comments by post
     },
     authorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    content: { type: String, required: true },
-    isDeleted: { type: Boolean, default: false },
+    content: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

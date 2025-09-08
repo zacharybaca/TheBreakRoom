@@ -24,16 +24,8 @@ const postSchema = new mongoose.Schema(
       set: (tags) => tags.map((tag) => tag.toLowerCase()), // normalize tags
     },
 
-    /**
-     * Reaction references: only used for population when needed.
-     * Not always included in queries to keep responses lightweight.
-     */
     reactions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reaction" }],
 
-    /**
-     * Aggregated reaction counts (denormalized for performance).
-     * Ensures fast retrieval without having to count every time.
-     */
     reactionCounts: {
       like: { type: Number, default: 0 },
       love: { type: Number, default: 0 },
@@ -43,29 +35,22 @@ const postSchema = new mongoose.Schema(
       angry: { type: Number, default: 0 },
     },
 
-    /**
-     * Comments (referenced). 
-     * Later you might also add commentCounts if you want fast counts like reactions.
-     */
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 
-    /**
-     * Soft delete for moderation
-     */
+    // New: store comment count for performance
+    commentCount: { type: Number, default: 0 },
+
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
-// Indexes for performance
+// Indexes
 postSchema.index({ authorId: 1 });
 postSchema.index({ tags: 1 });
-postSchema.index({ createdAt: -1 }); // 👈 helps with recent post queries
+postSchema.index({ createdAt: -1 });
 
-/**
- * Utility method to recalculate reaction counts.
- * This keeps logic DRY instead of duplicating in controllers.
- */
+// Utility: recalc reactions
 postSchema.methods.updateReactionCounts = async function () {
   const Reaction = mongoose.model("Reaction");
 
@@ -74,7 +59,6 @@ postSchema.methods.updateReactionCounts = async function () {
     { $group: { _id: "$type", count: { $sum: 1 } } },
   ]);
 
-  // Reset and rebuild counts
   this.reactionCounts = {
     like: 0,
     love: 0,
@@ -91,5 +75,10 @@ postSchema.methods.updateReactionCounts = async function () {
   await this.save();
   return this.reactionCounts;
 };
+
+// Virtual: if you want live comment counts (fallback to DB query)
+postSchema.virtual("commentsCount").get(function () {
+  return this.commentCount ?? 0;
+});
 
 export default mongoose.model("Post", postSchema);

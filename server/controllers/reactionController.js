@@ -1,5 +1,6 @@
 import Reaction from "../models/Reaction.js";
 import Post from "../models/Post.js";
+import Comment from "../models/Comment.js";
 
 // Add or Update Reaction
 export const addReaction = async (req, res) => {
@@ -11,7 +12,7 @@ export const addReaction = async (req, res) => {
       return res.status(400).json({ message: "Reaction type is required" });
     }
 
-    // Make sure the post exists and isn’t deleted
+    // Find post first
     const post = await Post.findOne({ _id: postId, isDeleted: false });
     if (!post) return res.status(404).json({ message: "Post not found" });
 
@@ -22,17 +23,28 @@ export const addReaction = async (req, res) => {
       { new: true, upsert: true, runValidators: true }
     ).populate("user", "username avatarUrl");
 
-    // Update reaction counts on the post
+    // Refresh reaction counts
     await post.updateReactionCounts();
 
+    // Refresh comment count for completeness
+    const commentCount = await Comment.countDocuments({
+      postId,
+      isDeleted: false,
+    });
+    post.commentCount = commentCount;
+    await post.save();
+
     res.status(200).json({
+      message: "Reaction added/updated successfully",
       reaction,
       reactionCounts: post.reactionCounts,
+      commentCount: post.commentCount,
     });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error adding reaction", error: err.message });
+    res.status(500).json({
+      message: "Error adding reaction",
+      error: err.message,
+    });
   }
 };
 
@@ -53,17 +65,27 @@ export const removeReaction = async (req, res) => {
       return res.status(404).json({ message: "Reaction not found" });
     }
 
-    // Update reaction counts on the post
+    // Refresh reaction counts
     await post.updateReactionCounts();
+
+    // Refresh comment count for completeness
+    const commentCount = await Comment.countDocuments({
+      postId,
+      isDeleted: false,
+    });
+    post.commentCount = commentCount;
+    await post.save();
 
     res.status(200).json({
       message: "Reaction removed successfully",
       reactionCounts: post.reactionCounts,
+      commentCount: post.commentCount,
     });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error removing reaction", error: err.message });
+    res.status(500).json({
+      message: "Error removing reaction",
+      error: err.message,
+    });
   }
 };
 
@@ -78,8 +100,9 @@ export const getReactionsForPost = async (req, res) => {
 
     res.status(200).json(reactions);
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error fetching reactions", error: err.message });
+    res.status(500).json({
+      message: "Error fetching reactions",
+      error: err.message,
+    });
   }
 };

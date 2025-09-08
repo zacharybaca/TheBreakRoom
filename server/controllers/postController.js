@@ -1,4 +1,20 @@
 import Post from "../models/Post.js";
+import Comment from "../models/Comment.js";
+
+// Helper to format post with counts
+const formatPostResponse = async (post) => {
+  await post.updateReactionCounts();
+  const commentCount = await Comment.countDocuments({
+    postId: post._id,
+    isDeleted: false,
+  });
+
+  return {
+    ...post.toObject(),
+    reactionCounts: post.reactionCounts,
+    commentCount,
+  };
+};
 
 // Create Post
 export const createPost = async (req, res) => {
@@ -11,21 +27,21 @@ export const createPost = async (req, res) => {
 
     let newPost = new Post({
       authorId: req.user._id,
-      content,
+      content: content.trim(),
       imageUrl,
       anonymous: anonymous ?? false,
       tags: tags || [],
     });
 
-    newPost = await newPost.save();
+    await newPost.save();
     newPost = await newPost.populate("authorId", "username name avatarUrl");
 
-    res.status(201).json({
-      ...newPost.toObject(),
-      reactionCounts: newPost.reactionCounts, // always available
-    });
+    res.status(201).json(await formatPostResponse(newPost));
   } catch (err) {
-    res.status(400).json({ message: "Error creating post", error: err.message });
+    res.status(400).json({
+      message: "Error creating post",
+      error: err.message,
+    });
   }
 };
 
@@ -45,22 +61,24 @@ export const getPosts = async (req, res) => {
 
     const posts = await query;
 
-    const postsWithCounts = posts.map((post) => ({
-      ...post.toObject(),
-      reactionCounts: post.reactionCounts, // use stored counts
-    }));
+    const postsWithCounts = await Promise.all(posts.map(formatPostResponse));
 
     res.status(200).json(postsWithCounts);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching posts", error: err.message });
+    res.status(500).json({
+      message: "Error fetching posts",
+      error: err.message,
+    });
   }
 };
 
 // Get Post by ID
 export const getPostById = async (req, res) => {
   try {
-    const query = Post.findOne({ _id: req.params.id, isDeleted: false })
-      .populate("authorId", "username name avatarUrl");
+    const query = Post.findOne({
+      _id: req.params.id,
+      isDeleted: false,
+    }).populate("authorId", "username name avatarUrl");
 
     if (req.query.withReactions === "true") {
       query.populate({
@@ -70,15 +88,14 @@ export const getPostById = async (req, res) => {
     }
 
     const post = await query;
-
     if (!post) return res.status(404).json({ message: "Post not found" });
 
-    res.status(200).json({
-      ...post.toObject(),
-      reactionCounts: post.reactionCounts,
-    });
+    res.status(200).json(await formatPostResponse(post));
   } catch (err) {
-    res.status(500).json({ message: "Error fetching post", error: err.message });
+    res.status(500).json({
+      message: "Error fetching post",
+      error: err.message,
+    });
   }
 };
 
@@ -87,20 +104,42 @@ export const updatePost = async (req, res) => {
   try {
     const { content, imageUrl, anonymous, tags } = req.body;
 
-    const updatedPost = await Post.findByIdAndUpdate(
-      req.params.id,
-      { content, imageUrl, anonymous, tags },
-      { new: true, runValidators: true }
-    ).populate("authorId", "username name avatarUrl");
+    if (content !== undefined && content.trim() === "") {
+      return res.status(400).json({ message: "Content cannot be empty" });
+    }
 
-    if (!updatedPost) return res.status(404).json({ message: "Post not found" });
+    const updatedPost = await Post.findById(req.params.id).populate(
+      "authorId",
+      "username name avatarUrl"
+    );
 
-    res.status(200).json({
-      ...updatedPost.toObject(),
-      reactionCounts: updatedPost.reactionCounts,
-    });
+    if (!updatedPost || updatedPost.isDeleted) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Check permissions
+    if (
+      !req.user ||
+      (req.user.role !== "admin" && !updatedPost.authorId.equals(req.user._id))
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this post" });
+    }
+
+    updatedPost.content = content ?? updatedPost.content;
+    updatedPost.imageUrl = imageUrl ?? updatedPost.imageUrl;
+    updatedPost.anonymous = anonymous ?? updatedPost.anonymous;
+    updatedPost.tags = tags ?? updatedPost.tags;
+
+    await updatedPost.save();
+
+    res.status(200).json(await formatPostResponse(updatedPost));
   } catch (err) {
-    res.status(500).json({ message: "Error updating post", error: err.message });
+    res.status(500).json({
+      message: "Error updating post",
+      error: err.message,
+    });
   }
 };
 
@@ -110,15 +149,25 @@ export const deletePost = async (req, res) => {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: "Post not found" });
 
-    if (!req.user || (req.user.role !== "admin" && !post.authorId.equals(req.user._id))) {
-      return res.status(403).json({ message: "Not authorized to delete this post" });
+    if (
+      !req.user ||
+      (req.user.role !== "admin" && !post.authorId.equals(req.user._id))
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this post" });
     }
 
     post.isDeleted = true;
     await post.save();
 
-    res.status(200).json({ message: "Post deleted successfully (soft delete)" });
+    res
+      .status(200)
+      .json({ message: "Post deleted successfully (soft delete)" });
   } catch (err) {
-    res.status(500).json({ message: "Error deleting post", error: err.message });
+    res.status(500).json({
+      message: "Error deleting post",
+      error: err.message,
+    });
   }
 };

@@ -6,8 +6,7 @@ import {
   updateComment,
   deleteComment,
 } from "../controllers/commentController.js";
-
-import { protect, requireAdmin } from "../middleware/authMiddleware.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -15,35 +14,37 @@ const router = express.Router();
  * @route POST /api/comments
  * @desc Create a new comment
  * @access Private
+ * @body { postId, content }
  */
 router.post("/", protect, createComment);
 
 /**
- * @route GET /api/comments/:postId
- * @desc Get all Comments on Specific Post
+ * @route GET /api/comments/comment/:id
+ * @desc Get a single comment by ID
  * @access Private
  */
-router.get(":/postId", protect, getComments);
+router.get("/comment/:id", protect, getCommentById);
+
+/**
+ * @route GET /api/comments/:postId
+ * @desc Get all comments for a specific post
+ * @access Private
+ * @query includeDeleted=true (admin only)
+ */
+router.get("/:postId", protect, getComments);
 
 /**
  * @route PUT /api/comments/:id
- * @desc Update comment by Id
- * @access Private
+ * @desc Update a comment by ID
+ * @access Private (owner or admin)
  */
-router.put(":/id", protect, updateComment);
+router.put("/:id", protect, updateComment);
 
 /**
  * @route DELETE /api/comments/:id
- * desc Soft delete comment by Id
+ * @desc Soft delete a comment by ID
  * @access Private (owner or admin)
  */
-router.delete(":id", protect, requireAdmin, deleteComment);
-
-/**
- * @route GET /api/comments/:id
- * @desc Get comment by Id
- * @access Private
- */
-router.get(":/id", protect, getCommentById);
+router.delete("/:id", protect, deleteComment);
 
 export default router;
