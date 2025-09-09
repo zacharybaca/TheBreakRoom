@@ -1,11 +1,12 @@
 import './App.css'
+import NavBar from "./components/NavBar/NavBar.jsx";
 
 function App() {
 
   return (
-    <>
-      <h1>Welcome to a Clean React Template</h1>
-    </>
+    <div id="main-app-container">
+      <NavBar />
+    </div>
   )
 }
 
