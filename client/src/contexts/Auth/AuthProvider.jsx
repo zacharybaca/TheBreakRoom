@@ -31,20 +31,25 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  const refreshToken = async () => {
-    const res = await fetch("/api/auth/refresh", {
-      method: "GET",
-      credentials: "include",
-    });
-    const data = await res.json();
+ const refreshToken = async () => {
+  const res = await fetch("/api/auth/refresh", {
+    method: "POST",   // ⬅️ changed from GET
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json", // good practice with POST, even if no body
+    },
+  });
 
-    if (!res.ok) {
-      throw new Error(data.message || "Token refresh failed");
-    }
+  const data = await res.json();
 
-    localStorage.setItem("accessToken", data.accessToken);
-    return data.accessToken;
-  };
+  if (!res.ok) {
+    throw new Error(data.message || "Token refresh failed");
+  }
+
+  localStorage.setItem("accessToken", data.accessToken);
+  return data.accessToken;
+};
+
 
   const fetchProtectedData = async () => {
     const token = localStorage.getItem("accessToken");
