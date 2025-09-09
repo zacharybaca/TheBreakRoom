@@ -3,7 +3,7 @@ import './nav-bar.css'
 const NavBar = () => {
 
   return (
-    <nav>
+    <nav id="nav-bar-container">
       <div id="menu-icon-container">
         <h1>Menu Icon Placholder</h1>
       </div>
