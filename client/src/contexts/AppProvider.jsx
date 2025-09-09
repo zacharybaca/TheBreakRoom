@@ -6,11 +6,11 @@ import { AuthProvider } from './Auth/AuthProvider';
 export const AppProvider = ({ children }) => {
   return (
     <Router>
-      <FetcherProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <FetcherProvider>
           {children}
-        </AuthProvider>
-      </FetcherProvider>
+        </FetcherProvider>
+      </AuthProvider>
     </Router>
   )
 }
