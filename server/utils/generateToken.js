@@ -1,11 +1,17 @@
 import jwt from "jsonwebtoken";
 
-const generateToken = (id, username) => {
+export const generateAccessToken = (user) => {
   return jwt.sign(
-    { id, username }, // always store both
-    process.env.JWT_SECRET,
-    { expiresIn: "30d" }
+    { id: user._id, username: user.username, isAdmin: user.isAdmin },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: "15m" } // short-lived
   );
 };
 
-export default generateToken;
+export const generateRefreshToken = (user) => {
+  return jwt.sign(
+    { id: user._id, username: user.username, isAdmin: user.isAdmin },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: "7d" } // long-lived
+  );
+};
