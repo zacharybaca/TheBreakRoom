@@ -1,12 +1,10 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { FetcherContext } from "./FetcherContext.jsx";
-import { AuthContext } from "../Auth/AuthContext.jsx"; // 👈 get tokens from here
-import { useNotification } from "../../hooks/useNotification.js";
+import { useAuth } from "../../hooks/useAuth.js"; // 👈 get tokens from here
 
 export const FetcherProvider = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const { addNotification } = useNotification();
-  const { accessToken, refreshAccessToken, logout } = useContext(AuthContext);
+  const { accessToken, refreshAccessToken, logout } = useAuth();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
 
@@ -40,13 +38,6 @@ export const FetcherProvider = ({ children }) => {
 
       if (!response.ok || data.success === false) {
         const errorMessage = data?.message || fallbackError;
-        addNotification({
-          headerText: "Error",
-          bodyText: errorMessage,
-          imgURL: "/assets/error.jpg",
-          variantTheme: "danger",
-          customTheme: ".toast-error",
-        });
         setIsLoaded(true);
         return { success: false, error: errorMessage, status: response.status };
       }
@@ -54,14 +45,6 @@ export const FetcherProvider = ({ children }) => {
       setIsLoaded(true);
       return { success: true, data };
     } catch (err) {
-      addNotification({
-        headerText: "Error",
-        bodyText: "Unable to reach the server.",
-        imgURL: "/assets/error.jpg",
-        variantTheme: "danger",
-        customTheme: ".toast-error",
-      });
-
       setIsLoaded(true);
       return { success: false, error: "Network error", status: null };
     }
