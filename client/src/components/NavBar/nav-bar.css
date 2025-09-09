@@ -1,1 +1,16 @@
+#nav-bar-container {
+    display: flex;
+    justify-content: space-between;
+    min-width: 100%;
+    border: 2px solid black;
+}
 
+#app-icon-container img {
+    width: 30%;
+}
+
+#app-icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
