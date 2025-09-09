@@ -9,8 +9,8 @@ const NavBar = () => {
       </div>
       <div id="app-icon-container">
         <img src="/assets/Nine2Five-logo.png" alt="app logo" />
-        <h1>The platform for the people who keep things moving.</h1>
-        <p>From the breakroom to the world — we speak.</p>
+        <h1 className="slogan">The platform for the people who keep things moving.</h1>
+        <p className="slogan">From the breakroom to the world — we speak.</p>
       </div>
       <div id="notification-icon-container">
         <h1>Notification Icon Placeholder</h1>
