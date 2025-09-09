@@ -1,6 +1,21 @@
+<!-- markdownlint-disable MD033 -->
+
 # Nine2Five
 
-![Nine2Five Logo](./High-Resolution-Color-Logo.png)
+<p align="center">
+  <img src="./logo.png" alt="Nine2Five Logo" width="280" />
+</p>
+
+<h1 align="center">Nine2Five</h1>
+
+<p align="center">
+  <strong>The platform for the people who keep things moving.</strong><br />
+  <em>From the breakroom to the world — we speak.</em>
+</p>
+
+---
+
+<!-- markdownlint-enable MD033 -->
 
 The backend server for Nine2Five, a social platform designed for workers in retail, customer service, and other public-facing roles. The application provides a space where users can share their daily experiences, vent frustrations, and seek advice from peers who understand the challenges of working the 9-to-5 grind.
 
@@ -187,13 +202,13 @@ Ensure you have the following installed on your machine:
 
 ## **7. BreakRoom Routes (`/api/breakrooms`)**
 
-| Method | Endpoint | Description      | Access               | Request Body      | Response                                  |
-| ------ | -------- | ---------------- | -------------------- | ----------------- | ----------------------------------------- |
-| POST   | `/`      | Create a new breakroom | Private (admin only) | JSON: `{ name, secription, jobTags }` | Created breakroom object                        |
-| GET    | `/`      | Get all breakrooms     | Private               | None              | Array of breakroom objects                      |
-| GET    | `/:id`   | Get a single breakroom by ID  | Private               | None              | Breakroom object                                |
-| POST    | `/:id/join`   | Join a breakroom     | Private (logged-in) | JSON: `{ title }` | Updated job object                        |
-| POST | `/:id/leave`   | Leave a breakroom     | Private (logged-in) | None              | `{ message: "Left breakroom successfully" }` |
+| Method | Endpoint     | Description                  | Access               | Request Body                          | Response                                     |
+| ------ | ------------ | ---------------------------- | -------------------- | ------------------------------------- | -------------------------------------------- |
+| POST   | `/`          | Create a new breakroom       | Private (admin only) | JSON: `{ name, secription, jobTags }` | Created breakroom object                     |
+| GET    | `/`          | Get all breakrooms           | Private              | None                                  | Array of breakroom objects                   |
+| GET    | `/:id`       | Get a single breakroom by ID | Private              | None                                  | Breakroom object                             |
+| POST   | `/:id/join`  | Join a breakroom             | Private (logged-in)  | JSON: `{ title }`                     | Updated job object                           |
+| POST   | `/:id/leave` | Leave a breakroom            | Private (logged-in)  | None                                  | `{ message: "Left breakroom successfully" }` |
 
 ---
 
@@ -208,44 +223,44 @@ Ensure you have the following installed on your machine:
 
 ```bash
 /api/users
-├─ GET / → get all users (admin)
-├─ GET /:id → get single user
-├─ PUT /:id → update user
-├─ DELETE /:id → delete user and their posts/comments
+├─ GET    /           → get all users (admin)
+├─ GET    /:id        → get single user
+├─ PUT    /:id        → update user (self/admin)
+├─ DELETE /:id        → delete user and their posts/comments (self/admin)
 
 /api/auth
-├─ POST /login → login
-├─ POST /register → register
-├─ POST /logout → logout
+├─ POST   /login      → login
+├─ POST   /register   → register
+├─ POST   /logout     → logout
 
 /api/posts
-├─ POST / → create post
-├─ GET / → get all posts
-├─ GET /:id → get single post
-├─ PUT /:id → update post
-├─ DELETE /:id → soft delete post
-├─ POST /:id/reactions → add/update reaction
-├─ DELETE /:id/reactions → remove reaction
+├─ POST   /           → create post (logged-in)
+├─ GET    /           → get all posts
+├─ GET    /:id        → get single post
+├─ PUT    /:id        → update post (owner/admin)
+├─ DELETE /:id        → soft delete post (owner/admin)
+├─ POST   /:id/reactions   → add/update reaction
+├─ DELETE /:id/reactions   → remove current user’s reaction
 
 /api/comments
-├─ POST / → create comment
-├─ GET /:postId → get comments for post
-├─ PUT /:id → update comment
-├─ DELETE /:id → delete comment
+├─ POST   /           → create comment
+├─ GET    /:postId    → get comments for post
+├─ PUT    /:id        → update comment (owner/admin)
+├─ DELETE /:id        → delete comment (owner/admin)
 
 /api/jobs
-├─ POST / → create job (admin)
-├─ GET / → get all jobs
-├─ GET /:id → get single job
-├─ PUT /:id → update job (admin)
-├─ DELETE /:id → delete job (admin)
+├─ POST   /           → create job (admin)
+├─ GET    /           → get all jobs
+├─ GET    /:id        → get single job
+├─ PUT    /:id        → update job (admin)
+├─ DELETE /:id        → delete job (admin)
 
 /api/breakrooms
-├─ POST / → create breakroom (admin)
-├─ GET / → get all breakrooms
-├─ GET /:id → get single breakroom
-├─ POST /:id/join → join breakroom
-├─ POST /:id/leave → leave breakroom
+├─ POST   /           → create breakroom (admin)
+├─ GET    /           → get all breakrooms
+├─ GET    /:id        → get single breakroom
+├─ POST   /:id/join   → join breakroom
+├─ POST   /:id/leave  → leave breakroom
 ```
 
 ![API Routes Overview](./api_routes.png)
