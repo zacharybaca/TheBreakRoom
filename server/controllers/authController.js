@@ -103,18 +103,31 @@ export const logout = (req, res) => {
 };
 
 // REFRESH TOKEN
-export const refreshAccessToken = (req, res) => {
+export const refreshAccessToken = async (req, res) => {
   try {
     const token = req.cookies.refreshToken;
-    if (!token) return res.status(401).json({ message: "No refresh token provided" });
+    if (!token) {
+      return res.status(401).json({ message: "No refresh token provided" });
+    }
 
-    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-      if (err) return res.status(403).json({ message: "Invalid refresh token" });
+    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ message: "Invalid or expired refresh token" });
+      }
 
+      // Make sure the user still exists
+      const user = await User.findById(decoded.id);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Generate a fresh access token
       const accessToken = generateAccessToken(user);
+
       res.status(200).json({ accessToken });
     });
   } catch (err) {
     res.status(500).json({ message: "Error refreshing token", error: err.message });
   }
 };
+
