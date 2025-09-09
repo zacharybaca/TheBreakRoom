@@ -4,7 +4,7 @@ const Footer = () => {
 
     return (
         <footer>
-
+            <h1>Footer Placeholder</h1>
         </footer>
     )
 }
