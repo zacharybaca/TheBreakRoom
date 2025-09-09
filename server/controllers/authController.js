@@ -1,11 +1,21 @@
+import mongoose from "mongoose";
 import User from "../models/User.js";
 import Job from "../models/Job.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js";
 import jwt from "jsonwebtoken";
 
+// Helper to ensure JWT secrets are loaded
+const ensureSecrets = () => {
+  if (!process.env.ACCESS_TOKEN_SECRET || !process.env.REFRESH_TOKEN_SECRET) {
+    throw new Error("JWT secrets are not defined in environment variables");
+  }
+};
+
 // LOGIN
 export const login = async (req, res) => {
   try {
+    ensureSecrets();
+
     const { identifier, password } = req.body;
     if (!identifier || !password)
       return res.status(400).json({ message: "Identifier and password required" });
@@ -16,8 +26,9 @@ export const login = async (req, res) => {
       .select("+password")
       .populate("job", "title description");
 
-    if (!user || !(await user.comparePassword(password)))
+    if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ message: "Invalid credentials" });
+    }
 
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
@@ -38,6 +49,7 @@ export const login = async (req, res) => {
       accessToken,
     });
   } catch (err) {
+    console.error("Login error:", err);
     res.status(500).json({ message: "Error logging in", error: err.message });
   }
 };
@@ -45,12 +57,15 @@ export const login = async (req, res) => {
 // REGISTER
 export const register = async (req, res) => {
   try {
-    const { username, password, name, avatarUrl, job } = req.body;
+    ensureSecrets();
 
+    const { username, password, name, avatarUrl, job } = req.body;
     if (!username || !name)
       return res.status(400).json({ message: "Username and name required" });
 
-    const existingUser = await User.findOne({ $or: [{ username }, { email: req.body.email }].filter(Boolean) });
+    const existingUser = await User.findOne({
+      $or: [{ username }, { email: req.body.email }].filter(Boolean),
+    });
     if (existingUser) return res.status(400).json({ message: "Username/email already exists" });
 
     let jobDoc;
@@ -84,6 +99,7 @@ export const register = async (req, res) => {
       accessToken,
     });
   } catch (err) {
+    console.error("Register error:", err);
     res.status(400).json({ message: "Error registering user", error: err.message });
   }
 };
@@ -98,6 +114,7 @@ export const logout = (req, res) => {
     });
     res.status(200).json({ message: "User successfully logged out" });
   } catch (err) {
+    console.error("Logout error:", err);
     res.status(500).json({ message: "Error logging out", error: err.message });
   }
 };
@@ -105,29 +122,24 @@ export const logout = (req, res) => {
 // REFRESH TOKEN
 export const refreshAccessToken = async (req, res) => {
   try {
-    const token = req.cookies.refreshToken;
+    ensureSecrets();
+
+    const token = req.cookies?.refreshToken;
     if (!token) {
       return res.status(401).json({ message: "No refresh token provided" });
     }
 
     jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
-      if (err) {
-        return res.status(403).json({ message: "Invalid or expired refresh token" });
-      }
+      if (err) return res.status(403).json({ message: "Invalid or expired refresh token" });
 
-      // Make sure the user still exists
       const user = await User.findById(decoded.id);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
+      if (!user) return res.status(404).json({ message: "User not found" });
 
-      // Generate a fresh access token
       const accessToken = generateAccessToken(user);
-
       res.status(200).json({ accessToken });
     });
   } catch (err) {
+    console.error("Refresh token error:", err);
     res.status(500).json({ message: "Error refreshing token", error: err.message });
   }
 };
-
