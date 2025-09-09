@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth.js"; // 👈 get tokens from here
 
 export const FetcherProvider = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const { accessToken, refreshAccessToken, logout } = useAuth();
+  const { accessToken, refreshToken, logout } = useAuth();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
 
@@ -24,7 +24,7 @@ export const FetcherProvider = ({ children }) => {
 
       // 🔄 if token expired, try refresh once
       if (response.status === 401) {
-        const newToken = await refreshAccessToken();
+        const newToken = await refreshToken();
         if (newToken) {
           config.headers.Authorization = `Bearer ${newToken}`;
           response = await fetch(finalUrl, config); // retry once
