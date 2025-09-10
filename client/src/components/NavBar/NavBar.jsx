@@ -8,10 +8,13 @@ const NavBar = () => {
     <nav id="nav-bar-container">
       <div id="menu-icon-container">
         <div id="notification-icon">
-          {notificationsOn ? <img src="/assets/switch-off.png" onClick={handleToggleClick} alt="toggle off switch" className="nav-bar-images" />
-            : <img src="/assets/switch-on.png" onClick={handleToggleClick} alt="toggle on switch" className="nav-bar-images" />
-          }
-          {notificationsOn ? <img src="/assets/notification-number-bell.gif" className="nav-bar-images-default" alt="regular notification bell" /> : <img src="/assets/notifications-off.gif" className="nav-bar-images-default" alt="notifications off icon" />}
+          <div id="notifications-group">
+            <h3>Notifications: </h3>
+            {!notificationsOn ? <img src="/assets/switch-off.png" onClick={handleToggleClick} alt="toggle off switch" className="nav-bar-images" />
+              : <img src="/assets/switch-on.png" onClick={handleToggleClick} alt="toggle on switch" className="nav-bar-images" />
+            }
+            {!notificationsOn ? <img src="/assets/notifications-off.gif" className="nav-bar-images-default" alt="regular notification bell" /> : <img src="/assets/notification-number-bell.gif" className="nav-bar-images-default" alt="notifications off icon" />}
+          </div>
         </div>
         
         <div id="menu-icon">
