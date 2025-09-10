@@ -55,6 +55,12 @@
     min-width: 100%;
 }
 
+#notification-icon {
+    display: flex;
+    justify-content: space-between;
+    min-width: 52%;
+}
+
 hr {
     width: 100%;
 }
