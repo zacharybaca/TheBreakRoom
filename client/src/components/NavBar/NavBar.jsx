@@ -26,8 +26,8 @@ const NavBar = () => {
       <div id="app-icon">
         <div id="app-icon-container">
           <img src="/assets/Nine2Five-logo.png" id="app-logo" alt="app logo" />
-          <h1 className="slogan">The platform for the people who keep things moving.</h1>
-          <h2 className="slogan">From the breakroom to the world — we speak.</h2>
+          <h1 className="slogan">The Platform for the People Who Keep Things Moving.</h1>
+          <h2 className="slogan">From the Breakroom to the World.....We Speak.</h2>
         </div>
       </div>
     </nav>
