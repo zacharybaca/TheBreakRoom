@@ -5,7 +5,12 @@ export const ToggleProvider = ({ children }) => {
     const [notificationsOn, setNotificationsOn] = useState(false);
 
     const handleToggleClick = () => {
-        setNotificationsOn(prev => !prev);
+        if (notificationsOn) {
+            setNotificationsOn(false);
+        }
+        else {
+            setNotificationsOn(true);
+        }
     }
 
     return (
