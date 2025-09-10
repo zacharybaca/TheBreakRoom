@@ -21,7 +21,9 @@ const NavBar = () => {
       </div>
       <div id="notification-icon-container">
         {notificationsOn ? <img src="/assets/notification-number-bell.gif" className="nav-bar-images-default" alt="regular notification bell" /> : <img src="/assets/notifications-off.gif" className="nav-bar-images-default" alt="notifications off icon" />}
-        
+      </div>
+      <div id="menu-icon-container">
+        <img src="/assets/menu-icon.gif" className="nav-bar-images" alt="menu icon" />
       </div>
     </nav>
   )
