@@ -61,6 +61,17 @@
     min-width: 52%;
 }
 
+#notifications-group {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1%;
+}
+
+#notifications-group h3 {
+    padding: 5%;
+}
+
 hr {
     width: 100%;
 }
