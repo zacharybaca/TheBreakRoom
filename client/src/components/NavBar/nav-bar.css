@@ -51,5 +51,10 @@
 #menu-icon-container {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 1%;
     min-width: 100%;
+}
+
+hr {
+    width: 100%;
 }
