@@ -42,3 +42,7 @@
     height: 10vh;
     cursor: default;
 }
+
+#app-logo {
+    border-radius: 10px;
+}
