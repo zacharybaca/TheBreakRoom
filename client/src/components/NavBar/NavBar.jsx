@@ -17,7 +17,8 @@ const NavBar = () => {
         <h2 className="slogan">From the breakroom to the world — we speak.</h2>
       </div>
       <div id="notification-icon-container">
-        <img src="/assets/notification-number-bell.gif" className="nav-bar-images" alt="regular notification bell" />
+        {notificationsOn ? <img src="/assets/notification-number-bell.gif" className="nav-bar-images" alt="regular notification bell" /> : <img src="/assets/notifications-off.gif" alt="notifications off icon" />}
+        
       </div>
     </nav>
   )
