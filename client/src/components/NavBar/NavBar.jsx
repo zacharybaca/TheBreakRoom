@@ -15,7 +15,7 @@ const NavBar = () => {
 
       </div>
       <div id="app-icon-container">
-        <img src="/assets/Nine2Five-logo.png" alt="app logo" />
+        <img src="/assets/Nine2Five-logo.png" id="app-logo" alt="app logo" />
         <h1 className="slogan">The platform for the people who keep things moving.</h1>
         <h2 className="slogan">From the breakroom to the world — we speak.</h2>
       </div>
