@@ -2,6 +2,7 @@
 
 #nav-bar-container {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     min-width: 100%;
@@ -45,4 +46,10 @@
 
 #app-logo {
     border-radius: 10px;
+}
+
+#menu-icon-container {
+    display: flex;
+    justify-content: space-between;
+    min-width: 100%;
 }
