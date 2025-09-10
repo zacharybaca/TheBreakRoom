@@ -2,14 +2,17 @@ import './nav-bar.css'
 import { useToggle } from '../../hooks/useToggle';
 
 const NavBar = () => {
-  const { notificationsOn } = useToggle();
+  const { notificationsOn, handleToggleClick } = useToggle();
 
   return (
     <nav id="nav-bar-container">
       <div id="menu-icon-container">
-        {notificationsOn ? <img src="/assets/switch-off.png" alt="toggle off switch" className="nav-bar-images" /> : 
-          <img src="/assets/switch-on.png" alt="toggle on switch" className="nav-bar-images" />
+        {notificationsOn ? <img src="/assets/switch-off.png" onClick={handleToggleClick} alt="toggle off switch" className="nav-bar-images" 
+        /> 
+        : <img src="/assets/switch-on.png" onClick={handleToggleClick} alt="toggle on switch" className="nav-bar-images" 
+        />
         }
+
       </div>
       <div id="app-icon-container">
         <img src="/assets/Nine2Five-logo.png" alt="app logo" />
