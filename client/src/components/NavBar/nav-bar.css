@@ -33,3 +33,12 @@
 .nav-bar-images {
     height: 10vh;
 }
+
+.nav-bar-images:hover {
+    cursor: pointer;
+}
+
+.nav-bar-images-default {
+    height: 10vh;
+    cursor: default;
+}
