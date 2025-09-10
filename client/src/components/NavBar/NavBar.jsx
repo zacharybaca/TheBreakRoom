@@ -17,15 +17,6 @@ const NavBar = () => {
 
         <img src="/assets/menu-icon.gif" className="nav-bar-images" alt="menu icon" />
       </div>
-      
-      <div id="menu-notification-icon">
-        <div id="notification-icon-container">
-          
-        </div>
-        <div id="menu-icon-container">
-          
-        </div>
-      </div>
       <hr />
       <br />
       <div id="app-icon">
