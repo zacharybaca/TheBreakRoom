@@ -6,14 +6,6 @@ const NavBar = () => {
 
   return (
     <nav id="nav-bar-container">
-      <div id="app-icon">
-        <div id="app-icon-container">
-          <img src="/assets/Nine2Five-logo.png" id="app-logo" alt="app logo" />
-          <h1 className="slogan">The platform for the people who keep things moving.</h1>
-          <h2 className="slogan">From the breakroom to the world — we speak.</h2>
-        </div>
-      </div>
-
       <div id="menu-icon-container">
         {notificationsOn ? <img src="/assets/switch-off.png" onClick={handleToggleClick} alt="toggle off switch" className="nav-bar-images" 
         /> 
@@ -34,7 +26,15 @@ const NavBar = () => {
           
         </div>
       </div>
-      
+      <hr />
+      <br />
+      <div id="app-icon">
+        <div id="app-icon-container">
+          <img src="/assets/Nine2Five-logo.png" id="app-logo" alt="app logo" />
+          <h1 className="slogan">The platform for the people who keep things moving.</h1>
+          <h2 className="slogan">From the breakroom to the world — we speak.</h2>
+        </div>
+      </div>
     </nav>
   )
 
