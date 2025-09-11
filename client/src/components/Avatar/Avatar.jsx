@@ -6,7 +6,7 @@ const Avatar = () => {
 
     return (
         <div id="avatar-image-container">
-            {user && <img src={user.avatarUrl} alt="User Avatar" />}
+            {user ? <img src={user.avatarUrl} alt="User Avatar" /> : <img src="/assets/Nine2Five-logo.png" alt="app logo" />}
         </div>
     );
 };
