@@ -5,7 +5,7 @@ const Avatar = () => {
     const { user } = useAuth();
 
     return (
-        <div>
+        <div id="avatar-image-container">
             {user && <img src={user.avatarUrl} alt="User Avatar" />}
         </div>
     );
