@@ -1,5 +1,7 @@
 .footer {
     display: flex;
     justify-content: center;
+    align-content: center;
+    text-align: center;
     border: 3px solid black;
 }
