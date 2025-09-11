@@ -2,6 +2,7 @@ import './slide-out-menu.css';
 import { useAuth } from "../../hooks/useAuth";
 import Button from 'react-bootstrap/Button';
 import CloseButton from 'react-bootstrap/CloseButton';
+import Avatar from "../Avatar/Avatar.jsx";
 
 const SlideOutMenu = ({ isOpen, onClose }) => {
     const { isAuthenticated } = useAuth();
@@ -22,6 +23,10 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
                     <li><a href="/settings"><img src="/assets/settings-icon.png" className="menu-image-class" alt="settings icon" />Settings</a></li>
                 </ul>
                  <Button variant="danger" id="delete-button">Delete Account</Button>
+                 <br />
+                 <br />
+                 <hr />
+                 <Avatar />
             </div>
         </>
     )
