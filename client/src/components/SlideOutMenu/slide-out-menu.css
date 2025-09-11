@@ -1,4 +1,6 @@
 .slideout {
+  display: flex;
+  flex-direction: column;
   position: fixed;
   top: 0;
   left: 0;
@@ -30,6 +32,11 @@
   color: white;
   font-size: 1.2rem;
   text-decoration: none;
+}
+
+.slideout button img {
+  width: 50px;
+  height: 50px;
 }
 
 .close-btn {
