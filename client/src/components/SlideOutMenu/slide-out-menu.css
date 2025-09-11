@@ -22,7 +22,7 @@
 
 /* Close button */
 .close-btn {
-  background: none;
+  background-color: red;
   border: none;
   font-size: 2rem;
   color: white;
