@@ -1,6 +1,7 @@
 import './slide-out-menu.css';
 import { useAuth } from "../../hooks/useAuth";
 import Button from 'react-bootstrap/Button';
+import CloseButton from 'react-bootstrap/CloseButton';
 
 const SlideOutMenu = ({ isOpen, onClose }) => {
     const { isAuthenticated } = useAuth();
@@ -12,7 +13,8 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
 
             {/* Slideout Menu */}
             <div className={`slideout ${isOpen ? "open" : ""}`}>
-                <button className="close-btn" onClick={onClose}>×</button>
+                  <CloseButton className="close-btn" onClick={onClose}>X</CloseButton>
+                {/* <button className="close-btn" onClick={onClose}>×</button> */}
                 {isAuthenticated ? <button type="button"><img src="/assets/log-off-icon.png" alt=" log off icon" /></button> : <button type="button"><img src="/assets/log-on-icon.png" alt="log in logo" /></button>}
                 <ul>
                     <li><a href="/profile"><img src="/assets/profile-icon.png" className="menu-image-class" alt="profile icon" />My Profile</a></li>
