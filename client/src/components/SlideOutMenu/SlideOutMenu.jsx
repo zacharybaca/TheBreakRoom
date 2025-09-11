@@ -1,5 +1,6 @@
 import './slide-out-menu.css';
 import { useAuth } from "../../hooks/useAuth";
+import Button from 'react-bootstrap/Button';
 
 const SlideOutMenu = ({ isOpen, onClose }) => {
     const { isAuthenticated } = useAuth();
@@ -18,6 +19,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
                     <li><a href="/feed"><img src="/assets/news-feed-icon.png" className="menu-image-class" alt="news feed icon" /> Community Feed</a></li>
                     <li><a href="/settings"><img src="/assets/settings-icon.png" className="menu-image-class" alt="settings icon" />Settings</a></li>
                 </ul>
+                 <Button variant="danger" id="delete-button">Delete Account</Button>
             </div>
         </>
     )
