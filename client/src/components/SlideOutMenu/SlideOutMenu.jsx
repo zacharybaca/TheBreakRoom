@@ -10,6 +10,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
             {/* Slideout Menu */}
             <div className={`slideout ${isOpen ? "open" : ""}`}>
                 <button className="close-btn" onClick={onClose}>×</button>
+                  <button type="button"><img src="/assets/log-on-icon.png" alt="log in logo" /></button>
                 <ul>
                     <li><a href="/profile">My Profile</a></li>
                     <li><a href="/feed">Community Feed</a></li>
