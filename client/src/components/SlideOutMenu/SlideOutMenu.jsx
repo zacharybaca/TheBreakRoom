@@ -15,7 +15,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
                     <li><a href="/profile"><img src="/assets/profile-icon.png" className="menu-image-class" alt="profile icon" />My Profile</a></li>
                     <li><a href="/feed">Community Feed</a></li>
                     <li><a href="/notifications">Notifications</a></li>
-                    <li><a href="/settings">Settings</a></li>
+                    <li><a href="/settings"><img src="/assets/settings-icon.png" className="menu-image-class" alt="settings icon" />Settings</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
             </div>
