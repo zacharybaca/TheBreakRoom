@@ -1,11 +1,24 @@
 import './slide-out-menu.css';
 
-const SlideOutMenu = () => {
+const SlideOutMenu = ({ isOpen, onClose }) => {
 
     return (
-        <div>
-            <h1>Slide OUt Menu Placholder</h1>
-        </div>
+        <>
+            {/* Backdrop */}
+            {isOpen && <div className="backdrop" onClick={onClose}></div>}
+
+            {/* Slideout Menu */}
+            <div className={`slideout ${isOpen ? "open" : ""}`}>
+                <button className="close-btn" onClick={onClose}>×</button>
+                <ul>
+                    <li><a href="/profile">My Profile</a></li>
+                    <li><a href="/feed">Community Feed</a></li>
+                    <li><a href="/notifications">Notifications</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </>
     )
 }
 

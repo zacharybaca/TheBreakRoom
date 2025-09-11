@@ -3,6 +3,7 @@ import { ToggleContext } from './ToggleContext.jsx';
 
 export const ToggleProvider = ({ children }) => {
     const [notificationsOn, setNotificationsOn] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const handleToggleClick = () => {
         if (notificationsOn) {
@@ -16,7 +17,9 @@ export const ToggleProvider = ({ children }) => {
     return (
         <ToggleContext.Provider value={{
             notificationsOn,
-            handleToggleClick
+            handleToggleClick,
+            menuOpen,
+            setMenuOpen
         }}>
             {children}
         </ToggleContext.Provider>
