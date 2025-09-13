@@ -3,6 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
+import fs from "fs";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
 
@@ -24,6 +25,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// 🔹 Ensure uploads folder exists
+const uploadsDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log("📂 Created uploads directory:", uploadsDir);
+}
 
 // Middleware
 app.use(express.json());

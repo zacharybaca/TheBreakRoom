@@ -153,3 +153,85 @@ export const deleteUser = async (req, res) => {
       .json({ message: "Error deleting user", error: error.message });
   }
 };
+
+// @desc    Upload user avatar
+// @route   POST /api/users/:id/avatar
+// @access  Private (user or admin)
+export const uploadAvatar = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (req.user.id !== id && !req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this avatar" });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Set avatar URL (public URL served from /uploads)
+    user.avatarUrl = `/uploads/${req.file.filename}`;
+    await user.save();
+
+    res.json({
+      message: "Avatar uploaded successfully",
+      avatarUrl: user.avatarUrl,
+    });
+  } catch (error) {
+    console.error("❌ Error uploading avatar:", error.message);
+    res.status(500).json({ message: "Error uploading avatar" });
+  }
+};
+
+// @desc    Update user avatar
+// @route   PUT /api/users/:id/avatar
+// @access  Private (user or admin)
+export const updateUserAvatar = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Only allow the user themselves or an admin
+    if (req.user.id !== id && !req.user.isAdmin) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this avatar" });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // ✅ Optional: delete old avatar file from disk if it exists
+    // (use fs.unlinkSync or fs.promises.unlink, but only if you want to clean up)
+    // if (user.avatarUrl) {
+    //   const oldPath = path.join(process.cwd(), user.avatarUrl);
+    //   try { fs.unlinkSync(oldPath); } catch (err) { console.warn("Could not delete old avatar:", err.message); }
+    // }
+
+    // Save new avatar
+    user.avatarUrl = `/uploads/${req.file.filename}`;
+    await user.save();
+
+    res.json({
+      message: "Avatar updated successfully",
+      avatarUrl: user.avatarUrl,
+    });
+  } catch (error) {
+    console.error("❌ Error updating avatar:", error.message);
+    res
+      .status(500)
+      .json({ message: "Error updating avatar", error: error.message });
+  }
+};

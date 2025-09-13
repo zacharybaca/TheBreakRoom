@@ -22,16 +22,8 @@ const NavBar = () => {
           <img src="/assets/menu-icon.gif" onClick={() => setMenuOpen(true)} className="nav-bar-images" alt="menu icon" />
         </div>
       </div>
-      <hr />
-      <br />
-      <div id="app-icon">
-        <div id="app-icon-container">
-          <img src="/assets/Nine2Five-logo.png" id="app-logo" alt="app logo" />
-          <h1 className="slogan">The Platform for the People Who Keep Things Moving.</h1>
-          <h2 className="slogan">From the Breakroom to the World.....We Speak.</h2>
-        </div>
-      </div>
-      <SlideOutMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)}/>
+
+      <SlideOutMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
     </nav>
   )
 

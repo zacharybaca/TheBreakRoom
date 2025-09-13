@@ -137,12 +137,13 @@ Ensure you have the following installed on your machine:
 
 ## **1. Users Routes (`/api/users`)**
 
-| Method | Endpoint | Description                            | Access                  | Request Body                                          | Response                                                        |
-| ------ | -------- | -------------------------------------- | ----------------------- | ----------------------------------------------------- | --------------------------------------------------------------- |
-| GET    | `/`      | Get all users                          | Private (admin)         | None                                                  | Array of users (id, username, name, avatarUrl, role, job, etc.) |
-| GET    | `/:id`   | Get a single user by ID                | Private                 | None                                                  | User object with selected fields (no password)                  |
-| PUT    | `/:id`   | Update user info                       | Private (self/admin)    | JSON: `{ username?, name?, avatarUrl?, role?, job? }` | Updated user object                                             |
-| DELETE | `/:id`   | Delete a user and their posts/comments | Private (admin or self) | None                                                  | `{ message: "User and related data deleted successfully" }`     |
+| Method | Endpoint      | Description                            | Access                  | Request Body                                          | Response                                                         |
+| ------ | ------------- | -------------------------------------- | ----------------------- | ----------------------------------------------------- | ---------------------------------------------------------------- |
+| GET    | `/`           | Get all users                          | Private (admin)         | None                                                  | Array of users (id, username, name, avatarUrl, role, job, etc.)  |
+| GET    | `/:id`        | Get a single user by ID                | Private                 | None                                                  | User object with selected fields (no password)                   |
+| PUT    | `/:id`        | Update user info                       | Private (self/admin)    | JSON: `{ username?, name?, avatarUrl?, role?, job? }` | Updated user object                                              |
+| DELETE | `/:id`        | Delete a user and their posts/comments | Private (admin or self) | None                                                  | `{ message: "User and related data deleted successfully" }`      |
+| POST   | `/:id/avatar` | Upload/Update User Avatar              | Private (admin or self) | multipart/form-data                                   | `{ message: "Avatar uploaded successfully", avatarUrl: string }` |
 
 ---
 
@@ -174,6 +175,7 @@ Ensure you have the following installed on your machine:
 | ------ | ---------------- | ------------------------------------------ | ------- | ------------------------------------------------------------------------- | -------------------------------------------------------- |
 | POST   | `/:id/reactions` | Add or update a reaction to a post         | Private | JSON: `{ type: "like" \| "love" \| "haha" \| "wow" \| "sad" \| "angry" }` | Created/updated reaction object with populated user info |
 | DELETE | `/:id/reactions` | Remove current user's reaction from a post | Private | None                                                                      | `{ "message": "Reaction removed successfully" }`         |
+| GET    | `/:id/reactions` | Get current user's reaction from a post    | Private | None                                                                      | User's Reactions                                         |
 
 ---
 
@@ -219,6 +221,14 @@ Ensure you have the following installed on your machine:
 
 ---
 
+### 📝 Notes about avatar upload
+
+- File must be an image ( jpeg, jpg, png, gif ), max 5MB.
+- On success, the user's avatarUrl is updated to /uploads/filename.ext.
+- Frontend can load it via: <http://localhost:5000/uploads/filename.ext>.
+
+---
+
 ## **7. Route Flow Summary**
 
 ```bash
@@ -227,6 +237,7 @@ Ensure you have the following installed on your machine:
 ├─ GET    /:id        → get single user
 ├─ PUT    /:id        → update user (self/admin)
 ├─ DELETE /:id        → delete user and their posts/comments (self/admin)
+├─ POST   /:id/avatar → add/update user avatar image url     (self/admin)
 
 /api/auth
 ├─ POST   /login      → login

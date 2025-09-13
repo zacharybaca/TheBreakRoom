@@ -6,7 +6,10 @@ import {
   getUserById,
   updateUser,
   deleteUser,
+  uploadAvatar,
+  updateUserAvatar,
 } from "../controllers/userController.js";
+import { upload } from "../middleware/uploadMiddleware.js";
 import { protect, requireAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -35,5 +38,15 @@ router.put("/:id", protect, requireAdmin, updateUser);
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
 router.delete("/:id", protect, requireAdmin, deleteUser);
+
+// @desc    Upload user avatar
+// @route   POST /api/users/:id/avatar
+// @access  Private (user or admin)
+router.post("/:id/avatar", protect, upload.single("avatar"), uploadAvatar);
+
+// @desc Update user avatar
+// @route PUT /api/users/:id/avatar
+// @access Private (user or admin)
+router.put("/:id/avatar", protect, upload.single("avatar"), updateUserAvatar);
 
 export default router;

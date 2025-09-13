@@ -1,15 +1,27 @@
 import './App.css'
 import NavBar from "./components/NavBar/NavBar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
+import { useAuth } from "./hooks/useAuth.js";
 
 function App() {
+  const { isAuthenticated } = useAuth();
 
   return (
     <div id="main-app-container">
       <NavBar />
+      <hr />
       <main id="content">
-        
+        {!isAuthenticated && (
+          <div id="app-icon">
+            <div id="app-icon-container">
+              <img src="/assets/Nine2Five-logo.png" id="app-logo" alt="app logo" />
+              <h1 className="slogan">The Platform for the People Who Keep Things Moving.</h1>
+              <h2 className="slogan">From the Breakroom to the World.....We Speak.</h2>
+            </div>
+          </div>
+        )}
       </main>
+      <hr />
       <Footer />
     </div>
   )
