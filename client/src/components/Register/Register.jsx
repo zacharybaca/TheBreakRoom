@@ -22,10 +22,45 @@ const Register = () => {
       email: Yup.string().email("Invalid email").required("Email is required"),
       password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required")
     }),
-    onSubmit: (values) => {
-      console.log("Form Data:", values);
-    }
-  });
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
+        try {
+            const formData = new FormData();
+
+            // Append all fields manually
+            formData.append("name", values.name);
+            formData.append("username", values.username);
+            formData.append("email", values.email);
+            formData.append("password", values.password);
+            formData.append("role", values.role);
+            formData.append("job", values.job);
+            formData.append("bio", values.bio);
+            formData.append("gender", values.gender);
+            formData.append("isAdmin", values.isAdmin); // booleans get converted to "true"/"false"
+
+            if (values.avatar) {
+            formData.append("avatar", values.avatar); // attach file
+            }
+
+            const res = await fetch("http://localhost:9000/api/register", {
+            method: "POST",
+            body: formData // no headers! browser sets Content-Type automatically
+            });
+
+            if (!res.ok) {
+            throw new Error("Failed to register");
+            }
+
+            const data = await res.json();
+            console.log("✅ Registered successfully:", data);
+
+            resetForm(); // clear form after successful submission
+        } catch (err) {
+            console.error("❌ Error submitting form:", err);
+        } finally {
+            setSubmitting(false);
+        }
+        }
+    });
 
   return (
     <div className="form-container">
