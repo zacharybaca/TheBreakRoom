@@ -1,6 +1,7 @@
 import './register.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
 
 const Register = () => {
   const formik = useFormik({
@@ -170,7 +171,10 @@ const Register = () => {
           }}
         />
         <br />
-        <button type="submit">Submit</button>
+        <ReusableStyledButton 
+            title="Submit"
+            type="submit"
+        />
       </form>
     </div>
   );
