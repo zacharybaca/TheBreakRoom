@@ -28,7 +28,9 @@ const Register = () => {
   });
 
   return (
-    <div>
+    <div className="form-container">
+      <h1>Your Workday Stories Belong Here</h1>
+      <h2>Sign Up. Speak Up. Be Heard.</h2>
       <form onSubmit={formik.handleSubmit}>
         <label htmlFor="name">Enter Your Name: </label>
         <input
@@ -132,7 +134,7 @@ const Register = () => {
             formik.setFieldValue("avatar", event.currentTarget.files[0]);
           }}
         />
-
+        <br />
         <button type="submit">Submit</button>
       </form>
     </div>
