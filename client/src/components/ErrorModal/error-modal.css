@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&family=Gloria+Hallelujah&family=Macondo+Swash+Caps&display=swap');
+
+
+#error-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+#error-dialog-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 50%;
+    max-width: 50%;
+    min-height: 40%;
+    max-height: 40%;
+    background-color: #E6B17E;
+    padding: 80px;
+    gap: 20px;
+    border-radius: 5px;
+}
+
+#error-dialog-statement {
+    padding-bottom: 2%;
+    color: red;
+    font-family: "Gloria Hallelujah", cursive;
+    font-weight: 800;
+    font-size: 2rem;
+}
+
+#error-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: fit-content;
+    max-height: fit-content;
+}
+
+#error-icon {
+    max-width: 45%;
+    max-height: 45%;
+    min-width: 50%;
+    height: 30vh;
+    padding: 10px;
+    background-color: #ffd6a3;
+    border: 4px solid black;
+    border-radius: 10px;
+}
+.error-confirm-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: url("../../assets/click.png"), pointer;
+    background-color: green;
+    color: black;
+    font-size: 1.5rem;
+    font-weight: 800;
+    border-radius: 10px;
+}
+
+.glow-on-entra {
+      width: 220px;
+      height: 50px;
+      position: relative;
+      z-index: 0;
+      border-radius: 10px;
+  }
+
+  .glow-on-entra:before {
+      content: '';
+      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+      position: absolute;
+      top: -2px;
+      left:-2px;
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      animation: glowing 20s linear infinite;
+      opacity: 0;
+      transition: opacity .3s ease-in-out;
+      border-radius: 10px;
+  }
+
+  .glow-on-entra:active {
+      color: #000
+  }
+
+  .glow-on-entra:active:after {
+      background: transparent;
+  }
+
+  .glow-on-entra:hover:before {
+      opacity: 1;
+  }
+
+  .glow-on-entra:after {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      border-radius: 10px;
+  }
+
+  @keyframes glowing {
+      0% { background-position: 0 0; }
+      50% { background-position: 400% 0; }
+      100% { background-position: 0 0; }
+  }
