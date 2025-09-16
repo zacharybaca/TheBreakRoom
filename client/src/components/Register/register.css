@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
 
 .form-container {
     display: flex;
@@ -29,7 +30,7 @@
 }
 
 .form-container h1, .form-container h2 {
-  font-family: "Rubik Bubbles", system-ui;
+  font-family: "Rubik Glitch", system-ui;
   font-weight: 400;
   font-style: normal;
 }
