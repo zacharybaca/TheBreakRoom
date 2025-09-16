@@ -1,4 +1,6 @@
-import './App.css'
+import './App.css';
+import { Routes, Route } from "react-router-dom";
+import Register from "./components/Register/Register.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import { useAuth } from "./hooks/useAuth.js";
@@ -20,6 +22,9 @@ function App() {
             </div>
           </div>
         )}
+        <Routes>
+          <Route path="/" element={<Register />} />
+        </Routes>
       </main>
       <hr />
       <Footer />
