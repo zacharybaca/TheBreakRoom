@@ -1,41 +1,44 @@
 #main-app-container {
-    display: flex;
-    flex-direction: column;
-    min-width: 100vw;
-    min-height: 100vh;
-    box-sizing: border-box;
-    border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  min-width: 100vw;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-image: url('/assets/main-app-background.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border: 2px solid black;
 }
 
 #content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
 }
 
 #app-icon-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #app-icon-container img {
-    width: 30%;
-    height: 20vh;
+  width: 30%;
+  height: 20vh;
 }
 
 #app-logo {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 .slogan {
-  font-family: "Schoolbell", cursive;
+  font-family: 'Schoolbell', cursive;
   font-weight: 400;
   font-style: normal;
   text-align: center;
 }
 
 hr {
-    width: 100%;
+  width: 100%;
 }

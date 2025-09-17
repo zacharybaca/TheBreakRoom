@@ -6,62 +6,64 @@ import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.j
 const Register = () => {
   const formik = useFormik({
     initialValues: {
-      name: "",
-      username: "",
-      email: "",
-      password: "",
-      role: "user",
-      job: "",
+      name: '',
+      username: '',
+      email: '',
+      password: '',
+      role: 'user',
+      job: '',
       isAdmin: false,
-      bio: "",
-      gender: "",
-      avatar: null
+      bio: '',
+      gender: '',
+      avatar: null,
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Name is required"),
-      username: Yup.string().required("Username is required"),
-      email: Yup.string().email("Invalid email").required("Email is required"),
-      password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required")
+      name: Yup.string().required('Name is required'),
+      username: Yup.string().required('Username is required'),
+      email: Yup.string().email('Invalid email').required('Email is required'),
+      password: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
     }),
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-        try {
-            const formData = new FormData();
+      try {
+        const formData = new FormData();
 
-            // Append all fields manually
-            formData.append("name", values.name);
-            formData.append("username", values.username);
-            formData.append("email", values.email);
-            formData.append("password", values.password);
-            formData.append("role", values.role);
-            formData.append("job", values.job);
-            formData.append("bio", values.bio);
-            formData.append("gender", values.gender);
-            formData.append("isAdmin", values.isAdmin); // booleans get converted to "true"/"false"
+        // Append all fields manually
+        formData.append('name', values.name);
+        formData.append('username', values.username);
+        formData.append('email', values.email);
+        formData.append('password', values.password);
+        formData.append('role', values.role);
+        formData.append('job', values.job);
+        formData.append('bio', values.bio);
+        formData.append('gender', values.gender);
+        formData.append('isAdmin', values.isAdmin); // booleans get converted to "true"/"false"
 
-            if (values.avatar) {
-            formData.append("avatar", values.avatar); // attach file
-            }
-
-            const res = await fetch("http://localhost:9000/api/register", {
-            method: "POST",
-            body: formData // no headers! browser sets Content-Type automatically
-            });
-
-            if (!res.ok) {
-            throw new Error("Failed to register");
-            }
-
-            const data = await res.json();
-            console.log("✅ Registered successfully:", data);
-
-            resetForm(); // clear form after successful submission
-        } catch (err) {
-            console.error("❌ Error submitting form:", err);
-        } finally {
-            setSubmitting(false);
+        if (values.avatar) {
+          formData.append('avatar', values.avatar); // attach file
         }
+
+        const res = await fetch('http://localhost:9000/api/register', {
+          method: 'POST',
+          body: formData, // no headers! browser sets Content-Type automatically
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to register');
         }
-    });
+
+        const data = await res.json();
+        console.log('✅ Registered successfully:', data);
+
+        resetForm(); // clear form after successful submission
+      } catch (err) {
+        console.error('❌ Error submitting form:', err);
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
 
   return (
     <div className="form-container">
@@ -76,7 +78,9 @@ const Register = () => {
           onChange={formik.handleChange}
           value={formik.values.name}
         />
-        {formik.touched.name && formik.errors.name && <p>{formik.errors.name}</p>}
+        {formik.touched.name && formik.errors.name && (
+          <p>{formik.errors.name}</p>
+        )}
 
         <label htmlFor="username">Enter A Username: </label>
         <input
@@ -86,7 +90,9 @@ const Register = () => {
           onChange={formik.handleChange}
           value={formik.values.username}
         />
-        {formik.touched.username && formik.errors.username && <p>{formik.errors.username}</p>}
+        {formik.touched.username && formik.errors.username && (
+          <p>{formik.errors.username}</p>
+        )}
 
         <label htmlFor="email">Enter Your E-mail: </label>
         <input
@@ -96,7 +102,9 @@ const Register = () => {
           onChange={formik.handleChange}
           value={formik.values.email}
         />
-        {formik.touched.email && formik.errors.email && <p>{formik.errors.email}</p>}
+        {formik.touched.email && formik.errors.email && (
+          <p>{formik.errors.email}</p>
+        )}
 
         <label htmlFor="password">Enter A Password: </label>
         <input
@@ -106,7 +114,9 @@ const Register = () => {
           onChange={formik.handleChange}
           value={formik.values.password}
         />
-        {formik.touched.password && formik.errors.password && <p>{formik.errors.password}</p>}
+        {formik.touched.password && formik.errors.password && (
+          <p>{formik.errors.password}</p>
+        )}
 
         <label htmlFor="role">Select A Role: </label>
         <select
@@ -133,7 +143,7 @@ const Register = () => {
           id="bio"
           name="bio"
           rows="4"
-          cols="50"
+          cols="40"
           onChange={formik.handleChange}
           value={formik.values.bio}
         />
@@ -162,19 +172,19 @@ const Register = () => {
         </label>
 
         <label htmlFor="avatar">Avatar: </label>
-        <input
-          id="avatar"
-          name="avatar"
-          type="file"
-          onChange={(event) => {
-            formik.setFieldValue("avatar", event.currentTarget.files[0]);
-          }}
-        />
+        <div className="file-input-container">
+          <input
+            id="avatar"
+            name="avatar"
+            type="file"
+            onChange={(event) => {
+              formik.setFieldValue('avatar', event.currentTarget.files[0]);
+            }}
+          />
+        </div>
+
         <br />
-        <ReusableStyledButton 
-            title="Submit"
-            type="submit"
-        />
+        <ReusableStyledButton title="Submit" type="submit" />
       </form>
     </div>
   );

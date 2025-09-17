@@ -1,15 +1,19 @@
-import { useState } from "react";
-import { FetcherContext } from "./FetcherContext.jsx";
-import { useAuth } from "../../hooks/useAuth.js"; // 👈 get tokens from here
+import { useState } from 'react';
+import { FetcherContext } from './FetcherContext.jsx';
+import { useAuth } from '../../hooks/useAuth.js'; // 👈 get tokens from here
 
 export const FetcherProvider = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { accessToken, refreshToken, logout } = useAuth();
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
 
-  const fetcher = async (url, options = {}, fallbackError = "An error occurred.") => {
-    const finalUrl = url.startsWith("/") ? `${backendUrl}${url}` : url;
+  const fetcher = async (
+    url,
+    options = {},
+    fallbackError = 'An error occurred.'
+  ) => {
+    const finalUrl = url.startsWith('/') ? `${backendUrl}${url}` : url;
 
     // attach access token if present
     const headers = {
@@ -17,7 +21,7 @@ export const FetcherProvider = ({ children }) => {
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
     };
 
-    const config = { credentials: "include", ...options, headers };
+    const config = { credentials: 'include', ...options, headers };
 
     try {
       let response = await fetch(finalUrl, config);
@@ -30,7 +34,7 @@ export const FetcherProvider = ({ children }) => {
           response = await fetch(finalUrl, config); // retry once
         } else {
           logout(); // refresh failed → force logout
-          return { success: false, error: "Session expired", status: 401 };
+          return { success: false, error: 'Session expired', status: 401 };
         }
       }
 
@@ -46,7 +50,7 @@ export const FetcherProvider = ({ children }) => {
       return { success: true, data };
     } catch (err) {
       setIsLoaded(true);
-      return { success: false, error: "Network error", status: null };
+      return { success: false, error: 'Network error', status: null };
     }
   };
 

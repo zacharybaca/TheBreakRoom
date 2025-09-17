@@ -2,65 +2,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Maps&display=swap');
 
 #nav-bar-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    min-width: 100%;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    padding-left: 2%;
-    padding-right: 2%;
-    background: linear-gradient(90deg, #ff914d, #ff4d4d);
-    color: white;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 100%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
+  background: linear-gradient(90deg, #ff914d, #ff4d4d);
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .nav-bar-images {
-    height: 10vh;
+  height: 10vh;
 }
 
 .nav-bar-images:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .nav-bar-images-default {
-    height: 10vh;
-    cursor: default;
+  height: 10vh;
+  cursor: default;
 }
 
 #menu-icon-container {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 1%;
-    min-width: 100%;
-    background: linear-gradient(90deg, #ff914d, #ff4d4d);
-    color: white;
-    border-bottom: none;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1%;
+  min-width: 100%;
+  background: linear-gradient(90deg, #ff914d, #ff4d4d);
+  color: white;
+  border-bottom: none;
 }
 
 #notification-icon {
-    display: flex;
-    justify-content: space-between;
-    min-width: 52%;
+  display: flex;
+  justify-content: space-between;
+  min-width: 52%;
 }
 
 #notifications-group {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 1%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1%;
 }
 
 #notifications-group h3 {
-    font-family: "Rubik Maps", system-ui;
-    font-weight: 400;
-    font-style: normal;
-    padding: 5%;
+  font-family: 'Rubik Maps', system-ui;
+  font-weight: 400;
+  font-style: normal;
+  padding: 5%;
 }
 
 @media screen and (max-width: 390px) {
-    #notifications-group {
-        flex-direction: column;
-    }
+  #notifications-group {
+    flex-direction: column;
+  }
 }

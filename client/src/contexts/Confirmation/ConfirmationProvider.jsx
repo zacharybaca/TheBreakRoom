@@ -1,73 +1,76 @@
-import { useState } from "react";
-import { ConfirmationContext } from "./ConfirmationContext.jsx";
-
+import { useState } from 'react';
+import { ConfirmationContext } from './ConfirmationContext.jsx';
 
 export const ConfirmationProvider = ({ children }) => {
+  const [showDialog, setShowDialog] = useState(true);
+  const [proceed, setProceed] = useState(false);
+  const [enableBackgroundOptions, setEnableBackgroundOptions] = useState(false);
+  const [dialogQuestion, setDialogQuestion] = useState('');
+  const [background, setBackground] = useState(
+    localStorage.getItem('background') ||
+      localStorage.setItem('background', 'background-default')
+  );
 
-    const [showDialog, setShowDialog] = useState(true);
-    const [proceed, setProceed] = useState(false);
-    const [enableBackgroundOptions, setEnableBackgroundOptions] = useState(false);
-    const [dialogQuestion, setDialogQuestion] = useState("");
-    const [background, setBackground] = useState(localStorage.getItem("background") || localStorage.setItem("background", "background-default"));
+  const handleConfirm = (e) => {
+    if (e.target.value === 'confirm') {
+      setShowDialog(false);
+      setProceed(true);
+    }
+  };
 
-    const handleConfirm = (e) => {
-        if (e.target.value === 'confirm') {
-            setShowDialog(false);
-            setProceed(true);
-        };
-    };
+  const handleCancel = (e) => {
+    if (e.target.value === 'cancel') {
+      setShowDialog(false);
+      setProceed(false);
+    }
+  };
 
-    const handleCancel = (e) => {
-        if (e.target.value === 'cancel') {
-            setShowDialog(false);
-            setProceed(false);
-        };
-    };
+  const handleBackgroundOptions = (e) => {
+    if (!localStorage.getItem('background')) {
+      localStorage.setItem('background', e.target.value);
+      setBackground(localStorage.getItem('background'));
+    } else if (localStorage.getItem('background')) {
+      if (
+        e.target.value &&
+        e.target.value !== localStorage.getItem('background')
+      ) {
+        localStorage.removeItem('background');
+        localStorage.setItem('background', e.target.value);
+        setBackground(localStorage.getItem('background'));
+      } else {
+        setBackground(localStorage.getItem('background'));
+      }
+    }
+  };
 
-    const handleBackgroundOptions = (e) => {
-        if (!localStorage.getItem("background")) {
-            localStorage.setItem("background", e.target.value);
-            setBackground(localStorage.getItem("background"));
-        }
-        else if (localStorage.getItem("background")) {
-            if (e.target.value && e.target.value !== localStorage.getItem("background")) {
-                localStorage.removeItem("background");
-                localStorage.setItem("background", e.target.value);
-                setBackground(localStorage.getItem("background"));
-            }
-            else {
-                setBackground(localStorage.getItem("background"));
-            }
-        }
-    };
+  const toggleBackgroundOptions = (question) => {
+    setEnableBackgroundOptions((prevState) => !prevState);
+    if (enableBackgroundOptions) {
+      setDialogQuestion(question);
+    }
+  };
 
-    const toggleBackgroundOptions = (question) => {
-        setEnableBackgroundOptions(prevState => !prevState);
-        if (enableBackgroundOptions) {
-            setDialogQuestion(question);
-        }
-    };
+  const handleDialogQuestion = (question) => {
+    setShowDialog(true);
+    setDialogQuestion(question);
+  };
 
-    const handleDialogQuestion = (question) => {
-        setShowDialog(true);
-        setDialogQuestion(question);
-    };
-
-    return (
-        <ConfirmationContext.Provider
-            value={{
-                showDialog,
-                dialogQuestion,
-                proceed,
-                background,
-                enableBackgroundOptions,
-                handleConfirm,
-                handleCancel,
-                handleDialogQuestion,
-                handleBackgroundOptions,
-                toggleBackgroundOptions
-            }}>
-            {children}
-        </ConfirmationContext.Provider>
-    );
-}
+  return (
+    <ConfirmationContext.Provider
+      value={{
+        showDialog,
+        dialogQuestion,
+        proceed,
+        background,
+        enableBackgroundOptions,
+        handleConfirm,
+        handleCancel,
+        handleDialogQuestion,
+        handleBackgroundOptions,
+        toggleBackgroundOptions,
+      }}
+    >
+      {children}
+    </ConfirmationContext.Provider>
+  );
+};

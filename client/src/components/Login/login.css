@@ -36,14 +36,6 @@
   font-style: normal;
 }
 
-.file-input-container {
-  display: flex;
-  justify-content: center;
-  padding-left: 4rem;
-  max-width: 100%;
-  border: 2px solid black;
-}
-
 @media screen and (max-width: 390px) {
   .form-container h1,
   .form-container h2 {
@@ -53,9 +45,5 @@
   .form-container {
     max-width: 95vw;
     padding: 1rem;
-  }
-
-  .file-input-container {
-    max-width:fit-content;
   }
 }
