@@ -64,6 +64,16 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
               Breakrooms
             </a>
           </li>
+          <li>
+            <a href="/admin-settings">
+              <img
+                src="/assets/admin-settings-icon.png"
+                className="menu-image-class"
+                alt="admin settings icon"
+              />
+              Admin Settings
+            </a>
+          </li>
         </ul>
         <Button variant="danger" id="delete-button">
           Delete Account
