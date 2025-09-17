@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
 
@@ -46,4 +46,88 @@
     max-width: 95vw;
     padding: 1rem;
   }
+} */
+
+/* ------------------------------
+   Login Form Styles (Nine2Five)
+   ------------------------------ */
+
+.form-container {
+  max-width: 420px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.form-container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+  color: #222;
+  font-weight: 600;
+}
+
+.form-container h2 {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+/* Group wrapper for inputs + labels */
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+/* Label styling */
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Input fields */
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  background-color: #fafafa;
+  transition: all 0.25s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #007bff; /* Primary brand color */
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* Error message styling */
+.error-text {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: #d9534f; /* Bootstrap red */
+  font-weight: 500;
+}
+
+/* Reusable button alignment */
+button[type="submit"] {
+  margin-top: 0.5rem;
+  width: 100%;
+  border-radius: 10px;
+  font-size: 1rem;
+  padding: 0.85rem;
+  transition: all 0.25s ease;
+}
+
+button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
