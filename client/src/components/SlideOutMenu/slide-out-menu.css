@@ -31,6 +31,10 @@
   margin-bottom: 1rem;
 }
 
+.close-btn:hover {
+  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+}
+
 /* Menu list */
 .slideout ul {
   list-style: none;
