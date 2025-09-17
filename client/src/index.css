@@ -9,7 +9,7 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  cursor: url('/assets/regular-cursor.png') 16 16, auto;
+  cursor: url('/assets/regular-cursor.png') 0 0, auto;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -27,7 +27,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  cursor: url('/assets/pointer-cursor.png') 16 16, auto;
+  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
   color: #535bf2;
 }
 
@@ -52,11 +52,11 @@ button {
   font-size: 1em;
   font-weight: 500;
   background-color: #1a1a1a;
-  cursor: url('/assets/regular-cursor.png') 16 16, auto;
+  cursor: url('/assets/regular-cursor.png') 0 0, auto;
   transition: border-color 0.25s;
 }
 button:hover {
-  cursor: url('/assets/pointer-cursor.png') 16 16, auto;
+  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
   border-color: #646cff;
 }
 button:focus,
