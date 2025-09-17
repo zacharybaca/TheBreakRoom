@@ -4,6 +4,7 @@ import Register from './components/Register/Register.jsx';
 import Login from './components/Login/Login.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import Footer from './components/Footer/Footer.jsx';
+import ErrorModal from './components/ErrorModal/ErrorModal.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 function App() {
@@ -34,6 +35,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/error" element={<ErrorModal 
+                                           errorStatement="Something went wrong while fetching data!"
+                                           errorIcon="/assets/error.png"
+                                           onClose={() => console.log("Error modal closed")}                         
+                                          />} 
+          />
         </Routes>
       </main>
       <hr />
