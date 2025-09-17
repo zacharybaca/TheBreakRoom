@@ -32,7 +32,7 @@
   height: auto;
   margin-bottom: 1rem;
   object-fit: contain;
-  background: #ffd6a3;
+  border-radius: 10px;
 }
 
 .error-confirm-button {
