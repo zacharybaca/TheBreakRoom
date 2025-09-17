@@ -5,6 +5,7 @@ import Login from './components/Login/Login.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import ErrorModal from './components/ErrorModal/ErrorModal.jsx';
+import Confirmation from './components/Confirmation/Confirmation.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             </div>
           </div>
         )}
+         
         <Routes>
           <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />} />
