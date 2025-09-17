@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
 
@@ -57,5 +57,140 @@
 
   .file-input-container {
     max-width:fit-content;
+  }
+} */
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* ---------- Form Container ---------- */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  background: linear-gradient(180deg, #ffffff, #f7f7f7);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- Headings ---------- */
+.form-container h1,
+.form-container h2 {
+  font-family: 'Audiowide', sans-serif;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+/* ---------- Form Layout ---------- */
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ---------- Labels ---------- */
+.form-container form label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+  align-self: flex-start;
+}
+
+/* ---------- Inputs, Selects, Textareas ---------- */
+.form-container form input,
+.form-container form select,
+.form-container form textarea {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  background: #fff;
+}
+
+.form-container form textarea {
+  border-radius: 12px;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-container form input:focus,
+.form-container form select:focus,
+.form-container form textarea:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 6px rgba(249, 115, 22, 0.3);
+}
+
+/* ---------- Error Messages ---------- */
+.form-container form p {
+  color: #d9534f;
+  font-size: 0.85rem;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  align-self: flex-start;
+}
+
+/* ---------- Checkbox ---------- */
+.form-container form label input[type="checkbox"] {
+  margin-right: 0.5rem;
+  transform: scale(1.2);
+}
+
+/* ---------- File Input ---------- */
+.file-input-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.file-input-container input[type="file"] {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
+
+/* ---------- Submit Button ---------- */
+/* assuming ReusableStyledButton has class .reusable-styled-button */
+.reusable-styled-button {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 50px;
+  border: none;
+  background: #f97316; /* warm orange */
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: transform 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+}
+
+.reusable-styled-button:hover {
+  transform: translateY(-2px);
+  background: #ea580c;
+}
+
+/* ---------- Responsive ---------- */
+@media screen and (max-width: 390px) {
+  .form-container {
+    padding: 1.5rem;
+    max-width: 95vw;
+  }
+
+  .form-container h1,
+  .form-container h2 {
+    font-size: 1.2rem;
   }
 }
