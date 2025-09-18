@@ -33,22 +33,24 @@
 .dialog-question {
   margin-bottom: 1.5rem;
   color: #d62828;
-  font-family: "Gloria Hallelujah", cursive;
+  font-family: 'Gloria Hallelujah', cursive;
   font-weight: 800;
   font-size: 1.75rem;
 }
 
 /* Shared button styles */
 .dialog-content button {
-  font-family: "Gloria Hallelujah", cursive;
+  font-family: 'Gloria Hallelujah', cursive;
   font-weight: 800;
   font-size: 1rem;
   padding: 0.75rem 1.25rem;
   margin: 0.5rem;
   border: none;
   border-radius: 10px;
-  cursor: url("../../assets/click.png"), pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: url('../../assets/click.png'), pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .dialog-content button:hover {
@@ -76,9 +78,18 @@
 
 .glow-on-hover:before {
   content: '';
-  background: linear-gradient(45deg,
-    #ff0000, #ff7300, #fffb00, #48ff00,
-    #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
   position: absolute;
   top: -2px;
   left: -2px;
@@ -89,7 +100,7 @@
   height: calc(100% + 4px);
   animation: glowing 20s linear infinite;
   opacity: 0;
-  transition: opacity .3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
   border-radius: inherit;
 }
 
@@ -109,9 +120,15 @@
 }
 
 @keyframes glowing {
-  0% { background-position: 0 0; }
-  50% { background-position: 400% 0; }
-  100% { background-position: 0 0; }
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }
 
 /* Mobile responsiveness */

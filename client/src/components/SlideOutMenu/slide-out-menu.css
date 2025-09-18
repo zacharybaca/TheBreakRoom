@@ -26,13 +26,17 @@
   border: none;
   font-size: 2rem;
   color: white;
-  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/pointer-cursor.png') 0 0,
+    auto;
   align-self: flex-end;
   margin-bottom: 1rem;
 }
 
 .close-btn:hover {
-  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/pointer-cursor.png') 0 0,
+    auto;
 }
 
 /* Menu list */
@@ -46,7 +50,9 @@
   display: flex;
   align-items: center; /* vertical centering of icon + text */
   margin: 1rem 0;
-  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/pointer-cursor.png') 0 0,
+    auto;
 }
 
 .slideout a {
@@ -62,7 +68,9 @@
 }
 
 .slideout a:hover {
-  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/pointer-cursor.png') 0 0,
+    auto;
   color: #ffe0d1; /* subtle hover effect */
 }
 
@@ -71,14 +79,18 @@
   width: 30px;
   height: 30px;
   flex-shrink: 0; /* prevents shrinking */
-  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/pointer-cursor.png') 0 0,
+    auto;
 }
 
 /* Standalone button (like login at top) */
 .slideout button img {
   width: 40px;
   height: 40px;
-  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/pointer-cursor.png') 0 0,
+    auto;
 }
 
 /* Optional dividers between items */
@@ -101,5 +113,7 @@
 #delete-button {
   color: white;
   background-color: red;
-  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/pointer-cursor.png') 0 0,
+    auto;
 }

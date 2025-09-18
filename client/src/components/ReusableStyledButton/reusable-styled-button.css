@@ -86,5 +86,7 @@
 }
 
 .reusable-styled-button:hover {
-  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/pointer-cursor.png') 0 0,
+    auto;
 }

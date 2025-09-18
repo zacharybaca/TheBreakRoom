@@ -144,7 +144,7 @@
 }
 
 /* ---------- Checkbox ---------- */
-.form-container form label input[type="checkbox"] {
+.form-container form label input[type='checkbox'] {
   margin-right: 0.5rem;
   transform: scale(1.2);
 }
@@ -157,7 +157,7 @@
   margin-bottom: 1.25rem;
 }
 
-.file-input-container input[type="file"] {
+.file-input-container input[type='file'] {
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
 }
@@ -173,7 +173,9 @@
   color: white;
   font-size: 1.1rem;
   font-weight: bold;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
   cursor: pointer;
 }
 

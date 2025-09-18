@@ -3,9 +3,9 @@ import './confirmation.css';
 
 const Confirmation = ({
   showDialog = false,
-  dialogQuestion = "Are you sure you want to perform this action?",
+  dialogQuestion = 'Are you sure you want to perform this action?',
   onConfirm,
-  onCancel
+  onCancel,
 }) => {
   if (!showDialog) return null;
 

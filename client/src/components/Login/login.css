@@ -118,7 +118,7 @@
 }
 
 /* Reusable button alignment */
-button[type="submit"] {
+button[type='submit'] {
   margin-top: 0.5rem;
   width: 100%;
   border-radius: 10px;
@@ -127,7 +127,7 @@ button[type="submit"] {
   transition: all 0.25s ease;
 }
 
-button[type="submit"]:disabled {
+button[type='submit']:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }

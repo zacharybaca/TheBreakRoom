@@ -33,15 +33,19 @@ function App() {
             </div>
           </div>
         )}
-         
+
         <Routes>
           <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/error" element={<ErrorModal 
-                                           errorStatement="Something went wrong while fetching data!"
-                                           errorIcon="/assets/error.png"
-                                           onClose={() => console.log("Error modal closed")}                         
-                                          />} 
+          <Route
+            path="/error"
+            element={
+              <ErrorModal
+                errorStatement="Something went wrong while fetching data!"
+                errorIcon="/assets/error.png"
+                onClose={() => console.log('Error modal closed')}
+              />
+            }
           />
         </Routes>
       </main>

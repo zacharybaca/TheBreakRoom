@@ -91,8 +91,8 @@ import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.j
 const Login = () => {
   const formik = useFormik({
     initialValues: {
-      identifier: "",
-      password: "",
+      identifier: '',
+      password: '',
     },
     validationSchema: Yup.object({
       identifier: Yup.string().required('Username or E-mail is required'),
@@ -118,7 +118,7 @@ const Login = () => {
         const data = await res.json();
         console.log('✅ Logged-in successfully:', data);
 
-        resetForm(); 
+        resetForm();
       } catch (err) {
         console.error('❌ Error submitting form:', err);
       } finally {
@@ -143,7 +143,9 @@ const Login = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.identifier}
-            aria-invalid={formik.touched.identifier && !!formik.errors.identifier}
+            aria-invalid={
+              formik.touched.identifier && !!formik.errors.identifier
+            }
             aria-describedby="identifier-error"
           />
           {formik.touched.identifier && formik.errors.identifier && (
@@ -173,9 +175,9 @@ const Login = () => {
           )}
         </div>
 
-        <ReusableStyledButton 
-          title={formik.isSubmitting ? "Logging in..." : "Login"} 
-          type="submit" 
+        <ReusableStyledButton
+          title={formik.isSubmitting ? 'Logging in...' : 'Login'}
+          type="submit"
           disabled={formik.isSubmitting}
         />
       </form>

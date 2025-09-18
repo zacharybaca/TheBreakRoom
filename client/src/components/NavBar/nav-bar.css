@@ -21,12 +21,16 @@
 }
 
 .nav-bar-images:hover {
-  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/pointer-cursor.png') 0 0,
+    auto;
 }
 
 .nav-bar-images-default {
   height: 10vh;
-  cursor: url('/assets/regular-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/regular-cursor.png') 0 0,
+    auto;
 }
 
 #menu-icon-container {
