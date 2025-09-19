@@ -50,7 +50,14 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  align-content: center;
+  border: 2px solid black;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
 }
 
 /* ---------- Headings ---------- */
@@ -162,7 +169,6 @@
   width: 48%;
   padding: 0.95rem;
   border-radius: 50px;
-  border: none;
   background: #f97316;
   color: white;
   font-size: 1rem;
@@ -179,7 +185,7 @@
 /* ---------- Step Actions ---------- */
 .step-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   margin-top: 1rem;
 }
