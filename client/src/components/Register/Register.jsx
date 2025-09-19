@@ -18,7 +18,7 @@ const stepVariants = {
   }),
 };
 
-const Register = ({ isOpen, onClose }) => {
+const Register = () => {
   const { direction, setDirection, step, setStep, isOpen, onClose } = useModal();
 
   const formik = useFormik({
