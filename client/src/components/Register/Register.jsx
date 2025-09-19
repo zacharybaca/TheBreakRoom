@@ -79,7 +79,7 @@ const Register = () => {
           value={formik.values.name}
         />
         {formik.touched.name && formik.errors.name && (
-          <p>{formik.errors.name}</p>
+          <p className="form-error">{formik.errors.name}</p>
         )}
 
         <label htmlFor="username">Enter A Username: </label>
@@ -91,7 +91,7 @@ const Register = () => {
           value={formik.values.username}
         />
         {formik.touched.username && formik.errors.username && (
-          <p>{formik.errors.username}</p>
+          <p className="form-error">{formik.errors.username}</p>
         )}
 
         <label htmlFor="email">Enter Your E-mail: </label>
@@ -103,7 +103,7 @@ const Register = () => {
           value={formik.values.email}
         />
         {formik.touched.email && formik.errors.email && (
-          <p>{formik.errors.email}</p>
+          <p className="form-error">{formik.errors.email}</p>
         )}
 
         <label htmlFor="password">Enter A Password: </label>
@@ -115,7 +115,7 @@ const Register = () => {
           value={formik.values.password}
         />
         {formik.touched.password && formik.errors.password && (
-          <p>{formik.errors.password}</p>
+          <p className="form-error">{formik.errors.password}</p>
         )}
 
         <label htmlFor="role">Select A Role: </label>
@@ -128,6 +128,9 @@ const Register = () => {
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>
+        {formik.touched.role && formik.errors.role && (
+          <p className="form-error">{formik.errors.role}</p>
+        )}
 
         <label htmlFor="job">Job Title: </label>
         <input
@@ -137,6 +140,9 @@ const Register = () => {
           onChange={formik.handleChange}
           value={formik.values.job}
         />
+        {formik.touched.job && formik.errors.job && (
+          <p className="form-error">{formik.errors.job}</p>
+        )}
 
         <label htmlFor="bio">Enter A Bio: </label>
         <textarea
@@ -147,6 +153,9 @@ const Register = () => {
           onChange={formik.handleChange}
           value={formik.values.bio}
         />
+        {formik.touched.bio && formik.errors.bio && (
+          <p className="form-error">{formik.errors.bio}</p>
+        )}
 
         <label htmlFor="gender">Gender: </label>
         <select
@@ -160,6 +169,9 @@ const Register = () => {
           <option value="female">Female</option>
           <option value="other">Other</option>
         </select>
+        {formik.touched.gender && formik.errors.gender && (
+          <p className="form-error">{formik.errors.gender}</p>
+        )}
 
         <label>
           <input
@@ -182,6 +194,9 @@ const Register = () => {
             }}
           />
         </div>
+        {formik.touched.avatar && formik.errors.avatar && (
+          <p className="form-error">{formik.errors.avatar}</p>
+        )}
 
         <br />
         <ReusableStyledButton title="Submit" type="submit" />
