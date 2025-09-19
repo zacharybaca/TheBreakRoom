@@ -8,15 +8,16 @@ import { ModalProvider } from './Modal/ModalProvider';
 export const AppProvider = ({ children }) => {
   return (
     <Router>
-      <ModalProvider>
-        <ConfirmationProvider>
-        <ToggleProvider>
-          <AuthProvider>
-            <FetcherProvider>{children}</FetcherProvider>
-          </AuthProvider>
-        </ToggleProvider>
-      </ConfirmationProvider>
-      </ModalProvider>
+      {/* AuthProvider is outermost so all providers have access to auth */}
+      <AuthProvider>
+        <ModalProvider>
+          <ConfirmationProvider>
+            <ToggleProvider>
+              <FetcherProvider>{children}</FetcherProvider>
+            </ToggleProvider>
+          </ConfirmationProvider>
+        </ModalProvider>
+      </AuthProvider>
     </Router>
   );
 };
