@@ -6,7 +6,7 @@ const Footer = () => {
     <footer>
       {/* Top Section */}
       <div className="footer-top">
-        <p className="tagline">Work smarter, not longer.</p>
+        <p className="tagline">From the breakroom, to the world....we speak.</p>
         <nav className="footer-links">
           <a href="/about">About</a>
           <a href="/contact">Contact</a>
