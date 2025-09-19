@@ -1,9 +1,7 @@
 // components/Modal.jsx
 import "./modal.css";
-import { useModal } from '../../hooks/useModal';
 
-const Modal = () => {
-    const { isOpen, onClose } = useModal();
+const Modal = ({ isOpen, onClose}) => {
 
     if (!isOpen) return null;
 
