@@ -15,7 +15,7 @@ const stepVariants = {
 
 // Step components for clarity
 const Step1 = ({ formik, nextStep }) => (
-  <>
+  <div className="form-fields">
     <label>Name:</label>
     <input
       name="name"
@@ -48,11 +48,11 @@ const Step1 = ({ formik, nextStep }) => (
     <div className="step-actions">
       <ReusableStyledButton title="Next" type="button" onClick={nextStep} />
     </div>
-  </>
+  </div>
 );
 
 const Step2 = ({ formik, nextStep, prevStep }) => (
-  <>
+  <div className="form-fields">
     <label>Password:</label>
     <input
       name="password"
@@ -74,11 +74,11 @@ const Step2 = ({ formik, nextStep, prevStep }) => (
       <ReusableStyledButton title="Back" type="button" onClick={prevStep} />
       <ReusableStyledButton title="Next" type="button" onClick={nextStep} />
     </div>
-  </>
+  </div>
 );
 
 const Step3 = ({ formik, prevStep }) => (
-  <>
+  <div className="form-fields">
     <label>Job Title:</label>
     <input name="job" onChange={formik.handleChange} value={formik.values.job} />
 
@@ -104,7 +104,7 @@ const Step3 = ({ formik, prevStep }) => (
       <ReusableStyledButton title="Back" type="button" onClick={prevStep} />
       <ReusableStyledButton title="Submit" type="submit" />
     </div>
-  </>
+  </div>
 );
 
 const Register = () => {
