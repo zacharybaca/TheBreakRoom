@@ -1,7 +1,7 @@
 import "./register.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useModal } from '../../hooks/useModal';
 import Modal from "../Modal/Modal.jsx";
 import ReusableStyledButton from "../ReusableStyledButton/ReusableStyledButton.jsx";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,8 +19,7 @@ const stepVariants = {
 };
 
 const Register = ({ isOpen, onClose }) => {
-  const [step, setStep] = useState(1);
-  const [direction, setDirection] = useState(0); // 1 = next, -1 = back
+  const { direction, setDirection, step, setStep, isOpen, onClose } = useModal();
 
   const formik = useFormik({
     initialValues: {
