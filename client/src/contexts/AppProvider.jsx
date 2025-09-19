@@ -1,10 +1,11 @@
 // AppProvider.jsx
 import { BrowserRouter as Router } from 'react-router-dom';
 import { FetcherProvider } from './Fetcher/FetcherProvider';
-import { AuthProvider, useAuth } from './Auth/AuthProvider';
+import { AuthProvider } from './Auth/AuthProvider';
 import { ToggleProvider } from './Toggle/ToggleProvider';
 import { ConfirmationProvider } from './Confirmation/ConfirmationProvider';
 import { ModalProvider } from './Modal/ModalProvider';
+import { useAuth } from '../hooks/useAuth';
 
 // Loader component
 const Loader = () => (
