@@ -1,8 +1,11 @@
 // components/Modal.jsx
 import "./modal.css";
+import { useModal } from '../../hooks/useModal';
 
-const Modal = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
+const Modal = () => {
+    const { isOpen, onClose } = useModal();
+
+    if (!isOpen) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
