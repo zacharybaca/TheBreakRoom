@@ -6,6 +6,10 @@ export const ModalProvider = ({ children }) => {
     const [direction, setDirection] = useState(0); // 1 = next, -1 = back
     const [isOpen, setIsOpen] = useState(false);
 
+    const onClose = () => {
+        setIsOpen(false);
+    }
+
     return (
         <ModalContext.Provider value={{
             step,
@@ -13,7 +17,8 @@ export const ModalProvider = ({ children }) => {
             direction,
             setDirection,
             isOpen,
-            setIsOpen
+            setIsOpen,
+            onClose
         }}>
             {children}
         </ModalContext.Provider>
