@@ -12,17 +12,14 @@ export const AuthProvider = ({ children }) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ identifier, password }),
-      credentials: 'include', // include refresh token cookie
+      credentials: 'include',
     });
 
     const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || 'Login failed');
-    }
+    if (!res.ok) throw new Error(data.message || 'Login failed');
 
     localStorage.setItem('accessToken', data.accessToken);
-    setUser(data.user || null); // make sure backend sends user info
+    setUser(data.user || null);
   };
 
   const logoutUser = async () => {
@@ -32,22 +29,26 @@ export const AuthProvider = ({ children }) => {
   };
 
   const refreshToken = async () => {
-    const res = await fetch('/api/auth/refresh', {
-      method: 'POST', // ⬅️ changed from GET
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json', // good practice with POST, even if no body
-      },
-    });
+    try {
+      const res = await fetch('/api/auth/refresh', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-    const data = await res.json();
+      // handle non-JSON or empty response gracefully
+      if (!res.ok) return null;
 
-    if (!res.ok) {
-      throw new Error(data.message || 'Token refresh failed');
+      const text = await res.text();
+      if (!text) return null;
+
+      const data = JSON.parse(text);
+      localStorage.setItem('accessToken', data.accessToken);
+      return data.accessToken;
+    } catch (err) {
+      console.warn('Refresh token failed:', err.message);
+      return null;
     }
-
-    localStorage.setItem('accessToken', data.accessToken);
-    return data.accessToken;
   };
 
   const fetchProtectedData = async () => {
@@ -63,20 +64,21 @@ export const AuthProvider = ({ children }) => {
     const initAuth = async () => {
       try {
         const token = await refreshToken();
+        if (!token) {
+          setUser(null);
+          return;
+        }
 
-        // Fetch user profile after refresh
         const res = await fetch('/api/auth/me', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const userData = await res.json();
-        if (res.ok) {
-          setUser(userData);
-        } else {
-          setUser(null);
-        }
+        const text = await res.text();
+        const userData = text ? JSON.parse(text) : null;
+
+        setUser(res.ok ? userData : null);
       } catch (err) {
-        console.error('User could not be authenticated', err.message);
+        console.warn('User could not be authenticated', err.message);
         setUser(null);
       } finally {
         setLoading(false);
