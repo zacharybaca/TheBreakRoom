@@ -1,77 +1,75 @@
-/* ---- Footer Styling ---- */
-
 footer {
-  background: linear-gradient(to top, #0072ff, #00c6ff); /* blue gradient */
-  color: white;
-  padding: 2rem 1rem;
+  background: linear-gradient(90deg, #005ab4, #0cb1ff);
+  color: #fdfdfd;
   text-align: center;
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.5rem 1rem;
+  border-top: 2px solid rgba(255, 255, 255, 0.2); /* subtle divider */
+  font-size: 0.9rem;
 }
 
 /* Tagline */
-footer .tagline {
-  font-size: 0.95rem;
+.tagline {
+  font-size: 1rem;
   font-style: italic;
+  margin-bottom: 0.5rem;
+  color: #e3f2fd;
+}
+
+/* Navigation Links */
+.footer-links {
   margin-bottom: 1rem;
-  color: #e0e0e0;
 }
 
-/* Links (About, Contact, Privacy, Terms) */
-footer .footer-links {
-  margin: 0.75rem 0 1.25rem;
-}
-
-footer .footer-links a {
-  color: #ffffff;
+.footer-links a {
+  color: #fdfdfd;
   margin: 0 0.75rem;
-  font-size: 0.9rem;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
-footer .footer-links a:hover {
-  color: #ffdf5d; /* highlight gold */
+.footer-links a:hover {
+  color: #ffe082;
 }
 
-/* Copyright */
-footer .copyright {
+/* Bottom Section */
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-bottom .copyright {
+  margin: 0;
   font-size: 0.85rem;
-  margin-bottom: 1rem;
-  color: #f0f0f0;
+  color: #fdfdfd;
 }
 
 /* Social Icons */
-footer .social-icons {
-  margin-top: 0.5rem;
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.25rem;
 }
 
-footer .social-icons a {
-  display: inline-block;
-  margin: 0 0.5rem;
-  font-size: 1.4rem;
-  color: #ffffff;
-  transition: transform 0.3s ease, color 0.3s ease;
+.social-icons a {
+  color: #fdfdfd;
+  transition: transform 0.2s ease, color 0.3s ease;
 }
 
-footer .social-icons a:hover {
-  color: #ffdf5d; /* highlight gold */
-  transform: scale(1.15);
+.social-icons a:hover {
+  transform: scale(1.2);
+  color: #ffe082;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  footer {
-    padding: 1.5rem 0.75rem;
-  }
-
-  footer .footer-links a {
+/* Responsive */
+@media screen and (max-width: 480px) {
+  .footer-links a {
     display: block;
-    margin: 0.4rem 0;
+    margin: 0.25rem 0;
   }
 
-  footer .social-icons a {
-    font-size: 1.2rem;
-    margin: 0 0.4rem;
+  .footer-bottom {
+    gap: 0.75rem;
   }
 }
