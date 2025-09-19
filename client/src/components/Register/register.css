@@ -1,100 +1,94 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
-
-.form-container {
+/* ---------- Modal Overlay ---------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1.75rem;
-  box-sizing: border-box;
-  max-width: 100vw;
-  background-color: #ffe9dc;
-  border: 2px solid black;
-  border-radius: 10px;
-}
-
-.form-container form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 50%;
-}
-
-.form-container form label {
-  font-family: 'Audiowide', sans-serif;
-  font-weight: 400;
-  font-style: normal;
+  z-index: 999;
   padding: 1rem;
 }
 
-.form-container h1,
-.form-container h2 {
-  font-family: 'Rubik Glitch', system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.file-input-container {
+/* ---------- Modal Content ---------- */
+.modal-content {
+  background: #fffaf6; /* warm background */
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+  position: relative;
   display: flex;
-  justify-content: center;
-  padding-left: 4rem;
-  max-width: 100%;
-  border: 2px solid black;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
 }
 
-@media screen and (max-width: 390px) {
-  .form-container h1,
-  .form-container h2 {
-    text-align: center;
-  }
+/* ---------- Close Button ---------- */
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #f97316; /* brand accent */
+  transition: transform 0.2s;
+}
 
-  .form-container {
-    max-width: 95vw;
-    padding: 1rem;
-  }
-
-  .file-input-container {
-    max-width:fit-content;
-  }
-} */
-
-/* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+.modal-close:hover {
+  transform: rotate(90deg);
+}
 
 /* ---------- Form Container ---------- */
 .form-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 0.25rem;
-  max-width: 600px;
-  margin: 2rem auto;
-  box-sizing: border-box;
-  background: linear-gradient(180deg, #ffffff, #f7f7f7);
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* ---------- Headings ---------- */
-.form-container h1,
-.form-container h2 {
+.form-container h1 {
   font-family: 'Audiowide', sans-serif;
-  font-weight: 400;
-  text-align: center;
-  margin-bottom: 1rem;
+  font-size: 1.8rem;
   color: #222;
+  margin-bottom: 0.25rem;
+  text-align: center;
 }
 
-/* ---------- Form Layout ---------- */
-.form-container form {
+.form-container h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* ---------- Step Indicator ---------- */
+.step-indicator {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  box-sizing: border-box;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.step-indicator div {
+  width: 10px;
+  height: 10px;
+  background: #ccc;
+  border-radius: 50%;
+  margin: 0 6px;
+  transition: background 0.3s;
+}
+
+.step-indicator div.active {
+  background: #f97316;
 }
 
 /* ---------- Labels ---------- */
@@ -112,9 +106,9 @@
 .form-container form select,
 .form-container form textarea {
   width: 100%;
-  padding: 0.9rem 1rem;
+  padding: 0.85rem 1rem;
   margin-bottom: 1.25rem;
-  border: 1px solid #ccc;
+  border: 1.5px solid #ddd;
   border-radius: 50px;
   font-size: 1rem;
   font-family: 'Inter', sans-serif;
@@ -140,7 +134,7 @@
 .form-error {
   color: #d9534f;
   font-size: 0.85rem;
-  margin-top: -1rem;
+  margin-top: -0.8rem;
   margin-bottom: 1rem;
   align-self: flex-start;
 }
@@ -154,7 +148,6 @@
 /* ---------- File Input ---------- */
 .file-input-container {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
   margin-bottom: 1.25rem;
 }
@@ -164,20 +157,17 @@
   font-size: 0.9rem;
 }
 
-/* ---------- Submit Button ---------- */
-/* assuming ReusableStyledButton has class .reusable-styled-button */
+/* ---------- Buttons ---------- */
 .reusable-styled-button {
-  width: 100%;
-  padding: 1rem;
+  width: 48%;
+  padding: 0.95rem;
   border-radius: 50px;
   border: none;
-  background: #f97316; /* warm orange */
+  background: #f97316;
   color: white;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: bold;
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
   cursor: pointer;
 }
 
@@ -186,15 +176,34 @@
   background: #ea580c;
 }
 
+/* ---------- Step Actions ---------- */
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+
 /* ---------- Responsive ---------- */
-@media screen and (max-width: 390px) {
-  .form-container {
-    padding: 1.5rem;
-    max-width: 95vw;
+@media screen and (max-width: 420px) {
+  .modal-content {
+    padding: 1.8rem 1rem;
   }
 
-  .form-container h1,
+  .form-container h1 {
+    font-size: 1.5rem;
+  }
+
   .form-container h2 {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .step-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .reusable-styled-button {
+    width: 100%;
   }
 }
