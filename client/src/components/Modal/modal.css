@@ -1,0 +1,109 @@
+/* ---------- Modal Overlay ---------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55); /* dim background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 1rem;
+  backdrop-filter: blur(2px);
+}
+
+/* ---------- Modal Content ---------- */
+.modal-content {
+  background: #fffaf6; /* warm subtle background */
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ---------- Close Button ---------- */
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #f97316;
+  transition: transform 0.2s ease;
+}
+
+.modal-close:hover {
+  transform: rotate(90deg);
+}
+
+/* ---------- Step Indicator ---------- */
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  gap: 8px;
+}
+
+.step-indicator div {
+  width: 10px;
+  height: 10px;
+  background: #ccc;
+  border-radius: 50%;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.step-indicator div.active {
+  background: #f97316; /* brand accent */
+  transform: scale(1.2);
+}
+
+/* ---------- Animations for Steps ---------- */
+@keyframes slideIn {
+  0% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media screen and (max-width: 420px) {
+  .modal-content {
+    padding: 1.8rem 1rem;
+  }
+
+  .step-indicator {
+    gap: 6px;
+  }
+
+  .modal-close {
+    font-size: 1.3rem;
+    top: 8px;
+    right: 8px;
+  }
+}
