@@ -70,9 +70,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2.5rem;
+  padding: 0.25rem;
   max-width: 600px;
   margin: 2rem auto;
+  box-sizing: border-box;
   background: linear-gradient(180deg, #ffffff, #f7f7f7);
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
@@ -93,6 +94,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  box-sizing: border-box;
 }
 
 /* ---------- Labels ---------- */
@@ -135,7 +137,7 @@
 }
 
 /* ---------- Error Messages ---------- */
-.form-container form p {
+.form-error {
   color: #d9534f;
   font-size: 0.85rem;
   margin-top: -1rem;
