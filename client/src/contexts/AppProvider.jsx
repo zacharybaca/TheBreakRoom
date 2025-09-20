@@ -9,13 +9,15 @@ import { useAuth } from '../hooks/useAuth';
 
 // Loader component
 const Loader = () => (
-  <div style={{
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    fontSize: '1.5rem'
-  }}>
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      fontSize: '1.5rem',
+    }}
+  >
     Loading...
   </div>
 );
@@ -38,9 +40,7 @@ export const AppProvider = ({ children }) => {
           <ModalProvider>
             <ConfirmationProvider>
               <ToggleProvider>
-                <FetcherProvider>
-                  {children}
-                </FetcherProvider>
+                <FetcherProvider>{children}</FetcherProvider>
               </ToggleProvider>
             </ConfirmationProvider>
           </ModalProvider>

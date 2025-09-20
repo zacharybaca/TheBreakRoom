@@ -41,9 +41,7 @@ const Step1 = ({ formik, nextStep }) => (
       onChange={formik.handleChange}
       value={formik.values.email}
     />
-    {formik.errors.email && (
-      <p className="form-error">{formik.errors.email}</p>
-    )}
+    {formik.errors.email && <p className="form-error">{formik.errors.email}</p>}
 
     <div className="step-actions">
       <ReusableStyledButton title="Next" type="button" onClick={nextStep} />
@@ -65,7 +63,11 @@ const Step2 = ({ formik, nextStep, prevStep }) => (
     )}
 
     <label>Role:</label>
-    <select name="role" onChange={formik.handleChange} value={formik.values.role}>
+    <select
+      name="role"
+      onChange={formik.handleChange}
+      value={formik.values.role}
+    >
       <option value="user">User</option>
       <option value="admin">Admin</option>
     </select>
@@ -80,13 +82,26 @@ const Step2 = ({ formik, nextStep, prevStep }) => (
 const Step3 = ({ formik, prevStep }) => (
   <div className="form-fields">
     <label>Job Title:</label>
-    <input name="job" onChange={formik.handleChange} value={formik.values.job} />
+    <input
+      name="job"
+      onChange={formik.handleChange}
+      value={formik.values.job}
+    />
 
     <label>Bio:</label>
-    <textarea name="bio" rows="4" onChange={formik.handleChange} value={formik.values.bio} />
+    <textarea
+      name="bio"
+      rows="4"
+      onChange={formik.handleChange}
+      value={formik.values.bio}
+    />
 
     <label>Gender:</label>
-    <select name="gender" onChange={formik.handleChange} value={formik.values.gender}>
+    <select
+      name="gender"
+      onChange={formik.handleChange}
+      value={formik.values.gender}
+    >
       <option value="">Select...</option>
       <option value="male">Male</option>
       <option value="female">Female</option>
@@ -108,7 +123,8 @@ const Step3 = ({ formik, prevStep }) => (
 );
 
 const Register = () => {
-  const { step, setStep, direction, setDirection, isOpen, onClose, onOpen } = useModal();
+  const { step, setStep, direction, setDirection, isOpen, onClose, onOpen } =
+    useModal();
 
   const formik = useFormik({
     initialValues: {
@@ -126,12 +142,19 @@ const Register = () => {
       name: Yup.string().required('Name is required'),
       username: Yup.string().required('Username is required'),
       email: Yup.string().email('Invalid email').required('Email is required'),
-      password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+      password: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
     }),
     onSubmit: async (values) => {
       const formData = new FormData();
-      Object.keys(values).forEach((key) => values[key] && formData.append(key, values[key]));
-      const res = await fetch('http://localhost:9000/api/register', { method: 'POST', body: formData });
+      Object.keys(values).forEach(
+        (key) => values[key] && formData.append(key, values[key])
+      );
+      const res = await fetch('http://localhost:9000/api/register', {
+        method: 'POST',
+        body: formData,
+      });
       if (!res.ok) throw new Error('Failed to register');
       console.log('✅ Registered successfully');
       onClose();
@@ -158,7 +181,7 @@ const Register = () => {
 
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
-              key={step}       // Important: key = step
+              key={step} // Important: key = step
               custom={direction}
               variants={stepVariants}
               initial="enter"
@@ -167,7 +190,13 @@ const Register = () => {
               transition={{ duration: 0.3 }}
             >
               {step === 1 && <Step1 formik={formik} nextStep={nextStep} />}
-              {step === 2 && <Step2 formik={formik} nextStep={nextStep} prevStep={prevStep} />}
+              {step === 2 && (
+                <Step2
+                  formik={formik}
+                  nextStep={nextStep}
+                  prevStep={prevStep}
+                />
+              )}
               {step === 3 && <Step3 formik={formik} prevStep={prevStep} />}
             </motion.div>
           </AnimatePresence>

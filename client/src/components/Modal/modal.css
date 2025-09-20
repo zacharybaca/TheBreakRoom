@@ -60,7 +60,9 @@
   height: 10px;
   background: #ccc;
   border-radius: 50%;
-  transition: background 0.3s, transform 0.3s;
+  transition:
+    background 0.3s,
+    transform 0.3s;
 }
 
 .step-indicator div.active {

@@ -55,7 +55,9 @@ footer {
 
 .social-icons a {
   color: #fdfdfd;
-  transition: transform 0.2s ease, color 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    color 0.3s ease;
 }
 
 .social-icons a:hover {

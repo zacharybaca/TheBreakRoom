@@ -15,16 +15,18 @@ export const ModalProvider = ({ children }) => {
   const onOpen = () => setIsOpen(true);
 
   return (
-    <ModalContext.Provider value={{
-      step,
-      setStep,
-      direction,
-      setDirection,
-      isOpen,
-      setIsOpen,
-      onClose,
-      onOpen,
-    }}>
+    <ModalContext.Provider
+      value={{
+        step,
+        setStep,
+        direction,
+        setDirection,
+        isOpen,
+        setIsOpen,
+        onClose,
+        onOpen,
+      }}
+    >
       {children}
     </ModalContext.Provider>
   );

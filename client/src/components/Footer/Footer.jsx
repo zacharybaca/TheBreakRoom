@@ -1,5 +1,5 @@
 import './footer.css';
-import { Linkedin, Github } from "lucide-react";
+import { Linkedin, Github } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -21,10 +21,20 @@ const Footer = () => {
           ©️ {new Date().getFullYear()} Nine2Five. All rights reserved.
         </p>
         <div className="social-icons">
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn"
+          >
             <Linkedin size={24} />
           </a>
-          <a href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+          >
             <Github size={24} />
           </a>
         </div>

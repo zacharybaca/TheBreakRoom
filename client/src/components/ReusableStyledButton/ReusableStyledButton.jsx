@@ -1,7 +1,12 @@
 // components/ReusableStyledButton.jsx
 import './reusable-styled-button.css';
 
-const ReusableStyledButton = ({ title, onClick, type = 'button', className = '' }) => {
+const ReusableStyledButton = ({
+  title,
+  onClick,
+  type = 'button',
+  className = '',
+}) => {
   return (
     <button
       type={type}
