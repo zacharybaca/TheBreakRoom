@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { useModal } from '../../hooks/useModal';
 import Modal from '../Modal/Modal.jsx';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 
 const stepVariants = {
   enter: (direction) => ({ x: direction > 0 ? 300 : -300, opacity: 0 }),
@@ -180,7 +180,7 @@ const Register = () => {
           <h1>Sign Up</h1>
 
           <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
+            <Motion.div
               key={step} // Important: key = step
               custom={direction}
               variants={stepVariants}
@@ -198,7 +198,7 @@ const Register = () => {
                 />
               )}
               {step === 3 && <Step3 formik={formik} prevStep={prevStep} />}
-            </motion.div>
+            </Motion.div>
           </AnimatePresence>
         </form>
       </Modal>

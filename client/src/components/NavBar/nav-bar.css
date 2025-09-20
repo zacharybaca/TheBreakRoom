@@ -11,9 +11,9 @@
   padding-bottom: 2%;
   padding-left: 2%;
   padding-right: 2%;
-  background: linear-gradient(90deg, #ff914d, #ff4d4d);
+  background: linear-gradient(90deg, #005ab4, #0cb1ff);
   color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -4px 12px rgba(0, 90, 180, 0.35); /* bluish glow above footer */
 }
 
 .nav-bar-images {
@@ -38,7 +38,8 @@
   justify-content: space-between;
   padding-bottom: 1%;
   min-width: 100%;
-  background: linear-gradient(90deg, #ff914d, #ff4d4d);
+  background: linear-gradient(90deg, #005ab4, #0cb1ff);
+  box-shadow: 0 -4px 12px rgba(0, 90, 180, 0.35); /* bluish glow above footer */
   color: white;
   border-bottom: none;
 }
