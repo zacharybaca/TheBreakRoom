@@ -146,25 +146,6 @@
   font-size: 0.9rem;
 }
 
-/* ---------- Buttons ---------- */
-.reusable-styled-button {
-  width: 48%;
-  padding: 0.95rem;
-  border-radius: 50px;
-  background: #f97316;
-  color: white;
-  font-size: 1rem;
-  font-weight: bold;
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
-  cursor: pointer;
-}
-
-.reusable-styled-button:hover {
-  transform: translateY(-2px);
-  background: #ea580c;
-}
 
 /* ---------- Step Actions ---------- */
 .step-actions {
@@ -172,6 +153,24 @@
   justify-content: center;
   width: 100%;
   margin-top: 1rem;
+}
+
+.step-actions-submit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* ---------- Reusable Styled Buttons ---------- */
+.reusable {
+  width: 100%;
+  padding: 0.95rem;
+  border-radius: 50px;
+  background: #f97316;
+  color: white;
 }
 
 /* ---------- Responsive ---------- */
@@ -191,9 +190,5 @@
 
   .step-indicator {
     gap: 6px;
-  }
-
-  .reusable-styled-button {
-    width: 100%;
   }
 }

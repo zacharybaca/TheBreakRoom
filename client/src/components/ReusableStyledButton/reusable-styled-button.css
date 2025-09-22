@@ -69,24 +69,23 @@
   }
 }
 
+/* ---------- Buttons ---------- */
 .reusable-styled-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 200px;
-  height: fit-content;
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #edc8a4;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  font-size: 1.55rem;
-  font-family: 'Protest Guerrilla', sans-serif;
-  font-weight: 400;
-  font-style: normal;
+  font-size: 1rem;
+  font-weight: bold;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+  cursor: pointer;
 }
 
 .reusable-styled-button:hover {
-  cursor:
-    url('/assets/pointer-cursor.png') 0 0,
-    auto;
+  transform: translateY(-2px);
+  background: #ea580c;
+}
+
+@media screen and (max-width: 390px) {
+  .reusable-styled-button {
+    width: 100%;
+  }
 }

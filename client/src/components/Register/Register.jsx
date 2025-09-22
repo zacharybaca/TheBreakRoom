@@ -44,7 +44,7 @@ const Step1 = ({ formik, nextStep }) => (
     {formik.errors.email && <p className="form-error">{formik.errors.email}</p>}
 
     <div className="step-actions">
-      <ReusableStyledButton title="Next" type="button" onClick={nextStep} />
+      <ReusableStyledButton title="Next" type="button" onClick={nextStep} className="reusable"/>
     </div>
   </div>
 );
@@ -73,8 +73,8 @@ const Step2 = ({ formik, nextStep, prevStep }) => (
     </select>
 
     <div className="step-actions">
-      <ReusableStyledButton title="Back" type="button" onClick={prevStep} />
-      <ReusableStyledButton title="Next" type="button" onClick={nextStep} />
+      <ReusableStyledButton title="Back" type="button" onClick={prevStep} className="reusable" />
+      <ReusableStyledButton title="Next" type="button" onClick={nextStep} className="reusable" />
     </div>
   </div>
 );
@@ -115,9 +115,9 @@ const Step3 = ({ formik, prevStep }) => (
       onChange={(e) => formik.setFieldValue('avatar', e.currentTarget.files[0])}
     />
 
-    <div className="step-actions">
-      <ReusableStyledButton title="Back" type="button" onClick={prevStep} />
-      <ReusableStyledButton title="Submit" type="submit" />
+    <div className="step-actions-submit">
+      <ReusableStyledButton title="Back" type="button" onClick={prevStep} className="reusable" />
+      <ReusableStyledButton title="Submit" type="submit" className="reusable" />
     </div>
   </div>
 );
