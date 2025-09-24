@@ -118,6 +118,11 @@
     auto;
 }
 
+button {
+  border-radius: 10px;
+  background-color: #FF0000;
+}
+
 #private-profile-button-container {
   display: flex;
   justify-content: center;
