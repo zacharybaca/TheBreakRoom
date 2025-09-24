@@ -8,9 +8,11 @@ import ErrorModal from './components/ErrorModal/ErrorModal.jsx';
 import Confirmation from './components/Confirmation/Confirmation.jsx';
 import ReusableStyledButton from './components/ReusableStyledButton/ReusableStyledButton.jsx';
 import { useAuth } from './hooks/useAuth.js';
+import { useModal } from './hooks/useModal.js';
 
 function App() {
   const { isAuthenticated } = useAuth();
+  const { onOpen } = useAuth();
 
   return (
     <div id="main-app-container">
@@ -31,7 +33,7 @@ function App() {
               <h2 className="slogan">
                 From the Breakroom to the World.....We Speak.
               </h2>
-              <Link to="/register"><ReusableStyledButton type="button" title="Register"/></Link>
+              <Link to="/register"><ReusableStyledButton type="button" title="Register" onClick={onOpen}/></Link>
             </div>
           </div>
         )}
