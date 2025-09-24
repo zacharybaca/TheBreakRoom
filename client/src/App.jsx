@@ -7,6 +7,7 @@ import Footer from './components/Footer/Footer.jsx';
 import ErrorModal from './components/ErrorModal/ErrorModal.jsx';
 import Confirmation from './components/Confirmation/Confirmation.jsx';
 import ReusableStyledButton from './components/ReusableStyledButton/ReusableStyledButton.jsx';
+import Breakrooms from './components/Breakrooms/Breakrooms.jsx';
 import { useAuth } from './hooks/useAuth.js';
 import { useModal } from './hooks/useModal.js';
 
@@ -41,6 +42,7 @@ function App() {
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/breakrooms" element={<Breakrooms />} />
           <Route
             path="/error"
             element={
