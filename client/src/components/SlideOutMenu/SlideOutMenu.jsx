@@ -5,7 +5,7 @@ import { Button, CloseButton } from 'react-bootstrap';
 import Avatar from '../Avatar/Avatar.jsx';
 const SlideOutMenu = ({ isOpen, onClose }) => {
   const { isAuthenticated } = useAuth();
-  const { privateProfile, setPrivateProfile } = useToggle();
+  const { privateProfile, handleTogglePrivateProfile } = useToggle();
 
   return (
     <>
@@ -28,7 +28,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
         <br />
         <div id="private-profile-button-container">
           {!isAuthenticated ? (
-            privateProfile ? <button type="button" onClick={setPrivateProfile}><img src="/assets/private-toggle-off-icon.png" alt="private toggle off icon" /></button> : <button type="button" onClick={setPrivateProfile}><img src="/assets/private-toggle-on-icon.png" alt="private toggle on icon" /></button>
+            privateProfile ? <button type="button" onClick={handleTogglePrivateProfile}><img src="/assets/private-toggle-off-icon.png" alt="private toggle off icon" /></button> : <button type="button" onClick={handleTogglePrivateProfile}><img src="/assets/private-toggle-on-icon.png" alt="private toggle on icon" /></button>
           ) : ""}
         </div>
         <ul>
