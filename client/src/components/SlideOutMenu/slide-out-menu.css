@@ -121,4 +121,14 @@
 #private-profile-button-container {
   display: flex;
   justify-content: center;
+  width: 100%;
+}
+
+#private-profile-button-container button {
+  width: 100%;
+}
+
+#private-profile-button-container button img {
+  width: 50%;
+  height: 100%;
 }
