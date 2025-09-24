@@ -6,6 +6,7 @@ import NavBar from './components/NavBar/NavBar.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import ErrorModal from './components/ErrorModal/ErrorModal.jsx';
 import Confirmation from './components/Confirmation/Confirmation.jsx';
+import ReusableStyledButton from './components/ReusableStyledButton/ReusableStyledButton.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
               <h2 className="slogan">
                 From the Breakroom to the World.....We Speak.
               </h2>
-              <Link to="/register"><button type="button">Register</button></Link>
+              <Link to="/register"><ReusableStyledButton type="button" title="Register"/></Link>
             </div>
           </div>
         )}
