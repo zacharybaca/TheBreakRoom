@@ -123,7 +123,7 @@ const Step3 = ({ formik, prevStep }) => (
 );
 
 const Register = () => {
-  const { step, setStep, direction, setDirection, isOpen, onClose, onOpen } =
+  const { step, setStep, direction, setDirection, isOpen, onClose } =
     useModal();
 
   const formik = useFormik({
@@ -173,8 +173,6 @@ const Register = () => {
 
   return (
     <>
-      <button onClick={onOpen}>Register</button>
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <form onSubmit={formik.handleSubmit} className="form-container">
           <h1>Sign Up</h1>
