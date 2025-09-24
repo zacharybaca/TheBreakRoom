@@ -36,6 +36,7 @@ function App() {
               </h2>
               <Link to="/register"><ReusableStyledButton type="button" title="Register" onClick={onOpen}/></Link>
             </div>
+            <br />
           </div>
         )}
 
