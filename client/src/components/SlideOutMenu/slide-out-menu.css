@@ -117,3 +117,8 @@
     url('/assets/pointer-cursor.png') 0 0,
     auto;
 }
+
+#private-profile-button-container {
+  display: flex;
+  justify-content: center;
+}
