@@ -28,7 +28,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
         <br />
         <div id="private-profile-button-container">
           {!isAuthenticated ? (
-            privateProfile ? <button type="button" onClick={handleTogglePrivateProfile}><img src="/assets/private-toggle-off-icon.png" alt="private toggle off icon" /></button> : <button type="button" onClick={handleTogglePrivateProfile}><img src="/assets/private-toggle-on-icon.png" alt="private toggle on icon" /></button>
+            privateProfile ? <button type="button" onClick={handleTogglePrivateProfile}><h2>Private Profile: </h2><img src="/assets/private-toggle-off-icon.png" alt="private toggle off icon" /></button> : <button type="button" onClick={handleTogglePrivateProfile}><h2>Private Profile: </h2><img src="/assets/private-toggle-on-icon.png" alt="private toggle on icon" /></button>
           ) : ""}
         </div>
         <ul>
