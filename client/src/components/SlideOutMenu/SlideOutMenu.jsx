@@ -1,9 +1,11 @@
 import './slide-out-menu.css';
 import { useAuth } from '../../hooks/useAuth';
+import { useToggle } from '../../hooks/useToggle.js';
 import { Button, CloseButton } from 'react-bootstrap';
 import Avatar from '../Avatar/Avatar.jsx';
 const SlideOutMenu = ({ isOpen, onClose }) => {
   const { isAuthenticated } = useAuth();
+  const { privateProfile, setPrivateProfile } = useToggle();
 
   return (
     <>
@@ -23,6 +25,11 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
             <img src="/assets/log-on-icon.png" alt="log in logo" />
           </button>
         )}
+        <div id="private-profile-button-container">
+          {isAuthenticated ? (
+            privateProfile ? <button type="button" onClick={setPrivateProfile}><img src="/assets/private-toggle-off-icon.png" alt="private toggle off icon" /></button> : <button type="button" onClick={setPrivateProfile}><img src="/assets/private-toggle-on-icon.png" alt="private toggle on icon" /></button>
+          ) : ""}
+        </div>
         <ul>
           <li>
             <a href="/profile">
