@@ -12,7 +12,7 @@ import { useModal } from './hooks/useModal.js';
 
 function App() {
   const { isAuthenticated } = useAuth();
-  const { onOpen } = useAuth();
+  const { onOpen } = useModal();
 
   return (
     <div id="main-app-container">
