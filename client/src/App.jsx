@@ -1,19 +1,16 @@
 import './App.css';
-import { Routes, Route, Link } from 'react-router-dom';
-import Register from './components/Register/Register.jsx';
+import { Routes, Route } from 'react-router-dom';
 import Login from './components/Login/Login.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import ErrorModal from './components/ErrorModal/ErrorModal.jsx';
+import Register from './components/Register/Register.jsx';
 import Confirmation from './components/Confirmation/Confirmation.jsx';
-import ReusableStyledButton from './components/ReusableStyledButton/ReusableStyledButton.jsx';
 import Breakrooms from './components/Breakrooms/Breakrooms.jsx';
 import { useAuth } from './hooks/useAuth.js';
-import { useModal } from './hooks/useModal.js';
 
 function App() {
   const { isAuthenticated } = useAuth();
-  const { onOpen } = useModal();
 
   return (
     <div id="main-app-container">
@@ -34,15 +31,15 @@ function App() {
               <h2 className="slogan">
                 From the Breakroom to the World.....We Speak.
               </h2>
-              <Link to="/register"><ReusableStyledButton type="button" title="Register" onClick={onOpen}/></Link>
+
             </div>
             <br />
           </div>
         )}
 
         <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/breakrooms" element={<Breakrooms />} />
           <Route
             path="/error"

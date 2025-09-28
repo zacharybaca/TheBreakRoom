@@ -84,11 +84,14 @@
 // export default Login;
 
 import './login.css';
+import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
+import { useModal } from '../../hooks/useModal.js';
 
 const Login = () => {
+  const { onOpen } = useModal();
   const formik = useFormik({
     initialValues: {
       identifier: '',
@@ -128,10 +131,12 @@ const Login = () => {
   });
 
   return (
+
     <div className="form-container">
       <h1>Your Workday Stories Belong Here</h1>
       <h2>Log In and Vent Your Frustrations Away</h2>
-
+      <Link to="/register"><ReusableStyledButton type="button" title="Register" onClick={onOpen} /></Link>
+      <br />
       <form onSubmit={formik.handleSubmit} noValidate>
         {/* Identifier field */}
         <div className="form-group">

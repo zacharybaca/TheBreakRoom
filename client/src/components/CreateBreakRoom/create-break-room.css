@@ -1,0 +1,194 @@
+
+/* ---------- Form Container ---------- */
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  background: #0BA8F7 !important;
+  box-shadow: 0 -4px 12px rgba(0, 90, 180, 0.35);
+  border: 2px solid black;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Headings ---------- */
+.form-container h1 {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 1.8rem;
+  color: #222;
+  margin-bottom: 0.25rem;
+  text-align: center;
+}
+
+.form-container h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* ---------- Step Indicator ---------- */
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  gap: 8px;
+}
+
+.step-indicator div {
+  width: 10px;
+  height: 10px;
+  background: #ccc;
+  border-radius: 50%;
+  transition:
+    background 0.3s,
+    transform 0.3s;
+}
+
+.step-indicator div.active {
+  background: #f97316; /* brand accent */
+  transform: scale(1.2);
+}
+
+/* ---------- Animations for Steps ---------- */
+@keyframes slideIn {
+  0% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+
+/* ---------- Labels ---------- */
+.form-fields label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+  align-self: flex-start;
+}
+
+/* ---------- Inputs, Selects, Textareas ---------- */
+.form-fields input,
+.form-fields select,
+.form-fields textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+  border: 1.5px solid #ddd;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  background: #fff;
+}
+
+.form-fields textarea {
+  border-radius: 12px;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-fields input:focus,
+.form-fields select:focus,
+.form-fields textarea:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 6px rgba(249, 115, 22, 0.3);
+}
+
+/* ---------- Error Messages ---------- */
+.form-error {
+  color: #d9534f;
+  font-size: 0.85rem;
+  margin-top: -0.8rem;
+  margin-bottom: 1rem;
+  align-self: flex-start;
+}
+
+/* ---------- Checkbox ---------- */
+.form-fields label input[type='checkbox'] {
+  margin-right: 0.5rem;
+  transform: scale(1.2);
+}
+
+/* ---------- File Input ---------- */
+.file-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.file-input-container input[type='file'] {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
+
+
+/* ---------- Step Actions ---------- */
+.step-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.step-actions-submit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* ---------- Reusable Styled Buttons ---------- */
+.reusable {
+  width: 100%;
+  padding: 0.95rem;
+  border-radius: 50px;
+  background: #f97316;
+  color: white;
+}
+
+/* ---------- Responsive ---------- */
+@media screen and (max-width: 390px) {
+  .form-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-container h2 {
+    font-size: 0.9rem;
+  }
+
+  .step-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .step-indicator {
+    gap: 6px;
+  }
+}
