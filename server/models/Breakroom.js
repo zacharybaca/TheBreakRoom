@@ -5,7 +5,10 @@ const breakroomSchema = new mongoose.Schema(
     name: { type: String, required: true, unique: true },
     description: { type: String },
     vibe: { type: String },
-    accent: { type: String },
+    accent: {
+      color: { type: String, required: true }, // hex value
+      vibe: { type: String, required: true }, // friendly name like "Chill Blue"
+    },
     iconURL: { type: String },
 
     // Job types this breakroom is related to (optional)

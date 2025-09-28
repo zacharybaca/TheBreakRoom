@@ -135,7 +135,7 @@ const Login = () => {
     <div className="form-container">
       <h1>Your Workday Stories Belong Here</h1>
       <h2>Log In and Vent Your Frustrations Away</h2>
-      <Link to="/register"><ReusableStyledButton type="button" title="Register" onClick={onOpen} /></Link>
+      <ReusableStyledButton type="button" title="Register" onClick={() => onOpen('register')} />
       <br />
       <form onSubmit={formik.handleSubmit} noValidate>
         {/* Identifier field */}

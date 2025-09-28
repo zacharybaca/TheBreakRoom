@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ModalContext } from './ModalContext.jsx';
 
 export const ModalProvider = ({ children }) => {
@@ -7,15 +7,22 @@ export const ModalProvider = ({ children }) => {
   const [direction, setDirection] = useState(0);
   const [isOpen, setIsOpen] = useState(false); // start closed
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const previousLocation = location.state?.background?.pathname || "/";
 
   const onClose = () => {
     setIsOpen(false);
     setStep(1);
     setDirection(0);
-    navigate('/');
+    navigate(previousLocation);
   };
 
-  const onOpen = () => setIsOpen(true);
+  const onOpen = (url) => {
+    // Save the current page as "background"
+    setIsOpen(true);
+    navigate(`/${url}`, { state: { background: location } });
+  };
 
   return (
     <ModalContext.Provider

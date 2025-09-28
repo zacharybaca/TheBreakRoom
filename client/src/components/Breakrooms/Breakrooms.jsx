@@ -1,6 +1,7 @@
-import React from "react";
+import { Link } from 'react-router-dom';
 import "./breakrooms.css";
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton';
+import { useModal } from '../../hooks/useModal.js';
 
 /**
  * BreakroomBoard
@@ -48,9 +49,11 @@ const sampleRooms = [
 ];
 
 const Breakrooms = ({ rooms = sampleRooms, onJoin }) => {
+  const { onOpen } = useModal();
+
   return (
     <>
-      <ReusableStyledButton title="Create New Breakroom" type="button" />
+      <ReusableStyledButton title="Create New Breakroom" type="button" onClick={() => onOpen('breakrooms/create')}/>
       <br />
       <section className="board-wrap" aria-label="Breakroom directory">
         <h2 className="board-title">Breakrooms</h2>

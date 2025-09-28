@@ -1,0 +1,63 @@
+.accent-picker {
+  position: relative;
+  display: inline-block;
+}
+
+.accent-button {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  background: #f0f0f0;
+  transition: transform 0.2s ease;
+}
+
+.accent-button:hover {
+  transform: scale(1.05);
+  border-color: #888;
+}
+
+.palette-popup {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 40px);
+  gap: 10px;
+  z-index: 1000;
+}
+
+.color-swatch {
+  width: 35px;
+  height: 35px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease, border 0.2s ease;
+}
+
+.color-swatch:hover {
+  transform: scale(1.1);
+  border-color: #555;
+}
+
+.color-swatch.selected {
+  border-color: #000;
+  transform: scale(1.15);
+}
+
+.accent-label {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+  text-align: center;
+}

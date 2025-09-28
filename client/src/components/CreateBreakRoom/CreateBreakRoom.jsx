@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { useModal } from '../../hooks/useModal';
 import Modal from '../Modal/Modal.jsx';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
+import AccentPicker from '../AccentPicker/AccentPicker.jsx';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 
 const stepVariants = {
@@ -52,12 +53,11 @@ const Step1 = ({ formik, nextStep }) => (
 const Step2 = ({ formik, prevStep }) => (
   <div className="form-fields">
     <label>Accent:</label>
-    <input
-      name="accent"
-      type="text"
-      onChange={formik.handleChange}
+    <AccentPicker
       value={formik.values.accent}
+      onChange={formik.handleChange}
     />
+
     {formik.errors.accent && (
       <p className="form-error">{formik.errors.accent}</p>
     )}
@@ -67,7 +67,7 @@ const Step2 = ({ formik, prevStep }) => (
         name="iconURL"
         type="text"
         onChange={formik.handleChange}
-        value={formik.value.iconURL}
+        value={formik.values.iconURL}
     />
     {formik.errors.iconURL && (
         <p className="form-error">{formik.errors.iconURL}</p>

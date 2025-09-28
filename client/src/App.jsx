@@ -7,6 +7,7 @@ import ErrorModal from './components/ErrorModal/ErrorModal.jsx';
 import Register from './components/Register/Register.jsx';
 import Confirmation from './components/Confirmation/Confirmation.jsx';
 import Breakrooms from './components/Breakrooms/Breakrooms.jsx';
+import CreateBreakRoom from './components/CreateBreakRoom/CreateBreakRoom.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/breakrooms/create" element={<CreateBreakRoom />} />
           <Route path="/breakrooms" element={<Breakrooms />} />
           <Route
             path="/error"
