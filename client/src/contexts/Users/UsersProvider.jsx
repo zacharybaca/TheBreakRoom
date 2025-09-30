@@ -4,8 +4,8 @@ import { UsersContext } from './UsersContext.jsx';
 export const UsersProvider = ({ children }) => {
 
     return (
-        <UsersContext.Provider>
-            
+        <UsersContext.Provider value={{}}>
+
         </UsersContext.Provider>
     )
 }
