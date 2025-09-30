@@ -5,6 +5,7 @@ import { AuthProvider } from './Auth/AuthProvider';
 import { ToggleProvider } from './Toggle/ToggleProvider';
 import { ConfirmationProvider } from './Confirmation/ConfirmationProvider';
 import { ModalProvider } from './Modal/ModalProvider';
+import { UsersProvider } from './Users/UsersProvider';
 import { useAuth } from '../hooks/useAuth';
 
 // Loader component
@@ -34,16 +35,17 @@ const AppWrapper = ({ children }) => {
 export const AppProvider = ({ children }) => {
   return (
     <Router>
-      {/* AuthProvider is outermost so all providers can access auth */}
       <AuthProvider>
         <AppWrapper>
-          <ModalProvider>
-            <ConfirmationProvider>
-              <ToggleProvider>
-                <FetcherProvider>{children}</FetcherProvider>
-              </ToggleProvider>
-            </ConfirmationProvider>
-          </ModalProvider>
+          <UsersProvider>
+            <ModalProvider>
+              <ConfirmationProvider>
+                <ToggleProvider>
+                  <FetcherProvider>{children}</FetcherProvider>
+                </ToggleProvider>
+              </ConfirmationProvider>
+            </ModalProvider>
+          </UsersProvider>
         </AppWrapper>
       </AuthProvider>
     </Router>
