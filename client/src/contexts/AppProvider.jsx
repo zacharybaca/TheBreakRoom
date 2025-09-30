@@ -37,7 +37,7 @@ export const AppProvider = ({ children }) => {
     <Router>
       <AuthProvider>
         <AppWrapper>
-          <UsersProvider>
+          {/* <UsersProvider> */}
             <ModalProvider>
               <ConfirmationProvider>
                 <ToggleProvider>
@@ -45,7 +45,7 @@ export const AppProvider = ({ children }) => {
                 </ToggleProvider>
               </ConfirmationProvider>
             </ModalProvider>
-          </UsersProvider>
+          {/* </UsersProvider> */}
         </AppWrapper>
       </AuthProvider>
     </Router>
