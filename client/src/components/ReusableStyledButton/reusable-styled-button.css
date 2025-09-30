@@ -1,6 +1,5 @@
+/* ---------- Glow effect only ---------- */
 .glow-on-arrival-entry {
-  width: 220px;
-  height: 50px;
   position: relative;
   z-index: 0;
   border-radius: 10px;
@@ -34,14 +33,6 @@
   border-radius: 10px;
 }
 
-.glow-on-arrival-entry:active {
-  color: #000;
-}
-
-.glow-on-arrival-entry:active:after {
-  background: transparent;
-}
-
 .glow-on-arrival-entry:hover:before {
   opacity: 1;
 }
@@ -57,19 +48,21 @@
   border-radius: 10px;
 }
 
-@keyframes glowing {
-  0% {
-    background-position: 0 0;
-  }
-  50% {
-    background-position: 400% 0;
-  }
-  100% {
-    background-position: 0 0;
-  }
+.glow-on-arrival-entry:active {
+  color: #000;
 }
 
-/* ---------- Buttons ---------- */
+.glow-on-arrival-entry:active:after {
+  background: transparent;
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+/* ---------- Reusable button base ---------- */
 .reusable-styled-button {
   font-size: 1rem;
   font-weight: bold;
@@ -77,6 +70,8 @@
     transform 0.2s ease,
     background 0.2s ease;
   cursor: pointer;
+  border-radius: 10px;
+  padding: 0.85rem;
 }
 
 .reusable-styled-button:hover {
@@ -84,8 +79,13 @@
   background: #ea580c;
 }
 
-@media screen and (max-width: 390px) {
-  .reusable-styled-button {
-    width: 100%;
-  }
+/* ---------- Context-specific sizing ---------- */
+.glow-fixed {
+  width: 220px;
+  height: 50px;
+}
+
+.register-button {
+  margin-top: 0.5rem;
+  width: 100%;
 }

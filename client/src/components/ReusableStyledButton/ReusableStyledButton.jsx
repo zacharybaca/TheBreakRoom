@@ -1,4 +1,3 @@
-// components/ReusableStyledButton.jsx
 import './reusable-styled-button.css';
 
 const ReusableStyledButton = ({
@@ -6,11 +5,21 @@ const ReusableStyledButton = ({
   onClick,
   type = 'button',
   className = '',
+  fullWidth = false, // new prop
 }) => {
+  const combinedClassNames = [
+    'reusable-styled-button',
+    'glow-on-arrival-entry',
+    fullWidth ? 'register-button' : '',
+    className, // keep manual overrides last
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <button
       type={type}
-      className={`reusable-styled-button glow-on-arrival-entry ${className}`}
+      className={combinedClassNames}
       onClick={onClick}
     >
       {title}
