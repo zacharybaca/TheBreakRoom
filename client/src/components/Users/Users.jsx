@@ -1,11 +1,12 @@
 import './users.css';
+import UserCard from '../UserCard/UserCard';
 
 const Users = () => {
 
     return (
         <div id="users-container">
             <div id="user-card-container">
-                <h1>User Card Placeholder</h1>
+                <UserCard />
             </div>
         </div>
     )
