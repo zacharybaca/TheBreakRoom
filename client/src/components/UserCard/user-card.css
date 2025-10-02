@@ -1,1 +1,13 @@
+#user-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 2px solid yellow;
+}
 
+#user-card img {
+    width: 100%;
+    height: 180px;
+    background-color: blue;
+    border: 2px solid white;
+}
