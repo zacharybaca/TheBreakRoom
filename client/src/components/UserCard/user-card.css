@@ -58,3 +58,10 @@
   font-weight: 400;
   font-style: normal;
 }
+
+.card-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+  vertical-align: middle; /* ✅ aligns with text baseline */
+}
