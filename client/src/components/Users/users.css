@@ -13,5 +13,7 @@
   grid-template-columns: repeat(5, 1fr); /* ✅ 5 cards per row */
   gap: 1rem; /* spacing between cards */
   padding: 1rem;
+  max-height: 600px;    /* ✅ constrain height */
+  overflow-y: auto;     /* ✅ enable vertical scrolling */
 }
 
