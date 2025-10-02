@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=SUSE+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Frijole&display=swap');
 
 /* #user-card {
     display: flex;
@@ -50,4 +51,10 @@
   font-variation-settings:
     "MORF" 15,
     "SHLN" 50;
+}
+
+.name-font-alt-style {
+  font-family: "Frijole", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
