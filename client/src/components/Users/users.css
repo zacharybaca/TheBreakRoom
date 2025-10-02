@@ -1,6 +1,5 @@
 #users-container {
     display: flex;
-    flex-direction: column;
     padding: 2rem;
     gap: 10px;
     overflow: auto;
