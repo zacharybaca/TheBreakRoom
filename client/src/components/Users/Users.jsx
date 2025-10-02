@@ -7,7 +7,7 @@ const Users = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch('https://fakerapi.it/api/v2/users?_quantity=5&_gender=male');
+      const response = await fetch('https://fakerapi.it/api/v2/users?_quantity=30&_gender=male');
       const { data } = await response.json();
       setUsers(data); // ✅ set the whole array
       console.log('Users: ', data);
