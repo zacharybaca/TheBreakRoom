@@ -3,6 +3,7 @@
     flex-direction: column;
     width: 100%;
     border: 2px solid yellow;
+    border-radius: 5px;
 }
 
 #user-card img {
@@ -10,4 +11,8 @@
     height: 180px;
     background-color: blue;
     border: 2px solid white;
+}
+
+.info-text {
+    font-weight: 800;
 }
