@@ -4,9 +4,9 @@ const UserCard = (props) => {
   return (
     <div id="user-card">
       <img src={props.image} alt="user" />
-      <h3>Name: {props.firstName} {props.lastName}</h3>
-      <p>Username: {props.username}</p>
-      <p>Email: {props.email}</p>
+      <h3 className="info-text">Name: {props.firstName} {props.lastName}</h3>
+      <p className="info-text">Username: {props.username}</p>
+      <p className="info-text">Email: {props.email}</p>
     </div>
   );
 };
