@@ -1,21 +1,11 @@
+
+/* Google Font Styles */
 @import url('https://fonts.googleapis.com/css2?family=SUSE+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Frijole&display=swap');
 
-/* #user-card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border: 2px solid black;
-    border-radius: 5px;
-    font-family: "SUSE Mono", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 800;
-    font-style: normal;
-} */
-
 #user-card {
-  flex: 0 0 200px; /* fixed width so cards don’t shrink */
+  flex: 0 0 200px; 
   box-sizing: border-box;
   border: 2px solid black;
   border-radius: 5px;
@@ -23,7 +13,7 @@
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
-  overflow: hidden; /* ensures img corners follow card radius */
+  overflow: hidden; 
 }
 
 #user-card img {
@@ -32,15 +22,17 @@
   height: 180px;
   object-fit: cover;
   background-color: blue;
-  border-bottom: 2px solid white; /* looks cleaner than full border */
+  border-bottom: 2px solid white; 
 }
 
 .info-text {
-    font-weight: 800;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 1rem;
+  display: flex;        
+  align-items: center;  
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1rem;
 }
 
 .name-font {
@@ -60,8 +52,8 @@
 }
 
 .card-icon {
-  width: 20px;
-  height: 20px;
   margin-right: 0.5rem;
-  vertical-align: middle; /* ✅ aligns with text baseline */
+  vertical-align: middle;
+  font-size: 1rem; /* size adjusts with text */
+  flex-shrink: 0;
 }
