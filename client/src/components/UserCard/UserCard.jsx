@@ -1,21 +1,23 @@
 import './user-card.css';
+import { FaUser, FaUserTag, FaEnvelope } from "react-icons/fa"; 
 
 const UserCard = (props) => {
   return (
     <div id="user-card">
       <img src={props.image} alt="user" />
+
       <h3 className="info-text name-font-alt-style">
-        <img src="/assets/name-usercard-icon.png" alt="" className="card-icon" />
+        <FaUser className="card-icon" />
         Name: {props.firstName} {props.lastName}
       </h3>
 
       <p className="info-text">
-        <img src="/assets/username-usercard-icon.png" alt="" className="card-icon" />
+        <FaUserTag className="card-icon" />
         Username: {props.username}
       </p>
       
       <p className="info-text">
-        <img src="/assets/mail-usercard-icon.png" alt="" className="card-icon" />
+        <FaEnvelope className="card-icon" />
         Email: {props.email}
       </p>
     </div>
