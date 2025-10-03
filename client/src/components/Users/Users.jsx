@@ -25,13 +25,14 @@ const Users = () => {
       {users.length > 0 ? (
         users.map(person => (
           <UserCard 
-            key={person.uuid} // ✅ React needs a key
-            id={person.uuid}
-            firstName={person.firstname} // ✅ fakerapi returns lowercase
-            lastName={person.lastname}
-            username={person.username}
-            email={person.email}
-            image={person.image}
+           key={person.uuid} 
+           id={person.uuid}
+           firstName={person.firstname} 
+           lastName={person.lastname}
+           username={person.username}
+           email={person.email}
+           image={person.image}
+           website={person.website}
           />
         ))
       ) : (
