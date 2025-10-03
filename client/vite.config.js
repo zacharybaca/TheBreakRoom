@@ -12,6 +12,9 @@ export default defineConfig({
     },
     // fs: { strict: false } // Only uncomment if importing outside root
   },
+  esbuild: {
+    drop: ["console"]
+  },
   build: {
     outDir: 'dist', // Where Render will serve from
     assetsDir: 'assets', // Folder for static assets
