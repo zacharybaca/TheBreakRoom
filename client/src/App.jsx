@@ -33,7 +33,6 @@ function App() {
               <h2 className="slogan">
                 From the Breakroom to the World.....We Speak.
               </h2>
-
             </div>
             <br />
           </div>

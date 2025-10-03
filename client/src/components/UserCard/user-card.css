@@ -1,19 +1,18 @@
-
 /* Google Font Styles */
 @import url('https://fonts.googleapis.com/css2?family=SUSE+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Frijole&display=swap');
 
 #user-card {
-  flex: 0 0 200px; 
+  flex: 0 0 200px;
   box-sizing: border-box;
   border: 2px solid black;
   border-radius: 5px;
-  font-family: "SUSE Mono", sans-serif;
+  font-family: 'SUSE Mono', sans-serif;
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 #user-card img {
@@ -22,12 +21,12 @@
   height: 180px;
   object-fit: cover;
   background-color: blue;
-  border-bottom: 2px solid white; 
+  border-bottom: 2px solid white;
 }
 
 .info-text {
-  display: flex;        
-  align-items: center;  
+  display: flex;
+  align-items: center;
   font-weight: 800;
   white-space: nowrap;
   overflow: hidden;
@@ -36,17 +35,17 @@
 }
 
 .name-font {
-  font-family: "Honk", system-ui;
+  font-family: 'Honk', system-ui;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   font-variation-settings:
-    "MORF" 15,
-    "SHLN" 50;
+    'MORF' 15,
+    'SHLN' 50;
 }
 
 .name-font-alt-style {
-  font-family: "Frijole", system-ui;
+  font-family: 'Frijole', system-ui;
   font-weight: 400;
   font-style: normal;
 }

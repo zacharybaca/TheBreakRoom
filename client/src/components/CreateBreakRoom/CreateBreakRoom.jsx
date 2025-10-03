@@ -45,7 +45,12 @@ const Step1 = ({ formik, nextStep }) => (
     {formik.errors.vibe && <p className="form-error">{formik.errors.vibe}</p>}
 
     <div className="step-actions">
-      <ReusableStyledButton title="Next" type="button" onClick={nextStep} className="reusable"/>
+      <ReusableStyledButton
+        title="Next"
+        type="button"
+        onClick={nextStep}
+        className="reusable"
+      />
     </div>
   </div>
 );
@@ -53,10 +58,7 @@ const Step1 = ({ formik, nextStep }) => (
 const Step2 = ({ formik, prevStep }) => (
   <div className="form-fields">
     <label>Accent:</label>
-    <AccentPicker
-      value={formik.values.accent}
-      onChange={formik.handleChange}
-    />
+    <AccentPicker value={formik.values.accent} onChange={formik.handleChange} />
 
     {formik.errors.accent && (
       <p className="form-error">{formik.errors.accent}</p>
@@ -64,18 +66,23 @@ const Step2 = ({ formik, prevStep }) => (
 
     <label>IconURL:</label>
     <input
-        name="iconURL"
-        type="text"
-        onChange={formik.handleChange}
-        value={formik.values.iconURL}
+      name="iconURL"
+      type="text"
+      onChange={formik.handleChange}
+      value={formik.values.iconURL}
     />
     {formik.errors.iconURL && (
-        <p className="form-error">{formik.errors.iconURL}</p>
+      <p className="form-error">{formik.errors.iconURL}</p>
     )}
 
     <div className="step-actions-submit">
-        <ReusableStyledButton title="Back" type="button" onClick={prevStep} className="reusable" />
-        <ReusableStyledButton title="Submit" type="submit" className="reusable" />
+      <ReusableStyledButton
+        title="Back"
+        type="button"
+        onClick={prevStep}
+        className="reusable"
+      />
+      <ReusableStyledButton title="Submit" type="submit" className="reusable" />
     </div>
   </div>
 );
@@ -140,12 +147,7 @@ const CreateBreakRoom = () => {
               transition={{ duration: 0.3 }}
             >
               {step === 1 && <Step1 formik={formik} nextStep={nextStep} />}
-              {step === 2 && (
-                <Step2
-                  formik={formik}
-                  prevStep={prevStep}
-                />
-              )}
+              {step === 2 && <Step2 formik={formik} prevStep={prevStep} />}
             </Motion.div>
           </AnimatePresence>
         </form>

@@ -17,11 +17,7 @@ const ReusableStyledButton = ({
     .join(' ');
 
   return (
-    <button
-      type={type}
-      className={combinedClassNames}
-      onClick={onClick}
-    >
+    <button type={type} className={combinedClassNames} onClick={onClick}>
       {title}
     </button>
   );

@@ -1,6 +1,6 @@
 import './user-card.css';
-import { FaUser, FaUserTag, FaEnvelope } from "react-icons/fa";
-import { CgWebsite } from "react-icons/cg"; 
+import { FaUser, FaUserTag, FaEnvelope } from 'react-icons/fa';
+import { CgWebsite } from 'react-icons/cg';
 
 const UserCard = (props) => {
   return (
@@ -16,7 +16,7 @@ const UserCard = (props) => {
         <FaUserTag className="card-icon" />
         Username: {props.username}
       </p>
-      
+
       <p className="info-text">
         <FaEnvelope className="card-icon" />
         Email: {props.email}

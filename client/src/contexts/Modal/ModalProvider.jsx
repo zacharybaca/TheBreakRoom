@@ -9,7 +9,7 @@ export const ModalProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const previousLocation = location.state?.background?.pathname || "/";
+  const previousLocation = location.state?.background?.pathname || '/';
 
   const onClose = () => {
     setIsOpen(false);

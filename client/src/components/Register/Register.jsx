@@ -15,7 +15,8 @@ const stepVariants = {
 };
 
 const Register = () => {
-  const { step, setStep, direction, setDirection, isOpen, onClose } = useModal();
+  const { step, setStep, direction, setDirection, isOpen, onClose } =
+    useModal();
   const { user, isAuthenticated } = useAuth();
 
   const formik = useFormik({
@@ -97,7 +98,9 @@ const Register = () => {
         onChange={formik.handleChange}
         value={formik.values.email}
       />
-      {formik.errors.email && <p className="form-error">{formik.errors.email}</p>}
+      {formik.errors.email && (
+        <p className="form-error">{formik.errors.email}</p>
+      )}
 
       <div className="step-actions">
         <ReusableStyledButton
@@ -187,7 +190,9 @@ const Register = () => {
       <input
         name="avatar"
         type="file"
-        onChange={(e) => formik.setFieldValue('avatar', e.currentTarget.files[0])}
+        onChange={(e) =>
+          formik.setFieldValue('avatar', e.currentTarget.files[0])
+        }
       />
 
       <div className="step-actions-submit">

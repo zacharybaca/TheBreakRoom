@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import "./breakrooms.css";
+import './breakrooms.css';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton';
 import { useModal } from '../../hooks/useModal.js';
 
@@ -11,40 +11,40 @@ import { useModal } from '../../hooks/useModal.js';
 
 const sampleRooms = [
   {
-    id: "coffee",
-    name: "Coffee Chat",
-    vibe: "Casual chit-chat & memes",
-    accent: "#8B5E3C", // coffee brown
+    id: 'coffee',
+    name: 'Coffee Chat',
+    vibe: 'Casual chit-chat & memes',
+    accent: '#8B5E3C', // coffee brown
     occupants: 12,
     newCount: 3,
-    icon: "☕",
+    icon: '☕',
   },
   {
-    id: "watercooler",
-    name: "Water Cooler",
-    vibe: "Quick office banter",
-    accent: "#2B9AF3", // light blue
+    id: 'watercooler',
+    name: 'Water Cooler',
+    vibe: 'Quick office banter',
+    accent: '#2B9AF3', // light blue
     occupants: 5,
     newCount: 0,
-    icon: "🗨️",
+    icon: '🗨️',
   },
   {
-    id: "deepwork",
-    name: "Deep Work",
-    vibe: "Focused heads-down sessions",
-    accent: "#3A7D44", // green
+    id: 'deepwork',
+    name: 'Deep Work',
+    vibe: 'Focused heads-down sessions',
+    accent: '#3A7D44', // green
     occupants: 8,
     newCount: 1,
-    icon: "🎧",
+    icon: '🎧',
   },
   {
-    id: "vent",
-    name: "Vent & Rant Zone",
-    vibe: "Unburden, get support",
-    accent: "#C14B5A", // muted red
+    id: 'vent',
+    name: 'Vent & Rant Zone',
+    vibe: 'Unburden, get support',
+    accent: '#C14B5A', // muted red
     occupants: 4,
     newCount: 2,
-    icon: "💬",
+    icon: '💬',
   },
 ];
 
@@ -53,7 +53,11 @@ const Breakrooms = ({ rooms = sampleRooms, onJoin }) => {
 
   return (
     <>
-      <ReusableStyledButton title="Create New Breakroom" type="button" onClick={() => onOpen('breakrooms/create')}/>
+      <ReusableStyledButton
+        title="Create New Breakroom"
+        type="button"
+        onClick={() => onOpen('breakrooms/create')}
+      />
       <br />
       <section className="board-wrap" aria-label="Breakroom directory">
         <h2 className="board-title">Breakrooms</h2>
@@ -63,21 +67,25 @@ const Breakrooms = ({ rooms = sampleRooms, onJoin }) => {
             <article
               key={r.id}
               className="pin-card"
-              style={{ "--accent": r.accent }}
+              style={{ '--accent': r.accent }}
               role="button"
               tabIndex={0}
               onClick={() => onJoin?.(r)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") onJoin?.(r);
+                if (e.key === 'Enter' || e.key === ' ') onJoin?.(r);
               }}
               aria-describedby={`${r.id}-meta`}
             >
               <div className="pin-top">
-                <span className="pushpin" aria-hidden="true">📌</span>
+                <span className="pushpin" aria-hidden="true">
+                  📌
+                </span>
               </div>
 
               <div className="pin-body">
-                <div className="pin-icon" aria-hidden="true">{r.icon}</div>
+                <div className="pin-icon" aria-hidden="true">
+                  {r.icon}
+                </div>
 
                 <div className="pin-text">
                   <h3 className="pin-title">{r.name}</h3>
@@ -99,6 +107,6 @@ const Breakrooms = ({ rooms = sampleRooms, onJoin }) => {
       </section>
     </>
   );
-}
+};
 
 export default Breakrooms;

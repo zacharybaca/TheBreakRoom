@@ -38,13 +38,13 @@ export const AppProvider = ({ children }) => {
       <AuthProvider>
         <AppWrapper>
           {/* <UsersProvider> */}
-            <ModalProvider>
-              <ConfirmationProvider>
-                <ToggleProvider>
-                  <FetcherProvider>{children}</FetcherProvider>
-                </ToggleProvider>
-              </ConfirmationProvider>
-            </ModalProvider>
+          <ModalProvider>
+            <ConfirmationProvider>
+              <ToggleProvider>
+                <FetcherProvider>{children}</FetcherProvider>
+              </ToggleProvider>
+            </ConfirmationProvider>
+          </ModalProvider>
           {/* </UsersProvider> */}
         </AppWrapper>
       </AuthProvider>

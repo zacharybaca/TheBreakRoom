@@ -13,7 +13,7 @@ export default defineConfig({
     // fs: { strict: false } // Only uncomment if importing outside root
   },
   esbuild: {
-    drop: ["console"]
+    drop: ['console'],
   },
   build: {
     outDir: 'dist', // Where Render will serve from
