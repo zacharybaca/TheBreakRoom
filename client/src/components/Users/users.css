@@ -1,46 +1,38 @@
-/* #users-container {
-    display: flex;
-    padding: 2rem;
-    gap: 10px;
-    overflow: auto;
-    background-color: #FFE7D7;
-    border: 2px solid black;
-    border-radius: 10px;
-} */
-
+/* USERS CONTAINER → Corkboard style */
 #users-container {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* ✅ 5 cards per row */
-  gap: 1rem; /* spacing between cards */
-  padding: 1rem;
-  max-height: 600px; /* ✅ constrain height */
-  overflow-y: auto; /* ✅ enable vertical scrolling */
-  background-color: #ffdec9;
-  border-radius: 10px;
+  grid-template-columns: repeat(5, 1fr); /* 5 cards per row */
+  gap: 1rem;
+  padding: 2rem;
+  max-height: 600px;
+  overflow-y: auto;
+
+  background: url('/assets/corkboard-texture.jpg'); /* corkboard image */
+  background-size: cover;
+  border-radius: 12px;
+  border: 6px solid #8b5e3c; /* wood frame */
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
 }
 
-/* For Chrome, Edge, Safari */
+/* Scrollbar Styling */
 #users-container::-webkit-scrollbar {
-  width: 10px; /* scrollbar width */
+  width: 10px;
 }
-
 #users-container::-webkit-scrollbar-track {
-  background: #f1f1f1; /* track (background) */
+  background: #e6d3b3;
   border-radius: 10px;
 }
-
 #users-container::-webkit-scrollbar-thumb {
-  background: #4d96ff; /* scroll thumb color */
-  border-radius: 10px; /* rounded edges */
-  border: 2px solid #f1f1f1; /* adds a border "gap" look */
+  background: #4d96ff;
+  border-radius: 10px;
+  border: 2px solid #e6d3b3;
 }
-
 #users-container::-webkit-scrollbar-thumb:hover {
-  background: #1a73e8; /* darker on hover */
+  background: #1a73e8;
 }
 
-/* For Firefox */
+/* Firefox scrollbar */
 #users-container {
-  scrollbar-width: thin; /* auto | thin */
-  scrollbar-color: #4d96ff #f1f1f1; /* thumb | track */
+  scrollbar-width: thin;
+  scrollbar-color: #4d96ff #e6d3b3;
 }

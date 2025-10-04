@@ -11,8 +11,17 @@ const Users = () => {
         'https://fakerapi.it/api/v2/users?_quantity=30&_gender=male'
       );
       const { data } = await response.json();
-      setUsers(data); // ✅ set the whole array
-      console.log('Users: ', data);
+
+      // Attach random style + tilt to each user
+      const styledUsers = data.map((person) => {
+        const attachmentStyles = ['pushpin', 'tape', 'tack'];
+        const randomStyle =
+          attachmentStyles[Math.floor(Math.random() * attachmentStyles.length)];
+        const randomTilt = Math.floor(Math.random() * 7 - 3); // -3 to +3 degrees
+        return { ...person, attachment: randomStyle, tilt: randomTilt };
+      });
+
+      setUsers(styledUsers);
     } catch (error) {
       console.error('Error fetching fake users:', error);
     }
@@ -35,6 +44,8 @@ const Users = () => {
             email={person.email}
             image={person.image}
             website={person.website}
+            attachment={person.attachment}
+            tilt={person.tilt}
           />
         ))
       ) : (

@@ -1,18 +1,18 @@
-/* Google Font Styles */
 @import url('https://fonts.googleapis.com/css2?family=SUSE+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Frijole&display=swap');
 
 #user-card {
-  flex: 0 0 200px;
+  flex: 0 0 200px; /* fixed width so cards don’t shrink */
   box-sizing: border-box;
   border: 2px solid black;
   border-radius: 5px;
-  font-family: 'SUSE Mono', sans-serif;
+  font-family: "SUSE Mono", sans-serif;
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
-  overflow: hidden;
+  background-color: #FFE5D4;
+  overflow: hidden; /* ensures img corners follow card radius */
 }
 
 #user-card img {
@@ -24,30 +24,42 @@
   border-bottom: 2px solid white;
 }
 
+#user-card:hover {
+  transform: scale(1.05) !important; /* override tilt on hover */
+  box-shadow: 5px 8px 14px rgba(0,0,0,0.3);
+}
+
 .info-text {
-  display: flex;
-  align-items: center;
+  display: flex;        /* ✅ align icon + text horizontally */
+  align-items: center;  /* ✅ vertical center */
   font-weight: 800;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
 }
 
 .name-font {
-  font-family: 'Honk', system-ui;
+  font-family: "Honk", system-ui;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   font-variation-settings:
-    'MORF' 15,
-    'SHLN' 50;
+    "MORF" 15,
+    "SHLN" 50;
 }
 
 .name-font-alt-style {
-  font-family: 'Frijole', system-ui;
+  font-family: "Frijole", system-ui;
   font-weight: 400;
   font-style: normal;
+}
+
+/* ✅ flex alignment for icon + text */
+.info-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* spacing between icon and text */
 }
 
 .card-icon {
@@ -55,4 +67,40 @@
   vertical-align: middle;
   font-size: 1rem; /* size adjusts with text */
   flex-shrink: 0;
+}
+
+/* Thumbtack */
+.attachment-deco.tack {
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: url('/assets/thumbtack.png') no-repeat center/contain;
+}
+
+/* Tape strips */
+.attachment-deco.tape {
+  top: -8px;
+  left: 10%;
+  right: 10%;
+  height: 16px;
+  background: url('/assets/tape-strip.png') no-repeat center/cover;
+  opacity: 0.9;
+}
+
+/* Pushpin */
+.attachment-deco.pushpin {
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 24px;
+  background: url('/assets/pushpin.png') no-repeat center/contain;
+}
+
+/* Attachment decoration (placeholder div) */
+.attachment-deco {
+  position: absolute;
+  z-index: 2;
 }
