@@ -71,7 +71,7 @@
 
 /* Thumbtack */
 .attachment-deco.tack {
-  top: -10px;
+  top: 1px;
   left: 50%;
   transform: translateX(-50%);
   width: 20px;
@@ -82,16 +82,17 @@
 /* Tape strips */
 .attachment-deco.tape {
   top: -8px;
-  left: 10%;
-  right: 10%;
-  height: 16px;
+  left: 50%;
+  right: 50%;
+  width: 20px;
+  height: 20px;
   background: url('/assets/tape-strip.png') no-repeat center/cover;
   opacity: 0.9;
 }
 
 /* Pushpin */
 .attachment-deco.pushpin {
-  top: -12px;
+  top: 1px;
   left: 50%;
   transform: translateX(-50%);
   width: 24px;
