@@ -32,26 +32,30 @@ const Users = () => {
   }, []);
 
   return (
-    <div id="users-container">
-      {users.length > 0 ? (
-        users.map((person) => (
-          <UserCard
-            key={person.uuid}
-            id={person.uuid}
-            firstName={person.firstname}
-            lastName={person.lastname}
-            username={person.username}
-            email={person.email}
-            image={person.image}
-            website={person.website}
-            attachment={person.attachment}
-            tilt={person.tilt}
-          />
-        ))
-      ) : (
-        <p>Loading users...</p>
-      )}
-    </div>
+    <section className="users-wrapper">
+      <div id="users-frame">
+        <div id="users-container">
+          {users.length > 0 ? (
+            users.map((person) => (
+              <UserCard
+                key={person.uuid}
+                id={person.uuid}
+                firstName={person.firstname}
+                lastName={person.lastname}
+                username={person.username}
+                email={person.email}
+                image={person.image}
+                website={person.website}
+                attachment={person.attachment}
+                tilt={person.tilt}
+              />
+            ))
+          ) : (
+            <p className="loading-text">Loading users...</p>
+          )}
+        </div>
+      </div>
+    </section>
   );
 };
 

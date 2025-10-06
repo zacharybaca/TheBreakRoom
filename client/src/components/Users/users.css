@@ -1,38 +1,130 @@
-/* USERS CONTAINER → Corkboard style */
-#users-container {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 cards per row */
-  gap: 1rem;
+/* ===== USERS WRAPPER ===== */
+.users-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   padding: 2rem;
-  max-height: 600px;
-  overflow-y: auto;
-
-  background: url('/assets/corkboard-texture.jpg'); /* corkboard image */
-  background-size: cover;
-  border-radius: 12px;
-  border: 6px solid #8b5e3c; /* wood frame */
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  box-sizing: border-box;
 }
 
-/* Scrollbar Styling */
+/* ===== FIXED BACKGROUND FRAME ===== */
+#users-frame {
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  height: 70vh;
+  background: url('/assets/corkboard-texture.jpg') center/cover no-repeat fixed;
+  border-radius: 16px;
+  border: 8px solid #8b5e3c;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* ===== SCROLLABLE CARD GRID ===== */
+#users-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.08); /* subtle glassy overlay */
+  backdrop-filter: blur(1px);
+}
+
+/* ===== Scrollbar Styling ===== */
 #users-container::-webkit-scrollbar {
   width: 10px;
 }
 #users-container::-webkit-scrollbar-track {
-  background: #e6d3b3;
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
 }
 #users-container::-webkit-scrollbar-thumb {
   background: #4d96ff;
   border-radius: 10px;
-  border: 2px solid #e6d3b3;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 #users-container::-webkit-scrollbar-thumb:hover {
   background: #1a73e8;
 }
-
-/* Firefox scrollbar */
 #users-container {
   scrollbar-width: thin;
-  scrollbar-color: #4d96ff #e6d3b3;
+  scrollbar-color: #4d96ff rgba(255, 255, 255, 0.2);
+}
+
+/* ===== USER CARD FLOAT / SWAY EFFECT ===== */
+#users-container .user-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transform-origin: top center;
+  perspective: 800px;
+  will-change: transform, box-shadow;
+}
+
+#users-container .user-card:hover {
+  transform: rotateX(2deg) rotateY(-2deg) translateY(-5px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+}
+
+/* Subtle “swing” motion for realism */
+@keyframes sway {
+  0% { transform: rotateZ(-1deg); }
+  50% { transform: rotateZ(1deg); }
+  100% { transform: rotateZ(-1deg); }
+}
+
+#users-container .user-card:hover {
+  animation: sway 1.6s ease-in-out infinite alternate;
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+
+/* Mobile */
+@media (max-width: 480px) {
+  .users-wrapper {
+    padding: 1rem;
+  }
+
+  #users-frame {
+    height: 60vh;
+    border-width: 6px;
+  }
+
+  #users-container {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 1024px) {
+  #users-container {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  #users-container {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+/* ===== LOADING TEXT ===== */
+.loading-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  grid-column: 1 / -1;
 }
