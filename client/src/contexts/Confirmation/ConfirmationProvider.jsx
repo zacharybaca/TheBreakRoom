@@ -14,6 +14,7 @@ export const ConfirmationProvider = ({ children }) => {
   const handleConfirm = (e) => {
     if (e.target.value === 'confirm') {
       setShowDialog(false);
+      setDialogQuestion("");
       setProceed(true);
     }
   };
@@ -22,6 +23,7 @@ export const ConfirmationProvider = ({ children }) => {
     console.log('Clicked');
     if (e.target.value === 'cancel') {
       setShowDialog(false);
+      setDialogQuestion("");
       setProceed(false);
     }
   };
