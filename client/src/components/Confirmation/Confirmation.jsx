@@ -1,12 +1,11 @@
 import React from 'react';
 import './confirmation.css';
+import { useConfirmation } from '../../hooks/useConfirmation.js';
 
-const Confirmation = ({
-  showDialog = false,
-  dialogQuestion = 'Are you sure you want to perform this action?',
-  onConfirm,
-  onCancel,
-}) => {
+const Confirmation = () => {
+
+  const {showDialog, dialogQuestion, handleConfirm, handleCancel } = useConfirmation();
+
   if (!showDialog) return null;
 
   return (
@@ -17,7 +16,8 @@ const Confirmation = ({
         <button
           type="button"
           className="confirm-button glow-on-hover"
-          onClick={onConfirm}
+          value="confirm"
+          onClick={handleConfirm}
         >
           ✅ Confirm
         </button>
@@ -25,7 +25,8 @@ const Confirmation = ({
         <button
           type="button"
           className="delete-button glow-on-hover"
-          onClick={onCancel}
+          value="cancel"
+          onClick={handleCancel}
         >
           ❎ Cancel
         </button>
