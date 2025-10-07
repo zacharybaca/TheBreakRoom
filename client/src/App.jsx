@@ -44,6 +44,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/breakrooms/create" element={<CreateBreakRoom />} />
           <Route path="/breakrooms" element={<Breakrooms />} />
+          <Route path="/confirmation" element={<Confirmation />} />
           <Route
             path="/error"
             element={
