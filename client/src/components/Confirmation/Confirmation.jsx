@@ -2,13 +2,16 @@ import React from 'react';
 import './confirmation.css';
 import { useConfirmation } from '../../hooks/useConfirmation.js';
 
-const Confirmation = () => {
+const Confirmation = ({question}) => {
 
   const {showDialog, dialogQuestion, handleDialogQuestion, handleConfirm, handleCancel } = useConfirmation();
 
   if (!showDialog) return null;
 
-  if (!dialogQuestion) {
+  if (question && !dialogQuestion) {
+    handleDialogQuestion(question);
+  }
+  else {
     handleDialogQuestion("Would you like to continue?");
   }
 
