@@ -4,9 +4,13 @@ import { useConfirmation } from '../../hooks/useConfirmation.js';
 
 const Confirmation = () => {
 
-  const {showDialog, dialogQuestion, handleConfirm, handleCancel } = useConfirmation();
+  const {showDialog, dialogQuestion, handleDialogQuestion, handleConfirm, handleCancel } = useConfirmation();
 
   if (!showDialog) return null;
+
+  if (!dialogQuestion) {
+    handleDialogQuestion("Would you like to continue?");
+  }
 
   return (
     <div className="dialog-overlay" role="dialog" aria-modal="true">
