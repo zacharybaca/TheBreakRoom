@@ -19,6 +19,7 @@ export const ConfirmationProvider = ({ children }) => {
   };
 
   const handleCancel = (e) => {
+    console.log('Clicked');
     if (e.target.value === 'cancel') {
       setShowDialog(false);
       setProceed(false);
