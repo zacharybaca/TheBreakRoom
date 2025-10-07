@@ -21,19 +21,19 @@ const UserCard = (props) => {
             />
           )}
 
-          <h3 className="info-text name-font-alt-style info-line item">
+          <h3 className="name-font-alt-style info-line item">
             <FaUser className="card-icon" />
-            <span>Name: {props.firstName} {props.lastName}</span>
+            <span><p className="info-text-title">Name:</p> {props.firstName} {props.lastName}</span>
           </h3>
 
           <p className="info-text info-line item">
             <FaUserTag className="card-icon" />
-            <span>Username: {props.username}</span>
+            <span><p className="info-text-title">Username: </p> {props.username}</span>
           </p>
 
           <p className="info-text info-line item">
             <FaEnvelope className="card-icon" />
-            <span>Email: {props.email}</span>
+            <span><p className="info-text-title">E-mail: </p> {props.email}</span>
           </p>
         </div>
       </div>

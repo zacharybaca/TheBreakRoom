@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=SUSE+Mono:ital,wght@0,100..800;1,100..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ranchers&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Frijole&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Grape+Nuts&display=swap');
 
 .user-card {
   background-color: #fff8e1;
@@ -30,6 +30,7 @@
   border-radius: 6px;
   margin-bottom: 0.5rem;
   object-fit: cover;
+  background-color: blue;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
@@ -44,17 +45,26 @@
 }
 
 .user-card-content {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   overflow: visible; /* ✅ No clipping */
 }
 
 .user-card p::before {
-  margin-right: 6px;
+  content: '';
+  margin-right: 5px;
   color: #4d96ff;
 }
 
-.user-card p:nth-of-type(1)::before {
-  content: "👤";
+.user-card p span::before {
+  content: '';
+  margin-right: 8px;
+}
+
+h3 span::before {
+  content: '';
+  margin-right: 5px;
 }
 
 .user-card.pushpin::before,
@@ -105,7 +115,19 @@
 
 .name-font-alt-style {
   font-family: "Frijole", system-ui;
-  font-weight: 400;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.info-text {
+  font-family: "Grape Nuts", cursive;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.info-text-title {
+  font-family: "Ranchers", sans-serif;
+  font-weight: 800;
   font-style: normal;
 }
 
