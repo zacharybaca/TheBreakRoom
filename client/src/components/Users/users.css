@@ -132,6 +132,7 @@
   display: grid;
   place-items: center; /* centers text horizontally & vertically */
   background: rgba(255, 255, 255, 0.1); /* subtle translucent overlay */
+  border: 3px solid yellow;
   backdrop-filter: blur(1px);
   z-index: 5;
 }
@@ -139,6 +140,10 @@
 
 /* ===== LOADING TEXT ===== */
 .loading-text {
+  display: grid;
+  place-items: center;
+  width: 50%;
+  height: 30%;
   font-size: 1.25rem;
   font-family: "Finger Paint", sans-serif;
   font-weight: 800;
