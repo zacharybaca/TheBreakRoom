@@ -35,7 +35,7 @@ const Users = () => {
     <section className="users-wrapper">
       <div id="users-frame">
         <div id="users-container">
-          {users.length === 100 ? (
+          {users.length > 0 ? (
             users.map((person) => (
               <UserCard
                 key={person.uuid}
