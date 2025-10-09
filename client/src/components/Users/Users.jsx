@@ -35,7 +35,7 @@ const Users = () => {
     <section className="users-wrapper">
       <div id="users-frame">
         <div id="users-container">
-          {users.length > 0 ? (
+          {users.length === 100 ? (
             users.map((person) => (
               <UserCard
                 key={person.uuid}
@@ -51,7 +51,9 @@ const Users = () => {
               />
             ))
           ) : (
-            <p className="loading-text">Loading users...</p>
+            <div className="loading-container">
+                <p className="loading-text">Loading users...</p>
+            </div>
           )}
         </div>
       </div>
