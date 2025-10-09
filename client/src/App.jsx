@@ -9,6 +9,7 @@ import Confirmation from './components/Confirmation/Confirmation.jsx';
 import Breakrooms from './components/Breakrooms/Breakrooms.jsx';
 import CreateBreakRoom from './components/CreateBreakRoom/CreateBreakRoom.jsx';
 import Users from './components/Users/Users.jsx';
+import Loading from './components/Loading/Loading.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
           <Route path="/breakrooms/create" element={<CreateBreakRoom />} />
           <Route path="/breakrooms" element={<Breakrooms />} />
           <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/loading" element={<Loading />} />
           <Route
             path="/error"
             element={
