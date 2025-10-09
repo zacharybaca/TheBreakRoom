@@ -1,9 +1,6 @@
 #loading-container {
     display: flex;
     flex-direction: column;
-    border: 2px solid black;
-}
-
-#loading-container h1 {
     background-color: #FFE0CC;
+    border: 2px solid black;
 }
