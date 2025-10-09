@@ -52,7 +52,10 @@ const Users = () => {
             ))
           ) : (
             <div className="loading-container">
-                <p className="loading-text">Loading users...</p>
+                <p className="loading-text">
+                  <img src="/assets/waiting-loading-users.gif" alt="waiting gif" />
+                  Loading users...
+                </p>
             </div>
           )}
         </div>
