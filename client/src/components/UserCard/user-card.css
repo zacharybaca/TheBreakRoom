@@ -86,13 +86,13 @@ h3 span::before {
 }
 
 .user-card.tape::before {
-  background-image: url('/assets/tape.png');
+  background-image: url('/assets/tape-strip.png');
   width: 65px;
   height: 25px;
 }
 
 .user-card.tack::before {
-  background-image: url('/assets/tack.png');
+  background-image: url('/assets/thumbtack.png');
   width: 18px;
   height: 18px;
 }

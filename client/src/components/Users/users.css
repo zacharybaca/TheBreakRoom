@@ -90,7 +90,7 @@
 /* ===== RESPONSIVE BEHAVIOR ===== */
 
 /* Mobile */
-@media (max-width: 480px) {
+@media (max-width: 390px) {
   .users-wrapper {
     padding: 1rem;
   }
@@ -102,6 +102,7 @@
 
   #users-container {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    place-items: center;
     gap: 1rem;
     padding: 1rem;
   }
@@ -154,4 +155,3 @@
   text-align: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
-
