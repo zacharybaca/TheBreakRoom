@@ -42,7 +42,10 @@ const NavBar = () => {
             )}
           </div>
         </div>
+        /* Place App Logo In This Div */
+        <div id="app-icon-container">
 
+        </div>
         <div id="menu-icon">
           <img
             src="/assets/menu-icon.gif"
