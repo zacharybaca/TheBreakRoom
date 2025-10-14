@@ -110,6 +110,7 @@ h3 span::before {
 
 .user-card.paperclip::before {
   background-image: url('/assets/paper-clip.png');
+  top: -20px;
   width: 18px;
   height: 18px;
 }
@@ -122,6 +123,7 @@ h3 span::before {
 
 .user-card.mappin::before {
   background-image: url('/assets/map-pin.png');
+  top: -1px;
   width: 18px;
   height: 18px;
 }
@@ -173,7 +175,7 @@ h3 span::before {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 390px) {
   .user-card {
     max-width: 180px;
     padding: 0.5rem;
