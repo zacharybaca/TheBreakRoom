@@ -13,6 +13,7 @@ const Footer = () => {
           <a href="/privacy">Privacy Policy</a>
           <a href="/terms">Terms</a>
         </nav>
+        <img src="/assets/footer-logo.png" alt="footer logo" />
       </div>
 
       {/* Bottom Section */}
