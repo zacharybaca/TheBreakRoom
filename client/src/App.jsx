@@ -24,7 +24,7 @@ function App() {
           <div id="app-icon">
             <div id="app-icon-container">
               <img
-                src="/assets/Nine2Five-logo.png"
+                src="/assets/nine2five-app-icon.gif"
                 id="app-logo"
                 alt="app logo"
               />
