@@ -42,3 +42,9 @@
 hr {
   width: 100%;
 }
+
+@media screen and (max-width: 390px) {
+  #app-icon-container img {
+    width: 40%;
+  }
+}
