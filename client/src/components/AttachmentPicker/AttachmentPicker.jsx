@@ -5,14 +5,14 @@ import './attachment-picker.css';
 
 const AttachmentPicker = () => {
   const attachments = [
-      { attachment: 'pushpin', imgURL: '/assets/pushpin.png' },
+    { attachment: 'pushpin', imgURL: '/assets/pushpin.png' },
     { attachment: 'tape', imgURL: '/assets/tape-strip.png' },
     { attachment: 'tack', imgURL: '/assets/thumbtack.png' },
-    { attachment: '#FF6B6B', imgURL: 'Energetic Red 🔥' },
-    { attachment: '#FF9671', imgURL: 'Social Coral 🧡' },
-    { attachment: '#845EC2', imgURL: 'Creative Purple 🎨' },
-    { attachment: '#2C2C2C', imgURL: 'Neutral Charcoal ⚫' },
-    { attachment: '#00C9A7', imgURL: 'Zen Teal 🧘' },
+    { attachment: 'safetypin', imgURL: '/assets/safety-pin.png' },
+    { attachment: 'paperclip', imgURL: '/assets/paper-clip.png' },
+    { attachment: 'magnet', imgURL: '/assets/magnet.png' },
+    { attachment: 'mappin', imgURL: '/assets/map-pin.png' },
+    { attachment: 'nail', imgURL: '/assets/nail.png' },
   ];
 
   const formik = useFormik({
