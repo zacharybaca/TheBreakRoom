@@ -32,10 +32,12 @@ const AttachmentPicker = () => {
       <button
         type="button"
         className="attachment-button"
-        style={{ backgroundImage: formik.values?.imgURL || '' }}
+        style={{
+          backgroundImage: formik.values?.imgURL ? `url(${formik.values.imgURL})` : '',
+        }}
         onClick={() => setOpen(!open)}
       >
-        {formik.values?.attachment ? formik.values.attachment : '+'}
+        {!formik.values?.imgURL && '+'}
       </button>
 
       {open && (
@@ -44,8 +46,11 @@ const AttachmentPicker = () => {
             <button
               key={attachment.attachment}
               type="button"
-              className={`attachment-swatch ${formik.values?.attachment === attachment.attachment ? 'selected' : ''}`}
-              style={{ backgroundImage: attachment.imgURL }}
+              className={`attachment-swatch ${formik.values?.attachment === attachment.attachment ? 'selected' : ''
+                }`}
+              style={{
+                backgroundImage: `url(${attachment.imgURL})`,
+              }}
               title={attachment.attachment}
               onClick={() => {
                 formik.setFieldValue('attachment', attachment.attachment);

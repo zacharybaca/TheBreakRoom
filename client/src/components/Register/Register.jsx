@@ -6,6 +6,7 @@ import { useModal } from '../../hooks/useModal';
 import { useAuth } from '../../hooks/useAuth';
 import Modal from '../Modal/Modal.jsx';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
+import AttachmentPicker from '../AttachmentPicker/AttachmentPicker.jsx';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 
 const stepVariants = {
@@ -194,6 +195,13 @@ const Register = () => {
           formik.setFieldValue('avatar', e.currentTarget.files[0])
         }
       />
+
+      <label>Board Pin:</label>
+      <AttachmentPicker value={formik.values.attachment} onChange={formik.handleChange} />
+
+      {formik.errors.attachment && (
+        <p className="form-error">{formik.errors.attachment}</p>
+      )}
 
       <div className="step-actions-submit">
         <ReusableStyledButton

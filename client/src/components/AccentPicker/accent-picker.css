@@ -1,9 +1,9 @@
-.accent-picker {
+.attachment-picker {
   position: relative;
   display: inline-block;
 }
 
-.accent-button {
+.attachment-button {
   width: 40px;
   height: 40px;
   border: 2px solid #ccc;
@@ -11,16 +11,22 @@
   cursor: pointer;
   font-size: 20px;
   font-weight: bold;
-  background: #f0f0f0;
-  transition: transform 0.2s ease;
+  background-color: #f0f0f0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, border 0.2s ease;
 }
 
-.accent-button:hover {
+.attachment-button:hover {
   transform: scale(1.05);
   border-color: #888;
 }
 
-.palette-popup {
+.attachment-popup {
   position: absolute;
   top: 50px;
   left: 0;
@@ -35,28 +41,29 @@
   z-index: 1000;
 }
 
-.color-swatch {
+.attachment-swatch {
   width: 35px;
   height: 35px;
   border: 2px solid transparent;
   border-radius: 50%;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    border 0.2s ease;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.2s ease, border 0.2s ease;
 }
 
-.color-swatch:hover {
+.attachment-swatch:hover {
   transform: scale(1.1);
   border-color: #555;
 }
 
-.color-swatch.selected {
+.attachment-swatch.selected {
   border-color: #000;
   transform: scale(1.15);
 }
 
-.accent-label {
+.attachment-label {
   margin-top: 8px;
   font-size: 14px;
   font-weight: 500;

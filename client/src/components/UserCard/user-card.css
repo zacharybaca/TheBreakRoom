@@ -69,7 +69,12 @@ h3 span::before {
 
 .user-card.pushpin::before,
 .user-card.tape::before,
-.user-card.tack::before {
+.user-card.tack::before,
+.user-card.safetypin::before,
+.user-card.paperclip::before,
+.user-card.magnet::before,
+.user-card.mappin::before,
+.user-card.nail::before {
   content: '';
   position: absolute;
   top: -12px;
@@ -93,6 +98,36 @@ h3 span::before {
 
 .user-card.tack::before {
   background-image: url('/assets/thumbtack.png');
+  width: 18px;
+  height: 18px;
+}
+
+.user-card.safetypin::before {
+  background-image: url('/assets/safety-pin.png');
+  width: 18px;
+  height: 18px;
+}
+
+.user-card.paperclip::before {
+  background-image: url('/assets/paper-clip.png');
+  width: 18px;
+  height: 18px;
+}
+
+.user-card.magnet::before {
+  background-image: url('/assets/magnet.png');
+  width: 18px;
+  height: 18px;
+}
+
+.user-card.mappin::before {
+  background-image: url('/assets/map-pin.png');
+  width: 18px;
+  height: 18px;
+}
+
+.user-card.nail::before {
+  background-image: url('/assets/nail.png');
   width: 18px;
   height: 18px;
 }
