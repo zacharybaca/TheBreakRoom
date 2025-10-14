@@ -8,6 +8,11 @@ footer {
   font-size: 0.9rem;
 }
 
+.footer-top img {
+  width: 5%;
+  height: 5%;
+}
+
 /* Tagline */
 .tagline {
   font-size: 1rem;
