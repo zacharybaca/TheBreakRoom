@@ -4,7 +4,7 @@
   min-width: 100vw;
   min-height: 100vh;
   box-sizing: border-box;
-  background-image: url('/assets/main-app-background.png');
+  background-image: url('/assets/app-background-image.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;
   border: 2px solid black;
