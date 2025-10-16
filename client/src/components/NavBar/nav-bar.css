@@ -2,84 +2,85 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Maps&display=swap');
 
 #nav-bar-container {
+  width: 100%;
+  /* Aesthetic Change: Slightly deeper gradient and softer shadow */
+  background: linear-gradient(90deg, #004a94, #0090e0);
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 0 3px #ffe066; /* Subtle shadow with a gold border accent */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-width: 100%;
-  background: linear-gradient(90deg, #005ab4, #0cb1ff);
-  color: white;
-  box-shadow: 0 -4px 12px rgba(0, 90, 180, 0.35); /* bluish glow above footer */
+  align-items: center;
+  z-index: 1000;
+  /* Removed: border-bottom: 3px solid yellow; */
 }
 
-.nav-bar-images {
-  height: 5vh;
-}
-
-.nav-bar-images:hover {
-  cursor:
-    url('/assets/pointer-cursor.png') 0 0,
-    auto;
-}
-
-.nav-bar-images-default {
-  height: 10vh;
-  cursor:
-    url('/assets/regular-cursor.png') 0 0,
-    auto;
-}
-
+/* Main layout: Left | Center | Right */
 #menu-icon-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
+}
+
+#notification-icon {
   display: flex;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  min-width: 100%;
-  background: linear-gradient(90deg, #005ab4, #0cb1ff);
-  box-shadow: 0 -4px 12px rgba(0, 90, 180, 0.35); /* bluish glow above footer */
-  color: white;
-  border-bottom: none;
-  border: 3px solid yellow;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 #notifications-group {
   display: flex;
-  justify-content: space-around;
   align-items: center;
   gap: 0.5rem;
-  border: 3px solid red;
 }
 
 #notifications-group h3 {
-  font-family: 'Rubik Maps', system-ui;
+  /* Aesthetic Change: Used a cleaner system font for clarity on the word 'Notifications' */
+  font-family: system-ui, sans-serif; 
   font-weight: 400;
-  font-style: normal;
-}
-
-#app-icon-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding: 1%;
-}
-
-#app-logo {
-  width: 50%;
-  height: 20vh;
-  border-radius: 10px;
+  margin: 0;
+  white-space: nowrap;
 }
 
 #app-icon {
-  padding: 1%;
-  margin: 1%;
-  border: 3px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+  text-align: center;
+  /* Aesthetic Change: Reduced gap to make the logo/slogan unit tighter */
+  gap: 0.25rem;
+}
+
+#app-logo {
+  width: 90px;
+  height: auto;
+  border-radius: 10px;
 }
 
 #menu-icon {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 20%;
-  border: 3px solid white;
+  gap: 0.5rem;
+}
+
+/* Aesthetic Change: Standardized icon sizes to match for visual balance */
+.nav-bar-images,
+.nav-bar-images-default {
+  height: 6vh; /* Unified height for all icons (switch, bell, menu) */
+}
+
+.nav-bar-images {
+  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+}
+
+.nav-bar-images-default {
+  cursor: url('/assets/regular-cursor.png') 0 0, auto;
 }
 
 .slogan {
@@ -87,10 +88,81 @@
   font-weight: 400;
   font-style: normal;
   text-align: center;
+  color: white;
+  margin: 0;
+  line-height: 1.2;
+  /* Aesthetic Change: Limited max-width for better readability on wide screens */
+  max-width: 600px;
+  font-size: 1.25rem; /* Set a slightly smaller default size for wide screens */
 }
 
-@media screen and (max-width: 390px) {
+/* 900px breakpoint: Tablet View */
+@media screen and (max-width: 900px) {
+  #menu-icon-container {
+    /* Responsive Change: Keeps layout horizontal (3 columns) on tablets */
+    grid-template-columns: 1fr 2fr 1fr; 
+    padding: 0.5rem 1rem;
+  }
+
+  /* Ensures sections are properly aligned on the single row */
+  #notification-icon,
+  #menu-icon {
+    justify-content: center;
+  }
+
   #notifications-group {
-    flex-direction: column;
+    flex-direction: row;
+  }
+
+  #app-logo {
+    width: 70px;
+  }
+
+  /* Shrink slogan text for tablet readability */
+  .slogan {
+    font-size: 0.9rem;
+    max-width: 90%; /* Allow it to use more width on tablets */
+  }
+}
+
+/* 480px breakpoint: Mobile View */
+@media screen and (max-width: 480px) {
+  #menu-icon-container {
+    /* Responsive Change: Keeps layout horizontal (3 columns) on mobile */
+    grid-template-columns: 1fr auto 1fr; 
+    padding: 0.5rem;
+  }
+
+  /* Responsive Change: Hide long slogan text to save precious vertical space */
+  .slogan {
+    display: none;
+  }
+
+  /* Hide the word 'Notifications:' to save space on mobile */
+  #notifications-group h3 {
+    display: none;
+  }
+
+  #notifications-group {
+    /* Responsive Change: Keep icons on a single row */
+    flex-direction: row; 
+    gap: 0.25rem;
+  }
+
+  #app-logo {
+    width: 50px; /* Smaller logo for mobile */
+  }
+  
+  /* Ensure icons are aligned at the start/end of their columns */
+  #notification-icon {
+    justify-content: flex-start;
+  }
+
+  #menu-icon {
+    justify-content: flex-end;
+  }
+
+  #app-icon {
+    gap: 0;
   }
 }
