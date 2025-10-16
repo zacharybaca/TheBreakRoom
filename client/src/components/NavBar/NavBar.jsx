@@ -1,6 +1,7 @@
 import './nav-bar.css';
 import { useToggle } from '../../hooks/useToggle';
 import SlideOutMenu from '../SlideOutMenu/SlideOutMenu.jsx';
+import NotificationBell from '../NotificationBell/NotificationBell.jsx';
 
 const NavBar = () => {
   const { notificationsOn, handleToggleClick, menuOpen, setMenuOpen } = useToggle();
@@ -19,15 +20,7 @@ const NavBar = () => {
               alt="notification toggle"
               className="nav-bar-images"
             />
-            <img
-              src={
-                notificationsOn
-                  ? '/assets/notification-number-bell.gif'
-                  : '/assets/notifications-off.gif'
-              }
-              className="nav-bar-images-default"
-              alt="notification bell"
-            />
+            {notificationsOn ? <NotificationBell /> : <img src='/assets/notifications-off.gif' className='nav-bar-images-default' alt='notification-bell' />}
           </div>
         </div>
 
