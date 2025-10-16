@@ -5,19 +5,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
   min-width: 100%;
-  padding-top: 2%;
-  padding-bottom: 2%;
-  padding-left: 2%;
-  padding-right: 2%;
   background: linear-gradient(90deg, #005ab4, #0cb1ff);
   color: white;
   box-shadow: 0 -4px 12px rgba(0, 90, 180, 0.35); /* bluish glow above footer */
 }
 
 .nav-bar-images {
-  height: 10vh;
+  height: 5vh;
 }
 
 .nav-bar-images:hover {
@@ -35,33 +30,63 @@
 
 #menu-icon-container {
   display: flex;
-  justify-content: space-between;
-  padding-bottom: 1%;
+  justify-content: space-evenly;
+  align-items: flex-start;
   min-width: 100%;
   background: linear-gradient(90deg, #005ab4, #0cb1ff);
   box-shadow: 0 -4px 12px rgba(0, 90, 180, 0.35); /* bluish glow above footer */
   color: white;
   border-bottom: none;
-}
-
-#notification-icon {
-  display: flex;
-  justify-content: space-between;
-  min-width: 52%;
+  border: 3px solid yellow;
 }
 
 #notifications-group {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 1%;
+  gap: 0.5rem;
+  border: 3px solid red;
 }
 
 #notifications-group h3 {
   font-family: 'Rubik Maps', system-ui;
   font-weight: 400;
   font-style: normal;
-  padding: 5%;
+}
+
+#app-icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1%;
+}
+
+#app-logo {
+  width: 50%;
+  height: 20vh;
+  border-radius: 10px;
+}
+
+#app-icon {
+  padding: 1%;
+  margin: 1%;
+  border: 3px solid black;
+}
+
+#menu-icon {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 20%;
+  border: 3px solid white;
+}
+
+.slogan {
+  font-family: 'Schoolbell', cursive;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
 }
 
 @media screen and (max-width: 390px) {

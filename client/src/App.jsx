@@ -20,25 +20,6 @@ function App() {
       <NavBar />
       <hr />
       <main id="content">
-        {!isAuthenticated && (
-          <div id="app-icon">
-            <div id="app-icon-container">
-              <img
-                src="/assets/nine2five-app-icon.gif"
-                id="app-logo"
-                alt="app logo"
-              />
-              <h1 className="slogan">
-                The Platform for the People Who Keep Things Moving.
-              </h1>
-              <h2 className="slogan">
-                From the Breakroom to the World.....We Speak.
-              </h2>
-            </div>
-            <br />
-          </div>
-        )}
-
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/users" element={<Users />} />
