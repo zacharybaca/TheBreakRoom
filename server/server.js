@@ -6,6 +6,8 @@ import path from "path";
 import fs from "fs";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
+import http from "http";
+import { Server as SocketServer } from "socketio";
 
 import connectDB from "./config/db.js";
 import { errorMiddleware } from "./middleware/errorMiddleware.js";
@@ -25,6 +27,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const server = http.createServer(app);
+
+const io = new SocketServer(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
 // 🔹 Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, "uploads");
@@ -60,12 +70,27 @@ app.use((req, res, next) =>
 // Error middleware
 app.use(errorMiddleware);
 
+// WebSocket Logic
+io.on("connection", (socket) => {
+  console.log("🔌 New client connected:", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("❌ Client disconnected:", socket.id);
+  });
+
+  socket.on("chatMessage", (message) => {
+    console.log("💬 Message received:", message);
+    io.emit("chatMessage", message); // Broadcast to all connected clients
+  });
+  
+});
+
 // Start server
 const PORT = process.env.PORT || 5000;
 
 connectDB()
   .then(() => {
-    app.listen(PORT, () =>
+    server.listen(PORT, () =>
       console.log(`🚀 Server running on http://localhost:${PORT}`)
     );
   })
