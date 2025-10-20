@@ -6,6 +6,7 @@ import { ToggleProvider } from './Toggle/ToggleProvider';
 import { ConfirmationProvider } from './Confirmation/ConfirmationProvider';
 import { ModalProvider } from './Modal/ModalProvider';
 import { UsersProvider } from './Users/UsersProvider';
+import { PostsProvider } from './Posts/PostsProvider';
 import { useAuth } from '../hooks/useAuth';
 
 // Loader component
@@ -38,6 +39,7 @@ export const AppProvider = ({ children }) => {
       <AuthProvider>
         <AppWrapper>
           {/* <UsersProvider> */}
+          {/* <PostsProvider> */}
           <ModalProvider>
             <ConfirmationProvider>
               <ToggleProvider>
@@ -45,6 +47,7 @@ export const AppProvider = ({ children }) => {
               </ToggleProvider>
             </ConfirmationProvider>
           </ModalProvider>
+          {/* </PostsProvider> */}
           {/* </UsersProvider> */}
         </AppWrapper>
       </AuthProvider>

@@ -36,7 +36,15 @@ export const createPost = async (req, res) => {
     await newPost.save();
     newPost = await newPost.populate("authorId", "username name avatarUrl");
 
-    res.status(201).json(await formatPostResponse(newPost));
+    const formattedPost = await formatPostResponse(newPost);
+
+    // Broadcast to all connected clients via WebSocket
+    if (req.io) {
+      req.io.emit("postCreated", formattedPost);
+      console.log("📡 Emitted postCreated event via WebSocket");
+    }
+    
+    res.status(201).json(formattedPost);
   } catch (err) {
     res.status(400).json({
       message: "Error creating post",

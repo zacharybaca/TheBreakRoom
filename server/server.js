@@ -36,6 +36,12 @@ const io = new SocketServer(server, {
   },
 });
 
+// ✅ Attach Socket.IO instance to each request
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
 // 🔹 Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) {
@@ -82,7 +88,7 @@ io.on("connection", (socket) => {
     console.log("💬 Message received:", message);
     io.emit("chatMessage", message); // Broadcast to all connected clients
   });
-  
+
 });
 
 // Start server
