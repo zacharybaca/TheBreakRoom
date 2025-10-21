@@ -4,8 +4,9 @@
 .chat-room-wrapper {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 2rem;
   box-sizing: border-box;
 }
