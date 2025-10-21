@@ -13,8 +13,8 @@
 /* ===== FIXED BACKGROUND FRAME ===== */
 #chat-room-frame {
   position: relative;
-  width: 100%;
-  max-width: 1600px;
+  min-width: 100%;
+  max-width: 100%;
   height: 70vh;
   background: url('/assets/corkboard-texture.jpg') center/cover no-repeat fixed;
   border-radius: 16px;
@@ -28,18 +28,19 @@
 
 /* ===== SCROLLABLE CARD GRID ===== */
 #messages-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
   padding: 2rem;
   max-width: 100%;
   min-width: 100%;
   height: 100%;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.08); /* subtle glassy overlay */
   backdrop-filter: blur(1px);
+  border: 2px solid yellow;
 }
 
 /* ===== Scrollbar Styling ===== */
@@ -64,14 +65,14 @@
 }
 
 /* ===== USER CARD FLOAT / SWAY EFFECT ===== */
-#messages-container .user-card {
+#messages-container .message-card {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   transform-origin: top center;
   perspective: 800px;
   will-change: transform, box-shadow;
 }
 
-#messages-container .user-card:hover {
+#messages-container .message-card:hover {
   transform: rotateX(2deg) rotateY(-2deg) translateY(-5px) scale(1.03);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
   z-index: 2;
@@ -84,7 +85,7 @@
   100% { transform: rotateZ(-1deg); }
 }
 
-#messages-container .user-card:hover {
+#messages-container .message-card:hover {
   animation: sway 1.6s ease-in-out infinite alternate;
 }
 
