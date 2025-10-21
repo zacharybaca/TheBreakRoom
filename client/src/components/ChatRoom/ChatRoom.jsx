@@ -1,5 +1,6 @@
 import './chat-room.css';
 import io from 'socket.io-client';
+import MessageCard from '../MessageCard/MessageCard.jsx';
 
 const socket = io('http://localhost:5000');
 
@@ -17,9 +18,27 @@ socket.on('chatMessage', (message) => {
 
 const ChatRoom = () => {
     return (
-        <div id="chat-room-container">
-            <h1>Chat Room Component</h1>
-        </div>
+        <section className="chat-room-wrapper">
+            <div id="chat-room-frame">
+                <div id="messages-container">
+                    <MessageCard
+                        sender="Alice"
+                        message="Hello, everyone! Excited to be here."
+                        attachment="pushpin"
+                    />
+                    <MessageCard
+                        sender="Bob"
+                        message="Hi Alice! Welcome to the chat room."
+                        attachment="tape"
+                    />
+                    <MessageCard
+                        sender="Charlie"
+                        message="Good to see new faces here!"
+                        attachment="tack"
+                    />
+                </div>
+            </div>
+        </section>
     )
 }
 
