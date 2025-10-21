@@ -39,7 +39,7 @@
 
 #notifications-group h3 {
   /* Aesthetic Change: Used a cleaner system font for clarity on the word 'Notifications' */
-  font-family: system-ui, sans-serif; 
+  font-family: system-ui, sans-serif;
   font-weight: 400;
   margin: 0;
   white-space: nowrap;
@@ -99,7 +99,7 @@
 @media screen and (max-width: 900px) {
   #menu-icon-container {
     /* Responsive Change: Keeps layout horizontal (3 columns) on tablets */
-    grid-template-columns: 1fr 2fr 1fr; 
+    grid-template-columns: 1fr 2fr 1fr;
     padding: 0.5rem 1rem;
   }
 
@@ -125,10 +125,10 @@
 }
 
 /* 480px breakpoint: Mobile View */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
   #menu-icon-container {
     /* Responsive Change: Keeps layout horizontal (3 columns) on mobile */
-    grid-template-columns: 1fr auto 1fr; 
+    grid-template-columns: 1fr auto 1fr;
     padding: 0.5rem;
   }
 
@@ -144,14 +144,14 @@
 
   #notifications-group {
     /* Responsive Change: Keep icons on a single row */
-    flex-direction: row; 
+    flex-direction: row;
     gap: 0.25rem;
   }
 
   #app-logo {
     width: 50px; /* Smaller logo for mobile */
   }
-  
+
   /* Ensure icons are aligned at the start/end of their columns */
   #notification-icon {
     justify-content: flex-start;
@@ -163,5 +163,21 @@
 
   #app-icon {
     gap: 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #app-logo {
+    width: 100px;
+  }
+}
+
+@media screen and (min-width: 1140px) {
+  #app-logo {
+    width: 120px;
+  }
+
+  .slogan {
+    margin-top: 4%;
   }
 }

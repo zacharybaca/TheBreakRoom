@@ -9,7 +9,7 @@ const NavBar = () => {
   return (
     <nav id="nav-bar-container">
       <div id="menu-icon-container">
-        
+
         {/* LEFT — Notifications */}
         <div id="notification-icon">
           <div id="notifications-group">
@@ -33,11 +33,8 @@ const NavBar = () => {
               alt="Nine2Five app logo"
             />
             <h1 className="slogan">
-              The Platform for the People Who Keep Things Moving.
+              Your Breakroom......Online.
             </h1>
-            <h2 className="slogan">
-              From the Breakroom to the World... We Speak.
-            </h2>
           </div>
         </div>
 
