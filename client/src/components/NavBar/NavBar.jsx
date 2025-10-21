@@ -28,9 +28,9 @@ const NavBar = () => {
         <div id="app-icon">
           <div id="app-icon-container">
             <img
-              src="/assets/nine2five-app-icon.gif"
+              src="/assets/breakroom_official_app_logo.png"
               id="app-logo"
-              alt="Nine2Five app logo"
+              alt="Breakroom official app logo"
             />
             <h1 className="slogan">
               Your Breakroom......Online.

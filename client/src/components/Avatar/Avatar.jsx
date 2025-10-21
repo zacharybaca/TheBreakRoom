@@ -9,7 +9,7 @@ const Avatar = () => {
       {user ? (
         <img src={user.avatarUrl} alt="User Avatar" />
       ) : (
-        <img src="/assets/Nine2Five-logo.png" alt="app logo" />
+        <img src="/assets/app-logo-animation.gif" alt="app logo" />
       )}
     </div>
   );
