@@ -18,6 +18,7 @@ socket.on('chatMessage', (message) => {
 
 const ChatRoom = () => {
     return (
+    <>
         <section className="chat-room-wrapper">
             <h1>Your Space to Connect</h1>
             <div id="chat-room-frame">
@@ -25,21 +26,21 @@ const ChatRoom = () => {
                     <MessageCard
                         sender="Alice"
                         message="Hello, everyone! Excited to be here."
-                        attachment="pushpin"
-                    />
+                        attachment="pushpin" />
                     <MessageCard
                         sender="Bob"
                         message="Hi Alice! Welcome to the chat room."
-                        attachment="tape"
-                    />
+                        attachment="tape" />
                     <MessageCard
                         sender="Charlie"
                         message="Good to see new faces here!"
-                        attachment="tack"
-                    />
+                        attachment="tack" />
                 </div>
             </div>
+        </section><section className="message-box-wrapper">
+
         </section>
+    </>
     )
 }
 
