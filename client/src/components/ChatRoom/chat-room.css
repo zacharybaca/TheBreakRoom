@@ -1,14 +1,80 @@
 @import url('https://fonts.googleapis.com/css2?family=Finger+Paint&display=swap');
 
-/* ===== CHAT ROOM WRAPPER ===== */
+/* ===== GENERAL LAYOUT ===== */
 .chat-room-wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding: 2rem;
   box-sizing: border-box;
+}
+
+.chat-room-wrapper h1 {
+  font-family: 'Finger Paint', cursive;
+  color: #5a3825;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.15);
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  font-size: 2.4rem;
+}
+
+.subheading {
+  font-family: 'Finger Paint', cursive;
+  color: #7c5c42;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+/* ===== CHAT ROOM FRAME ===== */
+#chat-room-frame {
+  position: relative;
+  width: 100%;
+  min-height: 60vh;
+  background: url('/assets/corkboard-texture.jpg') center/cover no-repeat fixed;
+  border-radius: 16px;
+  border: 6px solid #8b5e3c;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* ===== MESSAGES CONTAINER ===== */
+#messages-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(3px);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+
+/* ===== MESSAGE CARD STYLING ===== */
+#messages-container .message-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transform-origin: top center;
+  perspective: 800px;
+  will-change: transform, box-shadow;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+#messages-container .message-card:hover {
+  transform: rotateX(2deg) rotateY(-2deg) translateY(-5px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  animation: sway 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  0% { transform: rotateZ(-1deg); }
+  50% { transform: rotateZ(1deg); }
+  100% { transform: rotateZ(-1deg); }
 }
 
 /* ===== MESSAGE BOX WRAPPER ===== */
@@ -16,215 +82,111 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding: 2rem;
   box-sizing: border-box;
-  border: 2px solid yellow;
 }
 
-/* ===== FIXED MESSAGES BACKGROUND FRAME ===== */
+/* ===== MESSAGE BOX FRAME ===== */
 #message-box-frame {
-  opacity: 0.95;
+  opacity: 0.98;
   position: relative;
-  min-width: 100%;
-  max-width: 100%;
-  height: 30vh;
-  background-image: url('/assets/chat_message_box_background.png');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  border-radius: 16px;
-  border: 8px solid #8b5e3c;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 25vh;
+  background: url('/assets/chat_message_box_background.png') center/cover no-repeat;
+  background-blend-mode: soft-light;
+  border-radius: 0 0 16px 16px;
+  border: 4px solid #8b5e3c;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.25);
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
-/* ===== SCROLLABLE MESSAGE BOX ===== */
+/* ===== MESSAGE BOX CONTAINER ===== */
 #message-box-container {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
-  padding: 2rem;
-  max-width: 100%;
-  min-width: 100%;
+  padding: 1.5rem;
+  width: 100%;
   height: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.08); /* subtle glassy overlay */
-  backdrop-filter: blur(1px);
-  border: 2px solid yellow;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(4px);
+  border-radius: 12px;
 }
 
-/* ===== FIXED BACKGROUND FRAME ===== */
-#chat-room-frame {
-  position: relative;
-  min-width: 100%;
-  max-width: 100%;
-  height: 70vh;
-  background: url('/assets/corkboard-texture.jpg') center/cover no-repeat fixed;
-  border-radius: 16px;
-  border: 8px solid #8b5e3c;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-/* ===== SCROLLABLE CARD GRID ===== */
-#messages-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  padding: 2rem;
-  max-width: 100%;
-  min-width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
-  box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.08); /* subtle glassy overlay */
-  backdrop-filter: blur(1px);
-  border: 2px solid yellow;
-}
-
-/* ===== Message Box Text Area ===== */
+/* ===== TEXT AREA ===== */
 #message-box-message-area {
-  color: black;
-  gap: 2.5rem;
-  padding: 2rem;
-  max-width: 100%;
-  min-width: 100%;
+  width: 100%;
   height: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
+  resize: none;
+  outline: none;
+  color: #3a2a1a;
+  font-family: 'Finger Paint', cursive;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.08); /* subtle glassy overlay */
-  backdrop-filter: blur(1px);
-  border: 2px solid yellow;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease-in-out;
 }
 
-/* ===== Scrollbar Styling ===== */
-#messages-container::-webkit-scrollbar, #message-box-container::-webkit-scrollbar {
+#message-box-message-area:focus {
+  box-shadow: 0 0 10px rgba(139, 94, 60, 0.8);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+#messages-container::-webkit-scrollbar,
+#message-box-container::-webkit-scrollbar {
   width: 10px;
 }
-#messages-container::-webkit-scrollbar-track, #message-box-container::-webkit-scrollbar-track {
+
+#messages-container::-webkit-scrollbar-track,
+#message-box-container::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
 }
-#messages-container::-webkit-scrollbar-thumb, #message-box-container::-webkit-scrollbar-thumb {
-  background: #4d96ff;
+
+#messages-container::-webkit-scrollbar-thumb,
+#message-box-container::-webkit-scrollbar-thumb {
+  background: #c9a66b;
   border-radius: 10px;
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
-#messages-container::-webkit-scrollbar-thumb:hover, #message-box-container::-webkit-scrollbar-thumb::hover {
-  background: #1a73e8;
-}
-#messages-container, #message-box-container {
-  scrollbar-width: thin;
-  scrollbar-color: #4d96ff rgba(255, 255, 255, 0.2);
+
+#messages-container::-webkit-scrollbar-thumb:hover,
+#message-box-container::-webkit-scrollbar-thumb:hover {
+  background: #b0834c;
 }
 
-/* ===== USER CARD FLOAT / SWAY EFFECT ===== */
-#messages-container .message-card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  transform-origin: top center;
-  perspective: 800px;
-  will-change: transform, box-shadow;
-}
-
-#messages-container .message-card:hover {
-  transform: rotateX(2deg) rotateY(-2deg) translateY(-5px) scale(1.03);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
-  z-index: 2;
-}
-
-/* Subtle “swing” motion for realism */
-@keyframes sway {
-  0% { transform: rotateZ(-1deg); }
-  50% { transform: rotateZ(1deg); }
-  100% { transform: rotateZ(-1deg); }
-}
-
-#messages-container .message-card:hover {
-  animation: sway 1.6s ease-in-out infinite alternate;
-}
-
-/* ===== RESPONSIVE BEHAVIOR ===== */
-
-/* Mobile */
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 390px) {
   .chat-room-wrapper {
     padding: 1rem;
   }
 
   #chat-room-frame {
-    height: 60vh;
-    border-width: 6px;
+    height: 55vh;
+    border-width: 4px;
   }
 
   #messages-container {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    place-items: center;
     gap: 1rem;
     padding: 1rem;
   }
-}
 
-/* Tablet */
-@media (min-width: 480px) and (max-width: 768px) {
-  #messages-container {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.25rem;
+  #message-box-frame {
+    height: 20vh;
   }
 }
 
-/* Desktop */
 @media (min-width: 1440px) {
   #messages-container {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  }
-}
-
-/* ===== LOADING CONTAINER ===== */
-.loading-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center; /* centers text horizontally & vertically */
-  background: rgba(255, 255, 255, 0.1); /* subtle translucent overlay */
-  z-index: 5;
-}
-
-/* ===== LOADING TEXT ===== */
-.loading-text {
-  display: grid;
-  place-items: center;
-  width: 50%;
-  height: 30%;
-  font-size: 1.25rem;
-  font-family: "Finger Paint", sans-serif;
-  font-weight: 800;
-  background-color: #FFE6D6;
-  border: 2px solid black;
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  opacity: 0.8;
-  padding: 1rem 2rem;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-@media screen and (max-width: 390px) {
-  .loading-text {
-    width: 60%;
-    height: 40%;
+    gap: 2.5rem;
   }
 }
