@@ -1,6 +1,11 @@
 #loading-container {
     display: flex;
     flex-direction: column;
+    align-content: center;
     background-color: #FFE0CC;
-    border: 2px solid black;
+    border: 2px solid yellow;
+}
+
+#loading-container h1 {
+    border: 3px solid black;
 }
