@@ -25,11 +25,14 @@
 
 /* ===== FIXED MESSAGES BACKGROUND FRAME ===== */
 #message-box-frame {
+  opacity: 0.95;
   position: relative;
   min-width: 100%;
   max-width: 100%;
   height: 30vh;
-  background: url('/assets/corkboard-texture.jpg') center/cover no-repeat fixed;
+  background-image: url('/assets/chat_message_box_background.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   border-radius: 16px;
   border: 8px solid #8b5e3c;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
@@ -91,6 +94,7 @@
 
 /* ===== Message Box Text Area ===== */
 #message-box-message-area {
+  color: black;
   gap: 2.5rem;
   padding: 2rem;
   max-width: 100%;
