@@ -37,10 +37,12 @@ const ChatRoom = () => {
                         attachment="tack" />
                 </div>
             </div>
-        </section><section className="message-box-wrapper">
+        </section>
+        
+        <section className="message-box-wrapper">
             <div id="message-box-frame">
                 <div id="message-box-container">
-                    
+
                 </div>
             </div>
         </section>
