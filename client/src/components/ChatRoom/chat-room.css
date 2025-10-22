@@ -70,7 +70,7 @@
   width: 100%;
   max-width: 100%;
   height: 28vh;
-  background: url('/assets/chat_message_box_background.png') center/cover no-repeat;
+  background: url('/assets/the_breakroom_background.png') center/cover no-repeat;
   border-radius: 16px;
   border: 8px solid #8b5e3c;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
@@ -88,13 +88,15 @@
   padding: 1.5rem;
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
 }
 
 #message-box-message-area {
   width: 95%;
-  height: 80%;
+  height: 60%;
   padding: 1rem 1.25rem;
   border-radius: 10px;
   border: 2px solid #d7c0a3;
@@ -105,12 +107,39 @@
   resize: none;
   box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
   transition: all 0.25s ease;
+  font-family: 'Inter', sans-serif;
 }
 
 #message-box-message-area:focus {
   outline: none;
   border-color: #8b5e3c;
   box-shadow: 0 0 10px rgba(139, 94, 60, 0.4);
+}
+
+/* ===== SEND BUTTON ===== */
+#send-message-btn {
+  background-color: #8b5e3c;
+  color: #fff8e7;
+  font-family: 'Finger Paint', sans-serif;
+  font-size: 1.1rem;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+#send-message-btn:hover {
+  background-color: #a0724e;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3);
+}
+
+#send-message-btn:active {
+  transform: scale(0.98);
+  background-color: #734a2b;
 }
 
 /* ===== SCROLLBAR STYLING ===== */
@@ -150,11 +179,20 @@
   #message-box-frame {
     height: 25vh;
   }
+
+  #send-message-btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
   #message-box-message-area {
     width: 90%;
     font-size: 0.9rem;
+  }
+
+  #send-message-btn {
+    width: 90%;
   }
 }
