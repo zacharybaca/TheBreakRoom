@@ -1,6 +1,7 @@
 import './chat-room.css';
 import io from 'socket.io-client';
 import MessageCard from '../MessageCard/MessageCard.jsx';
+import { useState } from 'react';
 
 // Connect socket
 const socket = io('http://localhost:5000');
@@ -18,6 +19,23 @@ socket.on('chatMessage', (message) => {
 });
 
 const ChatRoom = () => {
+  const [message, setMessage] = useState('');
+
+  const handleSendMessage = () => {
+    if (message.trim()) {
+      socket.emit('chatMessage', message);
+      console.log('📤 Sent message:', message);
+      setMessage('');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
   return (
     <>
       <section className="chat-room-wrapper">
@@ -53,9 +71,13 @@ const ChatRoom = () => {
             <textarea
               id="message-box-message-area"
               placeholder="Type your message..."
-              cols="30"
-              rows="5"
-            ></textarea>
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <button id="send-message-btn" onClick={handleSendMessage}>
+              Send 💬
+            </button>
           </div>
         </div>
       </section>
