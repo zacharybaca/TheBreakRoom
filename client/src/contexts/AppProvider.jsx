@@ -14,7 +14,7 @@ import Loading from '../components/Loading/Loading.jsx';
 const AppWrapper = ({ children }) => {
   const { loading } = useAuth();
 
-  if (loading) return <Loading loadingMessage="Loading Your Social Network" />; // Prevent rendering children until auth ready
+  if (loading) return <Loading />; // Prevent rendering children until auth ready
 
   return children;
 };
