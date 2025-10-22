@@ -38,11 +38,18 @@ const ChatRoom = () => {
                 </div>
             </div>
         </section>
-        
+
         <section className="message-box-wrapper">
             <div id="message-box-frame">
                 <div id="message-box-container">
+                    <textarea 
+                        id="message-box-message-area" 
+                        placeholder="Enter a Message"
+                        cols="30"
+                        rows="30"
+                    >
 
+                    </textarea>
                 </div>
             </div>
         </section>
