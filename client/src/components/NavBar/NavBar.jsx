@@ -13,7 +13,6 @@ const NavBar = () => {
         {/* LEFT — Notifications */}
         <div id="notification-icon">
           <div id="notifications-group">
-            <h3>Notifications:</h3>
             <img
               src={notificationsOn ? '/assets/switch-on.png' : '/assets/switch-off.png'}
               onClick={handleToggleClick}
