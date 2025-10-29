@@ -66,6 +66,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
               My Profile
             </Link>
           </li>
+          <hr />
           <li>
             <Link to="/feed">
               <img
@@ -76,6 +77,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
               Community Feed
             </Link>
           </li>
+          <hr />
           <li>
             <Link to="/settings">
               <img
@@ -86,6 +88,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
               Settings
             </Link>
           </li>
+          <hr />
           <li>
             <Link to="/breakrooms">
               <img
@@ -96,6 +99,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
               Breakrooms
             </Link>
           </li>
+          <hr />
           <li>
             <Link to="/breakrooms/create">
               <img
@@ -106,6 +110,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
               Create Breakroom
             </Link>
           </li>
+          <hr />
           <li>
             <Link to="/admin-settings">
               <img
@@ -116,6 +121,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
               Admin Settings
             </Link>
           </li>
+          <hr />
           <li>
             <Link to="/chatroom">
               <img 
