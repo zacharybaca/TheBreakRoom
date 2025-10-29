@@ -19,6 +19,13 @@ import breakroomRoutes from "./routes/breakRoomRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 
+
+// Middleware
+app.use(express.json());
+app.use(cors());
+app.use(cookieParser());
+
+
 dotenv.config();
 console.log("ACCESS_TOKEN_SECRET:", process.env.ACCESS_TOKEN_SECRET);
 console.log("REFRESH_TOKEN_SECRET:", process.env.REFRESH_TOKEN_SECRET);
@@ -48,11 +55,6 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
   console.log("📂 Created uploads directory:", uploadsDir);
 }
-
-// Middleware
-app.use(express.json());
-app.use(cors());
-app.use(cookieParser());
 
 // Serve uploaded images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
