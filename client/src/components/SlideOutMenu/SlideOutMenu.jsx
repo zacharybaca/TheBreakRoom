@@ -100,6 +100,16 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
               Admin Settings
             </Link>
           </li>
+          <li>
+            <Link to="/chatroom">
+              <img 
+                src="/assets/chat-room.png"
+                className="menu-image-class"
+                alt="chat room icon"
+              />
+              Chat Room
+            </Link>
+          </li>
         </ul>
         <Button variant="danger" id="delete-button">
           Delete Account
