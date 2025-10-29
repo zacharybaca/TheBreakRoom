@@ -137,3 +137,7 @@ button {
   width: 50%;
   height: 100%;
 }
+
+.log-off-on-button-container {
+  gap: 10px;
+}
