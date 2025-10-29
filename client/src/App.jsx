@@ -19,7 +19,6 @@ function App() {
   return (
     <div id="main-app-container">
       <NavBar />
-      <hr />
       <main id="content">
         <Routes>
           <Route path="/" element={<Login />} />
@@ -42,7 +41,6 @@ function App() {
           />
         </Routes>
       </main>
-      <hr />
       <Footer />
     </div>
   );

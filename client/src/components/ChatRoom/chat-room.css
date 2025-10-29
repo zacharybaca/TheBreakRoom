@@ -167,6 +167,12 @@
 }
 
 /* ===== RESPONSIVENESS ===== */
+@media (min-width: 1440px) {
+  #message-box-frame {
+    background-size: 100% 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .chat-room-heading {
     font-size: 2rem;
@@ -184,9 +190,13 @@
     padding: 0.6rem 1.5rem;
     font-size: 1rem;
   }
+
+  #message-box-frame {
+    background-size: 100% 100%;
+  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 390px) {
   #message-box-message-area {
     width: 90%;
     font-size: 0.9rem;
@@ -194,5 +204,9 @@
 
   #send-message-btn {
     width: 90%;
+  }
+
+  #message-box-frame {
+    background-size: contain;
   }
 }
