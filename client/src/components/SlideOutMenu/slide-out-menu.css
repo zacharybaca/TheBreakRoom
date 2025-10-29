@@ -18,6 +18,7 @@
 
 .slideout.open {
   transform: translateX(0);
+  border-radius: 10px;
 }
 
 /* Close button */
