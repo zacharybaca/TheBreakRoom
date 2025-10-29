@@ -18,13 +18,19 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
         <CloseButton className="close-btn" onClick={onClose}></CloseButton>
         {/* <button className="close-btn" onClick={onClose}>×</button> */}
         {isAuthenticated ? (
-          <button type="button">
+          <div className="log-off-on-button-container">
+            <button type="button">
             <img src="/assets/log-off-icon.png" alt=" log off icon" />
+            <h3>Log Off</h3>
           </button>
+          </div>
         ) : (
-          <button type="button">
+          <div className="log-off-on-button-container">
+            <button type="button">
             <img src="/assets/log-on-icon.png" alt="log in logo" />
+            <h3>Log On</h3>
           </button>
+          </div>
         )}
         <br />
         <div id="private-profile-button-container">
