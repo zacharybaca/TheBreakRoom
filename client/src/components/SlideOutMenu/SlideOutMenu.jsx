@@ -103,8 +103,6 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
         <Button variant="danger" id="delete-button">
           Delete Account
         </Button>
-        <br />
-        <br />
         <hr />
         <Avatar />
       </div>
