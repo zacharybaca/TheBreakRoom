@@ -1,4 +1,5 @@
 import './slide-out-menu.css';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useToggle } from '../../hooks/useToggle.js';
 import { Button, CloseButton } from 'react-bootstrap';
@@ -50,54 +51,54 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
         </div>
         <ul>
           <li>
-            <a href="/profile">
+            <Link to ="/profile">
               <img
                 src="/assets/profile-icon.png"
                 className="menu-image-class"
                 alt="profile icon"
               />
               My Profile
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/feed">
+            <Link to="/feed">
               <img
                 src="/assets/news-feed-icon.png"
                 className="menu-image-class"
                 alt="news feed icon"
               />{' '}
               Community Feed
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/settings">
+            <Link to="/settings">
               <img
                 src="/assets/settings-icon.png"
                 className="menu-image-class"
                 alt="settings icon"
               />
               Settings
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/breakrooms">
+            <Link to="/breakrooms">
               <img
                 src="/assets/break-room-icon.png"
                 className="menu-image-class"
                 alt="breakroom icon"
               />
               Breakrooms
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/admin-settings">
+            <Link to="/admin-settings">
               <img
                 src="/assets/admin-settings-icon.png"
                 className="menu-image-class"
                 alt="admin settings icon"
               />
               Admin Settings
-            </a>
+            </Link>
           </li>
         </ul>
         <Button variant="danger" id="delete-button">
