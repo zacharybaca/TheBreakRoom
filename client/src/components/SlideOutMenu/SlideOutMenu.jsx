@@ -91,6 +91,16 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
             </Link>
           </li>
           <li>
+            <Link to="/breakrooms/create">
+              <img
+                src="/assets/create-breakroom.png"
+                className="menu-image-class"
+                alt="create breakroom icon"
+              />
+              Create Breakroom
+            </Link>
+          </li>
+          <li>
             <Link to="/admin-settings">
               <img
                 src="/assets/admin-settings-icon.png"
