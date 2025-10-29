@@ -19,8 +19,16 @@
   flex: 1;
 }
 
-hr {
-  width: 100%;
+#jumbotron-img {
+  width: 50%;
+  height: 50%;
+  border-radius: 10px;
+  margin-top: 2%;
+}
+
+.jumbotron-container {
+  display: flex;
+  justify-content: center;
 }
 
 @media screen and (max-width: 390px) {
