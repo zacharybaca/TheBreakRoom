@@ -10,7 +10,7 @@ const NavBar = () => {
     <nav id="nav-bar-container">
       <div id="menu-icon-container">
 
-        {/* LEFT — Notifications */}
+        {/* LEFT — Notifications/Bell Icon Signifying if Notifications are On or Off */}
         <div id="notification-icon">
           <div id="notifications-group">
             <img
