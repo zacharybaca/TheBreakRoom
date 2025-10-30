@@ -82,6 +82,15 @@ const Breakrooms = ({ rooms = sampleRooms, onJoin }) => {
                 </span>
               </div>
 
+              <div className="join-room-button-container">
+                <button 
+                  type="button" 
+                  id="join-room-button"
+                >
+                  Join Room
+                </button>
+              </div>
+
               <div className="pin-body">
                 <div className="pin-icon" aria-hidden="true">
                   {r.icon}
