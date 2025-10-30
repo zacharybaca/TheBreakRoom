@@ -5,7 +5,7 @@ import { useToggle } from '../../hooks/useToggle.js';
 import { Button, CloseButton } from 'react-bootstrap';
 import Avatar from '../Avatar/Avatar.jsx';
 const SlideOutMenu = ({ isOpen, onClose }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logoutUser } = useAuth();
   const { privateProfile, handleTogglePrivateProfile } = useToggle();
 
   return (
@@ -19,17 +19,21 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
         {/* <button className="close-btn" onClick={onClose}>×</button> */}
         {isAuthenticated ? (
           <div className="log-off-on-button-container">
-            <button type="button">
-            <img src="/assets/log-off.png" alt=" log off icon" />
-            <h3>Log Off</h3>
-          </button>
+            <Link to="/">
+              <button type="button" onClick={logoutUser}>
+                <img src="/assets/log-off.png" alt=" log off icon" />
+                <h3>Log Off</h3>
+              </button>
+            </Link>
           </div>
         ) : (
           <div className="log-off-on-button-container">
-            <button type="button">
-            <img src="/assets/log-on.png" alt="log in logo" />
-            <h3>Log On</h3>
-          </button>
+            <Link to="/">
+              <button type="button">
+                <img src="/assets/log-on.png" alt=" log on icon" />
+                <h3>Log On</h3>
+              </button>
+            </Link>
           </div>
         )}
         <br />
@@ -124,7 +128,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
           <hr />
           <li>
             <Link to="/chatroom">
-              <img 
+              <img
                 src="/assets/chat-room.png"
                 className="menu-image-class"
                 alt="chat room icon"

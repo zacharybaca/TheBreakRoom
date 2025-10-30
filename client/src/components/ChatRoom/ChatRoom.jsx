@@ -1,12 +1,19 @@
 import './chat-room.css';
 import io from 'socket.io-client';
 import MessageCard from '../MessageCard/MessageCard.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-// Connect socket
+
+
+const ChatRoom = () => {
+  const [message, setMessage] = useState('');
+  const [messageReceived, setMessageReceived] = useState([]);
+  const [room, setRoom] = useState("");
+
+  // Connect socket
 const socket = io('http://localhost:5000');
 
-socket.on('connect', () => {
+socket.on('connection', () => {
   console.log('✅ Connected to chat server with ID:', socket.id);
 });
 
@@ -18,12 +25,16 @@ socket.on('chatMessage', (message) => {
   console.log('💬 New chat message received:', message);
 });
 
-const ChatRoom = () => {
-  const [message, setMessage] = useState('');
+  const joinRoom = (room) => {
+    if (room !== "") {
+      socket.emit("join_room", room);
+      console.log(`✅ Joined room: ${room}`);
+    }
+  };
 
   const handleSendMessage = () => {
     if (message.trim()) {
-      socket.emit('chatMessage', message);
+      socket.emit("send_message", { message, room });
       console.log('📤 Sent message:', message);
       setMessage('');
     }
@@ -35,6 +46,13 @@ const ChatRoom = () => {
       handleSendMessage();
     }
   };
+
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      setMessageReceived((prevMessages) => [...prevMessages, data]);
+      console.log("💬 Message received:", data);
+    });
+  }, [socket]);
 
   return (
     <>

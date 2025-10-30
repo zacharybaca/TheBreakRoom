@@ -91,6 +91,15 @@ io.on("connection", (socket) => {
     io.emit("chatMessage", message); // Broadcast to all connected clients
   });
 
+  socket.on("join_room", (data) => {
+    socket.join(data);
+    console.log(`✅ User with ID: ${socket.id} joined room: ${data}`);
+  });
+
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+    console.log(`📨 Message sent to room ${data.room}:`, data);
+  });
 });
 
 // Start server
