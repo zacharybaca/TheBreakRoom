@@ -54,7 +54,30 @@ const ChatRoom = () => {
 
         <div id="chat-room-frame">
           <div id="messages-container">
-            {messages.length === 0 ? (
+            <MessageCard 
+              sender="Zach"
+              message="Hello!"
+              attachment="tack"
+            />
+
+            <MessageCard 
+              sender="Carlos"
+              message="Hello!"
+              attachment="safetypin"
+            />
+
+            <MessageCard 
+              sender="Robyn"
+              message="Hello!"
+              attachment="tape"
+            />
+
+            <MessageCard 
+              sender="Ellis"
+              message="Hello!"
+              attachment="nail"
+            />
+            {/* {messages.length === 0 ? (
               <p className="no-messages">No messages yet — say something!</p>
             ) : (
               messages.map((msg, i) => (
@@ -65,7 +88,7 @@ const ChatRoom = () => {
                   attachment="tack"
                 />
               ))
-            )}
+            )} */}
           </div>
         </div>
       </section>
