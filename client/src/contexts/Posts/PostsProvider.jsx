@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react';
-import { io } from 'socket.io-client';
+import { useSocket } from '../../hooks/useSocket.js';
 import { PostsContext } from './PostsContext.jsx';
 
 export const PostsProvider = ({ children }) => {
-    const [posts, setPosts] = useState([]);
+  const { socket } = useSocket();
+  const [posts, setPosts] = useState([]);
 
-    useEffect(() => {
-        const socket = io(import.meta.env.VITE_API_URL || "http://localhost:5000");
+  useEffect(() => {
+    if (!socket) return;
 
-        socket.on('postCreated', (post) => {
-            console.log('New post received:', post);
-            setPosts((prevPosts) => [post, ...prevPosts]);
-        });
+    const handlePostCreated = (post) => {
+      console.log("🆕 New post received:", post);
+      setPosts((prevPosts) => [post, ...prevPosts]);
+    };
 
-        return () => {
-            socket.off('postCreated');
-            socket.disconnect();
-        };
-    }, []);
+    socket.on("postCreated", handlePostCreated);
 
-    return <PostsContext.Provider value={{ posts }}>
-        {children}
-    </PostsContext.Provider>;
+    return () => {
+      socket.off("postCreated", handlePostCreated);
+    };
+  }, [socket]);
+
+  return (
+    <PostsContext.Provider value={{ posts, setPosts }}>
+      {children}
+    </PostsContext.Provider>
+  );
 };
