@@ -14,6 +14,33 @@ const ChatRoom = () => {
     if (!socket) return;
 
     const handleReceiveMessage = (data) => {
+      if (!data || typeof data !== "object" || !data.message) {
+        console.warn("⚠️ Received invalid message data:", data);
+        return;
+      }
+
+      if (typeof data.message !== "string" || !data.message.trim()) {
+        console.warn("⚠️ Received empty or non-string message:", data);
+        return;
+      }
+
+      if (typeof data.sender !== "string" || !data.sender.trim()) {
+        console.warn("⚠️ Received message with invalid sender:", data);
+        return;
+      }
+
+      if (data.room && typeof data.room !== "string") {
+        console.warn("⚠️ Received message with invalid room:", data);
+        return;
+      }
+
+      if (data.room && data.room !== room) {
+        console.warn(
+          `⚠️ Received message for room "${data.room}" but current room is "${room}":`,
+          data
+        );
+        return;
+      }
       setMessages((prev) => [...prev, data]);
       console.log("💬 Message received:", data);
     };
@@ -54,25 +81,25 @@ const ChatRoom = () => {
 
         <div id="chat-room-frame">
           <div id="messages-container">
-            <MessageCard 
+            <MessageCard
               sender="Zach"
               message="Hello!"
               attachment="tack"
             />
 
-            <MessageCard 
+            <MessageCard
               sender="Carlos"
               message="Hello!"
               attachment="safetypin"
             />
 
-            <MessageCard 
+            <MessageCard
               sender="Robyn"
               message="Hello!"
               attachment="tape"
             />
 
-            <MessageCard 
+            <MessageCard
               sender="Ellis"
               message="Hello!"
               attachment="nail"

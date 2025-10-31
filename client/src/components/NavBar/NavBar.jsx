@@ -19,7 +19,7 @@ const NavBar = () => {
               alt="notification toggle"
               className="nav-bar-images"
             />
-            {notificationsOn ? <NotificationBell /> : <img src='/assets/notifications-off.gif' className='nav-bar-images-default' alt='notification-bell' />}
+            {notificationsOn ? <NotificationBell /> : <img src='/assets/notifications-off.png' className='nav-bar-images-default' alt='notification-bell' />}
           </div>
         </div>
 
