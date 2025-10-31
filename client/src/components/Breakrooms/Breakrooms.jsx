@@ -64,6 +64,8 @@ const Breakrooms = ({ rooms = sampleRooms, onJoin }) => {
 
         <div className="board">
           {rooms.map((r) => (
+            <>
+            <hr />
             <article
               key={r.id}
               className="pin-card"
@@ -111,6 +113,8 @@ const Breakrooms = ({ rooms = sampleRooms, onJoin }) => {
                 </div>
               </div>
             </article>
+            <hr />
+            </>
           ))}
         </div>
       </section>
