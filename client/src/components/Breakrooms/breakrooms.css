@@ -54,6 +54,12 @@
   user-select: none;
 }
 
+.join-room-button-container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
 /* Slight rotation for tactile pinned-note feel */
 .pin-card:nth-child(odd) {
   transform: rotate(-1.5deg);
