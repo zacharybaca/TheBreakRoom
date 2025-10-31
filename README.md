@@ -6,7 +6,7 @@
   <img src="./logo.png" alt="Nine2Five Logo" width="280" />
 </p>
 
-<h1 align="center">Nine2Five</h1>
+<h1 align="center">The BreakRoom</h1>
 
 <p align="center">
   <strong>The platform for the people who keep things moving.</strong><br />
