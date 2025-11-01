@@ -24,13 +24,13 @@
   text-align: center;
 }
 
-.form-container h2 {
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 1.5rem;
+/* ---------- Step Progress Text ---------- */
+.step-progress {
   text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 1rem;
 }
 
 /* ---------- Step Indicator ---------- */
@@ -52,31 +52,8 @@
 }
 
 .step-indicator div.active {
-  background: #f97316; /* brand accent */
+  background: #f97316;
   transform: scale(1.2);
-}
-
-/* ---------- Animations for Steps ---------- */
-@keyframes slideIn {
-  0% {
-    transform: translateX(50px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideOut {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-50px);
-    opacity: 0;
-  }
 }
 
 /* ---------- Labels ---------- */
@@ -89,7 +66,7 @@
   align-self: flex-start;
 }
 
-/* ---------- Inputs, Selects, Textareas ---------- */
+/* ---------- Inputs ---------- */
 .form-fields input,
 .form-fields select,
 .form-fields textarea {
@@ -127,42 +104,31 @@
   align-self: flex-start;
 }
 
-/* ---------- Checkbox ---------- */
-.form-fields label input[type='checkbox'] {
-  margin-right: 0.5rem;
-  transform: scale(1.2);
-}
-
-/* ---------- File Input ---------- */
-.file-input-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.25rem;
-}
-
-.file-input-container input[type='file'] {
+/* ---------- Status Messages (Success / Error) ---------- */
+.status-message {
+  text-align: center;
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  width: 90%;
+  margin-inline: auto;
 }
 
-/* ---------- Step Actions ---------- */
-.step-actions {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 1rem;
+.status-message.success {
+  background: rgba(72, 187, 120, 0.15);
+  color: #28a745;
+  border: 1px solid #28a745;
 }
 
-.step-actions-submit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: 1rem;
+.status-message.error {
+  background: rgba(217, 83, 79, 0.15);
+  color: #d9534f;
+  border: 1px solid #d9534f;
 }
 
-/* ---------- Reusable Styled Buttons ---------- */
+/* ---------- Buttons ---------- */
 .reusable {
   width: 100%;
   padding: 0.95rem;
@@ -177,7 +143,7 @@
     font-size: 1.5rem;
   }
 
-  .form-container h2 {
+  .step-progress {
     font-size: 0.9rem;
   }
 
