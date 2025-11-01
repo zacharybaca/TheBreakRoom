@@ -85,8 +85,8 @@ const Breakrooms = ({ rooms = sampleRooms, onJoin }) => {
               </div>
 
               <div className="join-room-button-container">
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   id="join-room-button"
                 >
                   Join Room
@@ -113,7 +113,6 @@ const Breakrooms = ({ rooms = sampleRooms, onJoin }) => {
                 </div>
               </div>
             </article>
-            <hr />
             </>
           ))}
         </div>
