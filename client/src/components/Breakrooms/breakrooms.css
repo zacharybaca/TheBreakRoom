@@ -15,10 +15,13 @@
 
 /* Container */
 .board-wrap {
+  margin-bottom: 1rem;
   padding: 28px;
   background: linear-gradient(180deg, var(--bg), #efe7da);
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(15, 15, 15, 0.06);
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 .board-title {
@@ -26,6 +29,7 @@
   font-size: 20px;
   color: #222;
   letter-spacing: 0.2px;
+  text-align: center;
 }
 
 /* Responsive grid */
