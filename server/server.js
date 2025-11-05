@@ -1,6 +1,8 @@
 // server.js
-import express from "express";
+// ✅ Load environment variables FIRST
 import dotenv from "dotenv";
+dotenv.config({ path: "./server/.env" });
+import express from "express";
 import cors from "cors";
 import path from "path";
 import fs from "fs";
@@ -18,9 +20,6 @@ import postRoutes from "./routes/postRoutes.js";
 import breakroomRoutes from "./routes/breakroomRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
-
-// Load environment variables before doing anything else
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
