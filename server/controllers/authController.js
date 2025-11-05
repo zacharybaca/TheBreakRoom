@@ -33,6 +33,9 @@ export const login = async (req, res) => {
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
 
+    console.log("Access Token:", accessToken);
+    console.log("Refresh Token:", refreshToken);
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -141,5 +144,25 @@ export const refreshAccessToken = async (req, res) => {
   } catch (err) {
     console.error("Refresh token error:", err);
     res.status(500).json({ message: "Error refreshing token", error: err.message });
+  }
+};
+
+// GET /api/auth/me
+export const getMe = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "User not authenticated" });
+    }
+
+    res.status(200).json({
+      _id: req.user._id,
+      username: req.user.username,
+      name: req.user.name,
+      job: req.user.job,
+      isAdmin: req.user.isAdmin,
+    });
+  } catch (err) {
+    console.error("getMe error:", err);
+    res.status(500).json({ message: "Failed to fetch user info" });
   }
 };

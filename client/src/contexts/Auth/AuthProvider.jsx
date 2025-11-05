@@ -1,11 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AuthContext } from './AuthContext.jsx';
+
+// Helper: decode JWT payload safely
+const decodeJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch {
+    return null;
+  }
+};
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // for bootstrap step
+  const [loading, setLoading] = useState(true);
+  const refreshTimerRef = useRef(null);
 
-  // --- Auth Functions ---
+  // --- AUTH FUNCTIONS ---
 
   const loginUser = async ({ identifier, password }) => {
     const res = await fetch('/api/auth/login', {
@@ -18,14 +28,22 @@ export const AuthProvider = ({ children }) => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Login failed');
 
-    localStorage.setItem('accessToken', data.accessToken);
-    setUser(data.user || null);
+    const { accessToken, ...userData } = data;
+
+    localStorage.setItem('accessToken', accessToken);
+    setUser(userData);
+
+    scheduleAutoRefresh(accessToken);
   };
 
   const logoutUser = async () => {
-    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
-    localStorage.removeItem('accessToken');
-    setUser(null);
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    } finally {
+      localStorage.removeItem('accessToken');
+      clearRefreshTimer();
+      setUser(null);
+    }
   };
 
   const refreshToken = async () => {
@@ -36,14 +54,13 @@ export const AuthProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      // handle non-JSON or empty response gracefully
       if (!res.ok) return null;
 
-      const text = await res.text();
-      if (!text) return null;
+      const data = await res.json();
+      if (!data.accessToken) return null;
 
-      const data = JSON.parse(text);
       localStorage.setItem('accessToken', data.accessToken);
+      scheduleAutoRefresh(data.accessToken);
       return data.accessToken;
     } catch (err) {
       console.warn('Refresh token failed:', err.message);
@@ -59,7 +76,36 @@ export const AuthProvider = ({ children }) => {
     return res.json();
   };
 
-  // --- Bootstrap auth state on app load ---
+  // --- AUTO REFRESH LOGIC ---
+
+  const clearRefreshTimer = () => {
+    if (refreshTimerRef.current) {
+      clearTimeout(refreshTimerRef.current);
+      refreshTimerRef.current = null;
+    }
+  };
+
+  const scheduleAutoRefresh = (token) => {
+    clearRefreshTimer();
+
+    const decoded = decodeJwt(token);
+    if (!decoded?.exp) return;
+
+    const expiresAt = decoded.exp * 1000; // convert to ms
+    const now = Date.now();
+
+    // Refresh 1 minute before expiry
+    const refreshIn = expiresAt - now - 60 * 1000;
+
+    if (refreshIn > 0) {
+      refreshTimerRef.current = setTimeout(async () => {
+        console.log('🔄 Auto-refreshing access token...');
+        await refreshToken();
+      }, refreshIn);
+    }
+  };
+
+  // --- INITIAL BOOTSTRAP ON APP LOAD ---
   useEffect(() => {
     const initAuth = async () => {
       try {
@@ -73,10 +119,13 @@ export const AuthProvider = ({ children }) => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const text = await res.text();
-        const userData = text ? JSON.parse(text) : null;
+        if (!res.ok) {
+          setUser(null);
+          return;
+        }
 
-        setUser(res.ok ? userData : null);
+        const data = await res.json();
+        setUser(data);
       } catch (err) {
         console.warn('User could not be authenticated', err.message);
         setUser(null);
@@ -86,8 +135,11 @@ export const AuthProvider = ({ children }) => {
     };
 
     initAuth();
+
+    return () => clearRefreshTimer(); // cleanup timer on unmount
   }, []);
 
+  // --- CONTEXT VALUE ---
   return (
     <AuthContext.Provider
       value={{
