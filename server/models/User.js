@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import argon2 from "argon2";
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema(
   {
@@ -40,6 +41,12 @@ const userSchema = new mongoose.Schema(
         ref: "Breakroom",
       },
     ],
+    passwordResetToken:{
+      type: String,
+    },
+    passwordResetExpires: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
@@ -135,6 +142,27 @@ userSchema.methods.resetPassword = async function (newPassword) {
   });
   await this.save();
 };
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  // expire in 10 minutes
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken; // this is the raw token you’ll email
+};
+
+// Add these fields to your schema definition:
+const userSchema = new mongoose.Schema({
+  // ... existing fields ...
+  passwordResetToken: String,
+  passwordResetExpires: Date,
+});
 
 /**
  * Clean response
