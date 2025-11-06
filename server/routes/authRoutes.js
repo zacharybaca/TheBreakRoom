@@ -1,6 +1,6 @@
 // routes/authRoutes.js
 import express from "express";
-import { login, logout, register, refreshAccessToken, getMe } from "../controllers/authController.js";
+import { login, logout, register, refreshAccessToken, getMe, resetPassword } from "../controllers/authController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -41,7 +41,10 @@ router.post("/refresh", refreshAccessToken);
 router.get("/me", protect, getMe);
 
 /**
- * Additional debug routes could be added here if needed
+ * @route POST /api/auth/reset-password
+ * @desc Change current authenticated user's password
+ * @access Private
  */
+router.post("/reset-password", resetPassword);
 
 export default router;
