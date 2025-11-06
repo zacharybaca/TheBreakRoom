@@ -170,18 +170,28 @@ export const getMe = async (req, res) => {
 // Reset Password
 export const resetPassword = async (req, res) => {
   try {
-    const { userId, newPassword } = req.body;
+    const { token, newPassword } = req.body;
 
-    // Find the user in MongoDB
-    const user = await User.findById(userId).select('+password');
+    // Hash the token to match the stored one
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    }).select('+password');
+
     if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found.' });
+      return res.status(400).json({ success: false, message: 'Token invalid or expired.' });
     }
 
-    // ✅ Call your model method
     await user.resetPassword(newPassword);
 
-    res.json({ success: true, message: 'Password reset successfully.' });
+    // cleanup token fields
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    res.json({ success: true, message: 'Password successfully reset.' });
   } catch (err) {
     console.error('Error resetting password:', err);
     res.status(500).json({ success: false, message: 'Server error.' });
