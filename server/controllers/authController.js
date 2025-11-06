@@ -3,6 +3,8 @@ import User from "../models/User.js";
 import Job from "../models/Job.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js";
 import jwt from "jsonwebtoken";
+import { sendEmail } from '../utils/mail/sendEmail.js';
+import { passwordResetTemplate } from '../utils/mail/templates.js';
 
 // Helper to ensure JWT secrets are loaded
 const ensureSecrets = () => {
@@ -196,4 +198,40 @@ export const resetPassword = async (req, res) => {
     console.error('Error resetting password:', err);
     res.status(500).json({ success: false, message: 'Server error.' });
   }
+}
+
+// Forgot Password
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ success:false, message:'Email required' });
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    // To avoid email enumeration, respond success but log
+    return res.json({ success: true, message: 'If an account exists we have sent reset instructions.' });
+  }
+
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+
+  const emailHtml = passwordResetTemplate({ name: user.name, resetUrl, minutes: 10 });
+
+  const { success, info, error } = await sendEmail({
+    to: user.email,
+    subject: 'Reset your Breakroom password',
+    html: emailHtml,
+    text: `Reset your password: ${resetUrl}`
+  });
+
+  if (!success) {
+    // cleanup token fields if you want, or keep for a retry strategy
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+    return res.status(500).json({ success: false, message: 'Failed to send reset email' });
+  }
+
+  return res.json({ success: true, message: 'If an account exists we have sent reset instructions.' });
 }
