@@ -173,27 +173,30 @@ export const getMe = async (req, res) => {
 export const resetPassword = async (req, res) => {
   try {
     const { token, newPassword } = req.body;
+    if (!token || !newPassword) return res.status(400).json({ success:false, message:'Token + new password required' });
 
-    // Hash the token to match the stored one
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
     const user = await User.findOne({
       passwordResetToken: hashedToken,
-      passwordResetExpires: { $gt: Date.now() },
+      passwordResetExpires: { $gt: Date.now() }
     }).select('+password');
 
-    if (!user) {
-      return res.status(400).json({ success: false, message: 'Token invalid or expired.' });
-    }
+    if (!user) return res.status(400).json({ success:false, message:'Token invalid or expired' });
 
-    await user.resetPassword(newPassword);
-
-    // cleanup token fields
+    await user.resetPassword(newPassword); // your instance method hashes & saves
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save();
 
-    res.json({ success: true, message: 'Password successfully reset.' });
+    // optional: send confirmation email
+    await sendEmail({
+      to: user.email,
+      subject: 'Your password has been changed',
+      text: 'Your Breakroom password was changed. If you did not do this, contact support.'
+    });
+
+    res.json({ success: true, message: 'Password reset' });
   } catch (err) {
     console.error('Error resetting password:', err);
     res.status(500).json({ success: false, message: 'Server error.' });
