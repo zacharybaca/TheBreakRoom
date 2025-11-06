@@ -166,3 +166,24 @@ export const getMe = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch user info" });
   }
 };
+
+// Reset Password
+export const resetPassword = async (req, res) => {
+  try {
+    const { userId, newPassword } = req.body;
+
+    // Find the user in MongoDB
+    const user = await User.findById(userId).select('+password');
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found.' });
+    }
+
+    // ✅ Call your model method
+    await user.resetPassword(newPassword);
+
+    res.json({ success: true, message: 'Password reset successfully.' });
+  } catch (err) {
+    console.error('Error resetting password:', err);
+    res.status(500).json({ success: false, message: 'Server error.' });
+  }
+}
