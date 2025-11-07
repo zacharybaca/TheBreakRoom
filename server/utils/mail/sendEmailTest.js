@@ -1,7 +1,7 @@
 import { sendEmail } from './sendEmail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-export const testEmail = async () => {
+export const sendEmailTest = async () => {
   const { to } = req.body;
 
   if (!to) return res.status(400).json({ success: false, message: 'Missing recipient email' });
