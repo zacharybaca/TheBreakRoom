@@ -1,6 +1,9 @@
 // routes/authRoutes.js
 import express from "express";
 import { login, logout, register, refreshAccessToken, getMe, resetPassword, forgotPassword } from "../controllers/authController.js";
+import { sendEmailTest } from "../utils/mail/sendEmailTest.js";
+
+
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -54,4 +57,10 @@ router.post("/reset-password", resetPassword);
  */
 router.post("/forgot-password", forgotPassword);
 
+/**
+ * @route POST /api/auth/test-email
+ * @desc Sends a Test E-Mail
+ * @access Public
+ */
+router.post("/test-email", sendEmailTest);
 export default router;
