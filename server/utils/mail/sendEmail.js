@@ -1,30 +1,25 @@
-import { createTransporter } from './transporter.js';
-import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
+import dotenv from 'dotenv';
 
-const FROM = process.env.EMAIL_FROM || 'no-reply@example.com';
+dotenv.config();
 
-// simple text -> html helper (optional)
-const toHtml = (text) => `<div style="font-family:system-ui,Arial,sans-serif">${text.replace(/\n/g,'<br/>')}</div>`;
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-export async function sendEmail({ to, subject, text, html = null, attachments = [] }) {
-  const transporter = createTransporter();
-
-  const mailOptions = {
-    from: FROM,
+export const sendEmail = async ({ to, subject, html, text }) => {
+  const msg = {
     to,
+    from: process.env.EMAIL_FROM,
     subject,
     text,
-    html: html || toHtml(text),
-    attachments,
+    html,
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    // If using Ethereal or nodemailer.getTestMessageUrl(info) you can preview
-    return { success: true, info };
-  } catch (err) {
-    console.error('sendEmail error:', err);
-    // surface meaningful error to caller, but don't leak secrets to clients
-    return { success: false, error: err.message || 'Failed to send' };
+    await sgMail.send(msg);
+    console.log(`✅ Email sent to ${to}`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ SendGrid error:', error.response?.body || error.message);
+    return { success: false, error: error.message };
   }
-}
+};
