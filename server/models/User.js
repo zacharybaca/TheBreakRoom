@@ -157,13 +157,6 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken; // this is the raw token you’ll email
 };
 
-// Add these fields to your schema definition:
-const userSchema = new mongoose.Schema({
-  // ... existing fields ...
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-});
-
 /**
  * Clean response
  */
