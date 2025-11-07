@@ -1,18 +1,21 @@
-import sgMail from '@sendgrid/mail';
+import { sendEmail } from './sendEmail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-async function testEmail() {
-  try {
-    await sgMail.send({
-      to: 'yourpersonalemail@example.com',
-      from: 'no-reply@zachary-baca.dev',
-      subject: 'Test Email from The Breakroom',
-      html: '<strong>If you received this, SendGrid is working ✅</strong>',
-    });
-    console.log('✅ Email sent successfully');
-  } catch (error) {
-    console.error('❌ Error sending email:', error.response?.body || error);
+export const testEmail = async () => {
+  const { to } = req.body;
+
+  if (!to) return res.status(400).json({ success: false, message: 'Missing recipient email' });
+
+  const result = await sendEmail({
+    to,
+    subject: 'The Breakroom Email Test',
+    html: `<h2>Hello from The Breakroom!</h2><p>This is a test email sent via SendGrid.</p>`,
+    text: 'Hello from The Breakroom! This is a test email sent via SendGrid.',
+  });
+
+  if (result.success) {
+    res.json({ success: true, message: 'Email sent successfully!' });
+  } else {
+    res.status(500).json({ success: false, message: result.error });
   }
 }
-
-testEmail();
