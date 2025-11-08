@@ -72,7 +72,7 @@ app.use("/api/breakrooms", breakroomRoutes);
 
 // 404 fallback
 app.use((req, res) =>
-  res.status(404).json({ message: `Route not found: ${req.originalUrl}` })
+  res.status(404).json({ message: `Route not found: ${req.originalUrl}` }),
 );
 
 // Error middleware

@@ -21,7 +21,7 @@ const NotificationBell = ({ initialCount = 5 }) => {
       <span className="bell-icon" role="img" aria-label="notification bell">
         &#128276; {/* Unicode Bell Symbol */}
       </span>
-      
+
       {/* Conditional Rendering: Only render the badge if unreadCount > 0 */}
       {unreadCount > 0 && (
         <div className="notification-badge">

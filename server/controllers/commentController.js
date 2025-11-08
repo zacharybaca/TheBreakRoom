@@ -27,7 +27,7 @@ export const createComment = async (req, res) => {
     }
 
     const post = await Post.findById(postId).select(
-      "_id isDeleted commentCount comments"
+      "_id isDeleted commentCount comments",
     );
     if (!post || post.isDeleted) {
       return res.status(404).json({ message: "Post not found" });
@@ -76,7 +76,7 @@ export const getComments = async (req, res) => {
     }
 
     const post = await Post.findById(postId).select(
-      "_id isDeleted commentCount"
+      "_id isDeleted commentCount",
     );
     if (!post || post.isDeleted) {
       return res.status(404).json({ message: "Post not found" });
@@ -210,7 +210,7 @@ export const deleteComment = async (req, res) => {
         $pull: { comments: comment._id },
         $inc: { commentCount: -1 },
       },
-      { new: true }
+      { new: true },
     );
 
     return res.status(200).json({

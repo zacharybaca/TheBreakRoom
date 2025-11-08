@@ -14,7 +14,16 @@ const Users = () => {
 
       // Attach random style + tilt to each user
       const styledUsers = data.map((person) => {
-        const attachmentStyles = ['pushpin', 'tape', 'tack', 'safetypin', 'paperclip', 'magnet', 'mappin', 'nail'];
+        const attachmentStyles = [
+          'pushpin',
+          'tape',
+          'tack',
+          'safetypin',
+          'paperclip',
+          'magnet',
+          'mappin',
+          'nail',
+        ];
         const randomStyle =
           attachmentStyles[Math.floor(Math.random() * attachmentStyles.length)];
         const randomTilt = Math.floor(Math.random() * 7 - 3); // -3 to +3 degrees
@@ -52,10 +61,13 @@ const Users = () => {
             ))
           ) : (
             <div className="loading-container">
-                <p className="loading-text">
-                  <img src="/assets/waiting-loading-users.gif" alt="waiting gif" />
-                  Loading users...
-                </p>
+              <p className="loading-text">
+                <img
+                  src="/assets/waiting-loading-users.gif"
+                  alt="waiting gif"
+                />
+                Loading users...
+              </p>
             </div>
           )}
         </div>

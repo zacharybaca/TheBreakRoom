@@ -41,14 +41,14 @@ const userSchema = new mongoose.Schema(
         ref: "Breakroom",
       },
     ],
-    passwordResetToken:{
+    passwordResetToken: {
       type: String,
     },
     passwordResetExpires: {
       type: Date,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 /**
@@ -144,12 +144,12 @@ userSchema.methods.resetPassword = async function (newPassword) {
 };
 
 userSchema.methods.createPasswordResetToken = function () {
-  const resetToken = crypto.randomBytes(32).toString('hex');
+  const resetToken = crypto.randomBytes(32).toString("hex");
 
   this.passwordResetToken = crypto
-    .createHash('sha256')
+    .createHash("sha256")
     .update(resetToken)
-    .digest('hex');
+    .digest("hex");
 
   // expire in 10 minutes
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;

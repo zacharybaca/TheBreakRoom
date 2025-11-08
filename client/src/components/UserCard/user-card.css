@@ -31,7 +31,7 @@
   margin-bottom: 0.5rem;
   object-fit: cover;
   background-color: blue;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .user-card h3,
@@ -141,29 +141,29 @@ h3 span::before {
 }
 
 .name-font {
-  font-family: "Honk", system-ui;
+  font-family: 'Honk', system-ui;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   font-variation-settings:
-    "MORF" 15,
-    "SHLN" 50;
+    'MORF' 15,
+    'SHLN' 50;
 }
 
 .name-font-alt-style {
-  font-family: "Frijole", system-ui;
+  font-family: 'Frijole', system-ui;
   font-weight: 500;
   font-style: normal;
 }
 
 .info-text {
-  font-family: "Grape Nuts", cursive;
+  font-family: 'Grape Nuts', cursive;
   font-weight: 500;
   font-style: normal;
 }
 
 .info-text-title {
-  font-family: "Ranchers", sans-serif;
+  font-family: 'Ranchers', sans-serif;
   font-weight: 800;
   font-style: normal;
 }

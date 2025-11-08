@@ -38,7 +38,10 @@ export const AuthProvider = ({ children }) => {
 
   const logoutUser = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
     } finally {
       localStorage.removeItem('accessToken');
       clearRefreshTimer();

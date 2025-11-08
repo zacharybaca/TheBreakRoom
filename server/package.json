@@ -5,7 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
-    "reset": "rm -rf node_modules package-lock.json && npm cache clean --force && npm install"
+    "reset": "rm -rf node_modules package-lock.json && npm cache clean --force && npm install",
+    "lint": "eslint .",
+    "format": "prettier \"**/*.{js,jsx,json,md,css}\" --write"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "**/*.{json,md,css,html}": [
+      "prettier --write"
+    ]
   },
   "author": "Zachary Baca",
   "license": "ISC",
@@ -25,6 +36,15 @@
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@eslint/js": "^9.29.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "lint-staged": "^16.1.2",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20"
   }
 }

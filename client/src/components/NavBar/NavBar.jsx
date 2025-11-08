@@ -4,22 +4,34 @@ import SlideOutMenu from '../SlideOutMenu/SlideOutMenu.jsx';
 import NotificationBell from '../NotificationBell/NotificationBell.jsx';
 
 const NavBar = () => {
-  const { notificationsOn, handleToggleClick, menuOpen, setMenuOpen } = useToggle();
+  const { notificationsOn, handleToggleClick, menuOpen, setMenuOpen } =
+    useToggle();
 
   return (
     <nav id="nav-bar-container">
       <div id="menu-icon-container">
-
         {/* LEFT — Notifications/Bell Icon Signifying if Notifications are On or Off */}
         <div id="notification-icon">
           <div id="notifications-group">
             <img
-              src={notificationsOn ? '/assets/switch-on.png' : '/assets/switch-off.png'}
+              src={
+                notificationsOn
+                  ? '/assets/switch-on.png'
+                  : '/assets/switch-off.png'
+              }
               onClick={handleToggleClick}
               alt="notification toggle"
               className="nav-bar-images"
             />
-            {notificationsOn ? <NotificationBell /> : <img src='/assets/notifications-off.png' className='nav-bar-images-default' alt='notification-bell' />}
+            {notificationsOn ? (
+              <NotificationBell />
+            ) : (
+              <img
+                src="/assets/notifications-off.png"
+                className="nav-bar-images-default"
+                alt="notification-bell"
+              />
+            )}
           </div>
         </div>
 
@@ -31,9 +43,7 @@ const NavBar = () => {
               id="app-logo"
               alt="Breakroom official app logo"
             />
-            <h1 className="slogan">
-              Your Breakroom......Online.
-            </h1>
+            <h1 className="slogan">Your Breakroom......Online.</h1>
           </div>
         </div>
 

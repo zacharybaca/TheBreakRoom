@@ -12,7 +12,7 @@
   width: 100%;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   transform: rotate(var(--tilt, 0deg));
   transition: transform 0.2s ease-in-out;
   position: relative;
@@ -20,11 +20,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: radial-gradient(
-    circle at top left,
-    #fffdf5,
-    #f7eac6
-  );
+  background-image: radial-gradient(circle at top left, #fffdf5, #f7eac6);
 }
 
 .message-card-content {
@@ -39,35 +35,35 @@
 
 .message-card h3,
 .message-card p {
-    margin: 0.25rem 0;
-    word-wrap: break-word;
-    overflow-wrap: anywhere;
-    line-height: 1.3;
-    color: #333;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0.25rem 0;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.3;
+  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .message-card-content {
-    display: flex;
-    overflow: visible; /* ✅ No clipping */
+  display: flex;
+  overflow: visible; /* ✅ No clipping */
 }
 
 .message-card p::before {
-    content: '';
-    margin-right: 5px;
-    color: #4d96ff;
+  content: '';
+  margin-right: 5px;
+  color: #4d96ff;
 }
 
 .message-card p span::before {
-    content: '';
-    margin-right: 3px;
-    color: #4d96ff;
+  content: '';
+  margin-right: 3px;
+  color: #4d96ff;
 }
 
 h3 span::before {
-    content: '';
-    margin-right: 3px;
-    color: #4d96ff;
+  content: '';
+  margin-right: 3px;
+  color: #4d96ff;
 }
 
 .message-card.pushpin::before,
@@ -144,13 +140,13 @@ h3 span::before {
 }
 
 .info-text {
-  font-family: "Grape Nuts", cursive;
+  font-family: 'Grape Nuts', cursive;
   font-weight: 500;
   font-style: normal;
 }
 
 .info-text-title {
-  font-family: "Ranchers", sans-serif;
+  font-family: 'Ranchers', sans-serif;
   font-weight: 800;
   font-style: normal;
 }

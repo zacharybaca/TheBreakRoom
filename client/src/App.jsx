@@ -19,9 +19,17 @@ function App() {
   return (
     <div id="main-app-container">
       <NavBar />
-      {!isAuthenticated ? <div className="jumbotron-container">
-        <img src="/assets/app_homepage_logo.png" id="jumbotron-img" alt="homepage jumbotron" />
-      </div> : ""}
+      {!isAuthenticated ? (
+        <div className="jumbotron-container">
+          <img
+            src="/assets/app_homepage_logo.png"
+            id="jumbotron-img"
+            alt="homepage jumbotron"
+          />
+        </div>
+      ) : (
+        ''
+      )}
       <main id="content">
         <Routes>
           <Route path="/" element={<Login />} />

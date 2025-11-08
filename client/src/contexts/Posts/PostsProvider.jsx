@@ -10,14 +10,14 @@ export const PostsProvider = ({ children }) => {
     if (!socket) return;
 
     const handlePostCreated = (post) => {
-      console.log("🆕 New post received:", post);
+      console.log('🆕 New post received:', post);
       setPosts((prevPosts) => [post, ...prevPosts]);
     };
 
-    socket.on("postCreated", handlePostCreated);
+    socket.on('postCreated', handlePostCreated);
 
     return () => {
-      socket.off("postCreated", handlePostCreated);
+      socket.off('postCreated', handlePostCreated);
     };
   }, [socket]);
 

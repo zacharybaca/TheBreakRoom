@@ -1,5 +1,5 @@
 import './user-card.css';
-import { FaUser, FaUserTag, FaEnvelope } from "react-icons/fa";
+import { FaUser, FaUserTag, FaEnvelope } from 'react-icons/fa';
 
 const UserCard = (props) => {
   // Random tilt between -2 and 2 degrees for subtle realism
@@ -23,17 +23,24 @@ const UserCard = (props) => {
 
           <h3 className="name-font-alt-style info-line item">
             <FaUser className="card-icon" />
-            <span><p className="info-text-title">Name:</p> {props.firstName} {props.lastName}</span>
+            <span>
+              <p className="info-text-title">Name:</p> {props.firstName}{' '}
+              {props.lastName}
+            </span>
           </h3>
 
           <p className="info-text info-line item">
             <FaUserTag className="card-icon" />
-            <span><p className="info-text-title">Username: </p> {props.username}</span>
+            <span>
+              <p className="info-text-title">Username: </p> {props.username}
+            </span>
           </p>
 
           <p className="info-text info-line item">
             <FaEnvelope className="card-icon" />
-            <span><p className="info-text-title">E-mail: </p> {props.email}</span>
+            <span>
+              <p className="info-text-title">E-mail: </p> {props.email}
+            </span>
           </p>
         </div>
       </div>

@@ -35,7 +35,7 @@
 .dialog-question {
   margin-bottom: 1.5rem;
   color: #d62828;
-  font-family: "Passero One", sans-serif;
+  font-family: 'Passero One', sans-serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -64,7 +64,7 @@
 .confirm-button {
   background-color: #38b000;
   color: white;
-  font-family: "Syne Mono", monospace;
+  font-family: 'Syne Mono', monospace;
   font-weight: 400;
   font-style: normal;
 }
@@ -73,7 +73,7 @@
 .delete-button {
   background-color: #e63946;
   color: white;
-  font-family: "Syne Mono", monospace;
+  font-family: 'Syne Mono', monospace;
   font-weight: 400;
   font-style: normal;
 }

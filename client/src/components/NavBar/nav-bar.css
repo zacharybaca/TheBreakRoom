@@ -6,7 +6,9 @@
   /* Aesthetic Change: Slightly deeper gradient and softer shadow */
   background: linear-gradient(90deg, #004a94, #0090e0);
   color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 0 3px #ffe066; /* Subtle shadow with a gold border accent */
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    0 0 0 3px #ffe066; /* Subtle shadow with a gold border accent */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,11 +77,15 @@
 }
 
 .nav-bar-images {
-  cursor: url('/assets/pointer-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/pointer-cursor.png') 0 0,
+    auto;
 }
 
 .nav-bar-images-default {
-  cursor: url('/assets/regular-cursor.png') 0 0, auto;
+  cursor:
+    url('/assets/regular-cursor.png') 0 0,
+    auto;
 }
 
 .slogan {

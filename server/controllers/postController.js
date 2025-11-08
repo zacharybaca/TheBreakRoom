@@ -43,7 +43,7 @@ export const createPost = async (req, res) => {
       req.io.emit("postCreated", formattedPost);
       console.log("📡 Emitted postCreated event via WebSocket");
     }
-    
+
     res.status(201).json(formattedPost);
   } catch (err) {
     res.status(400).json({
@@ -118,7 +118,7 @@ export const updatePost = async (req, res) => {
 
     const updatedPost = await Post.findById(req.params.id).populate(
       "authorId",
-      "username name avatarUrl"
+      "username name avatarUrl",
     );
 
     if (!updatedPost || updatedPost.isDeleted) {

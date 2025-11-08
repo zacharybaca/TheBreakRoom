@@ -1,16 +1,10 @@
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
-const {
-  SMTP_HOST,
-  SMTP_PORT,
-  SMTP_USER,
-  SMTP_PASS,
-  NODE_ENV,
-} = process.env;
+const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, NODE_ENV } = process.env;
 
 export function createTransporter() {
   // For development you might use Ethereal earlier
-  if (NODE_ENV === 'development') {
+  if (NODE_ENV === "development") {
     // optionally createTestAccount() or use the real SMTP if configured
   }
 

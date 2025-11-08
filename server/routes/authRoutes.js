@@ -1,8 +1,15 @@
 // routes/authRoutes.js
 import express from "express";
-import { login, logout, register, refreshAccessToken, getMe, resetPassword, forgotPassword } from "../controllers/authController.js";
+import {
+  login,
+  logout,
+  register,
+  refreshAccessToken,
+  getMe,
+  resetPassword,
+  forgotPassword,
+} from "../controllers/authController.js";
 import { sendEmailTest } from "../utils/mail/sendEmailTest.js";
-
 
 import { protect } from "../middleware/authMiddleware.js";
 

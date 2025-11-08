@@ -10,7 +10,7 @@ import {
 import {
   addReaction,
   removeReaction,
-  getReactionsForPost,   // 👈 bring in the getter
+  getReactionsForPost, // 👈 bring in the getter
 } from "../controllers/reactionController.js";
 
 import { protect, requireAdmin } from "../middleware/authMiddleware.js";

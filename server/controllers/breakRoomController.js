@@ -4,9 +4,27 @@ import User from "../models/User.js";
 // Create a new breakroom
 export const createBreakroom = async (req, res, next) => {
   try {
-    const { name, description, vibe, accent, occupants, newCount, iconURL, jobTags } = req.body;
+    const {
+      name,
+      description,
+      vibe,
+      accent,
+      occupants,
+      newCount,
+      iconURL,
+      jobTags,
+    } = req.body;
 
-    const breakroom = await Breakroom.create({ name, description, vibe, accent, occupants, newCount, iconURL, jobTags });
+    const breakroom = await Breakroom.create({
+      name,
+      description,
+      vibe,
+      accent,
+      occupants,
+      newCount,
+      iconURL,
+      jobTags,
+    });
     res.status(201).json(breakroom);
   } catch (err) {
     next(err);
@@ -18,7 +36,7 @@ export const getBreakrooms = async (req, res, next) => {
   try {
     const breakrooms = await Breakroom.find().populate(
       "members",
-      "name username avatarUrl"
+      "name username avatarUrl",
     );
     res.json(breakrooms);
   } catch (err) {
@@ -31,7 +49,7 @@ export const getBreakroomById = async (req, res, next) => {
   try {
     const breakroom = await Breakroom.findById(req.params.id).populate(
       "members",
-      "name username avatarUrl"
+      "name username avatarUrl",
     );
     if (!breakroom)
       return res.status(404).json({ message: "Breakroom not found" });
@@ -77,7 +95,7 @@ export const leaveBreakroom = async (req, res, next) => {
       return res.status(404).json({ message: "Breakroom not found" });
 
     breakroom.members = breakroom.members.filter(
-      (member) => member.toString() !== userId
+      (member) => member.toString() !== userId,
     );
     await breakroom.save();
 

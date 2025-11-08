@@ -10,7 +10,7 @@ const reactionSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Prevent duplicate reactions by same user on same post

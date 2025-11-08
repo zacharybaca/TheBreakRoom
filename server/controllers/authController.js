@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import Job from "../models/Job.js";
-import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../utils/generateToken.js";
 import jwt from "jsonwebtoken";
-import { sendEmail } from '../utils/mail/sendEmail.js';
-import { passwordResetTemplate } from '../utils/mail/templates.js';
+import { sendEmail } from "../utils/mail/sendEmail.js";
+import { passwordResetTemplate } from "../utils/mail/templates.js";
 
 // Helper to ensure JWT secrets are loaded
 const ensureSecrets = () => {
@@ -20,7 +23,9 @@ export const login = async (req, res) => {
 
     const { identifier, password } = req.body;
     if (!identifier || !password)
-      return res.status(400).json({ message: "Identifier and password required" });
+      return res
+        .status(400)
+        .json({ message: "Identifier and password required" });
 
     const user = await User.findOne({
       $or: [{ email: identifier }, { username: identifier }],
@@ -71,17 +76,26 @@ export const register = async (req, res) => {
     const existingUser = await User.findOne({
       $or: [{ username }, { email: req.body.email }].filter(Boolean),
     });
-    if (existingUser) return res.status(400).json({ message: "Username/email already exists" });
+    if (existingUser)
+      return res.status(400).json({ message: "Username/email already exists" });
 
     let jobDoc;
     if (mongoose.Types.ObjectId.isValid(job)) {
       jobDoc = await Job.findById(job);
       if (!jobDoc) return res.status(400).json({ message: "Job not found" });
     } else {
-      jobDoc = await Job.findOne({ title: job }) || await Job.create({ title: job, description: "" });
+      jobDoc =
+        (await Job.findOne({ title: job })) ||
+        (await Job.create({ title: job, description: "" }));
     }
 
-    const newUser = new User({ username, password, name, avatarUrl, job: jobDoc._id });
+    const newUser = new User({
+      username,
+      password,
+      name,
+      avatarUrl,
+      job: jobDoc._id,
+    });
     const saved = await newUser.save();
     await saved.populate("job", "title description");
 
@@ -105,7 +119,9 @@ export const register = async (req, res) => {
     });
   } catch (err) {
     console.error("Register error:", err);
-    res.status(400).json({ message: "Error registering user", error: err.message });
+    res
+      .status(400)
+      .json({ message: "Error registering user", error: err.message });
   }
 };
 
@@ -134,18 +150,27 @@ export const refreshAccessToken = async (req, res) => {
       return res.status(401).json({ message: "No refresh token provided" });
     }
 
-    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
-      if (err) return res.status(403).json({ message: "Invalid or expired refresh token" });
+    jwt.verify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET,
+      async (err, decoded) => {
+        if (err)
+          return res
+            .status(403)
+            .json({ message: "Invalid or expired refresh token" });
 
-      const user = await User.findById(decoded.id);
-      if (!user) return res.status(404).json({ message: "User not found" });
+        const user = await User.findById(decoded.id);
+        if (!user) return res.status(404).json({ message: "User not found" });
 
-      const accessToken = generateAccessToken(user);
-      res.status(200).json({ accessToken });
-    });
+        const accessToken = generateAccessToken(user);
+        res.status(200).json({ accessToken });
+      },
+    );
   } catch (err) {
     console.error("Refresh token error:", err);
-    res.status(500).json({ message: "Error refreshing token", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error refreshing token", error: err.message });
   }
 };
 
@@ -173,16 +198,22 @@ export const getMe = async (req, res) => {
 export const resetPassword = async (req, res) => {
   try {
     const { token, newPassword } = req.body;
-    if (!token || !newPassword) return res.status(400).json({ success:false, message:'Token + new password required' });
+    if (!token || !newPassword)
+      return res
+        .status(400)
+        .json({ success: false, message: "Token + new password required" });
 
-    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
     const user = await User.findOne({
       passwordResetToken: hashedToken,
-      passwordResetExpires: { $gt: Date.now() }
-    }).select('+password');
+      passwordResetExpires: { $gt: Date.now() },
+    }).select("+password");
 
-    if (!user) return res.status(400).json({ success:false, message:'Token invalid or expired' });
+    if (!user)
+      return res
+        .status(400)
+        .json({ success: false, message: "Token invalid or expired" });
 
     await user.resetPassword(newPassword); // your instance method hashes & saves
     user.passwordResetToken = undefined;
@@ -192,26 +223,30 @@ export const resetPassword = async (req, res) => {
     // optional: send confirmation email
     await sendEmail({
       to: user.email,
-      subject: 'Your password has been changed',
-      text: 'Your Breakroom password was changed. If you did not do this, contact support.'
+      subject: "Your password has been changed",
+      text: "Your Breakroom password was changed. If you did not do this, contact support.",
     });
 
-    res.json({ success: true, message: 'Password reset' });
+    res.json({ success: true, message: "Password reset" });
   } catch (err) {
-    console.error('Error resetting password:', err);
-    res.status(500).json({ success: false, message: 'Server error.' });
+    console.error("Error resetting password:", err);
+    res.status(500).json({ success: false, message: "Server error." });
   }
-}
+};
 
 // Forgot Password
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
-  if (!email) return res.status(400).json({ success:false, message:'Email required' });
+  if (!email)
+    return res.status(400).json({ success: false, message: "Email required" });
 
   const user = await User.findOne({ email });
   if (!user) {
     // To avoid email enumeration, respond success but log
-    return res.json({ success: true, message: 'If an account exists we have sent reset instructions.' });
+    return res.json({
+      success: true,
+      message: "If an account exists we have sent reset instructions.",
+    });
   }
 
   const resetToken = user.createPasswordResetToken();
@@ -219,13 +254,17 @@ export const forgotPassword = async (req, res) => {
 
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
-  const emailHtml = passwordResetTemplate({ name: user.name, resetUrl, minutes: 10 });
+  const emailHtml = passwordResetTemplate({
+    name: user.name,
+    resetUrl,
+    minutes: 10,
+  });
 
   const { success, info, error } = await sendEmail({
     to: user.email,
-    subject: 'Reset your Breakroom password',
+    subject: "Reset your Breakroom password",
     html: emailHtml,
-    text: `Reset your password: ${resetUrl}`
+    text: `Reset your password: ${resetUrl}`,
   });
 
   if (!success) {
@@ -233,28 +272,36 @@ export const forgotPassword = async (req, res) => {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
-    return res.status(500).json({ success: false, message: 'Failed to send reset email' });
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to send reset email" });
   }
 
-  return res.json({ success: true, message: 'If an account exists we have sent reset instructions.' });
-}
+  return res.json({
+    success: true,
+    message: "If an account exists we have sent reset instructions.",
+  });
+};
 
 // Test E-Mail
 export const testEmail = async (req, res) => {
   const { to } = req.body;
 
-  if (!to) return res.status(400).json({ success: false, message: 'Missing recipient email' });
+  if (!to)
+    return res
+      .status(400)
+      .json({ success: false, message: "Missing recipient email" });
 
   const result = await sendEmail({
     to,
-    subject: 'The Breakroom Email Test',
+    subject: "The Breakroom Email Test",
     html: `<h2>Hello from The Breakroom!</h2><p>This is a test email sent via SendGrid.</p>`,
-    text: 'Hello from The Breakroom! This is a test email sent via SendGrid.',
+    text: "Hello from The Breakroom! This is a test email sent via SendGrid.",
   });
 
   if (result.success) {
-    res.json({ success: true, message: 'Email sent successfully!' });
+    res.json({ success: true, message: "Email sent successfully!" });
   } else {
     res.status(500).json({ success: false, message: result.error });
   }
-}
+};

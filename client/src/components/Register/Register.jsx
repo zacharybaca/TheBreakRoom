@@ -197,7 +197,10 @@ const Register = () => {
       />
 
       <label>Board Pin:</label>
-      <AttachmentPicker value={formik.values.attachment} onChange={formik.handleChange} />
+      <AttachmentPicker
+        value={formik.values.attachment}
+        onChange={formik.handleChange}
+      />
 
       {formik.errors.attachment && (
         <p className="form-error">{formik.errors.attachment}</p>

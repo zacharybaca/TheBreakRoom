@@ -12,7 +12,9 @@ console.log("\n✅ Access Token Secret Contains Quotes:", accessHasQuotes);
 console.log("✅ Refresh Token Secret Contains Quotes:", refreshHasQuotes);
 
 if (accessHasQuotes || refreshHasQuotes) {
-  console.log("\n⚠️  Your secrets have extra quotes! Remove them from your .env file.");
+  console.log(
+    "\n⚠️  Your secrets have extra quotes! Remove them from your .env file.",
+  );
 } else {
   console.log("\n✅ Secrets look clean — no quotes detected.");
 }

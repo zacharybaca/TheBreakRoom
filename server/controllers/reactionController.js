@@ -20,7 +20,7 @@ export const addReaction = async (req, res) => {
     const reaction = await Reaction.findOneAndUpdate(
       { post: postId, user: req.user._id },
       { type },
-      { new: true, upsert: true, runValidators: true }
+      { new: true, upsert: true, runValidators: true },
     ).populate("user", "username avatarUrl");
 
     // Refresh reaction counts

@@ -61,7 +61,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
         </div>
         <ul>
           <li>
-            <Link to ="/profile">
+            <Link to="/profile">
               <img
                 src="/assets/profile-icon.png"
                 className="menu-image-class"

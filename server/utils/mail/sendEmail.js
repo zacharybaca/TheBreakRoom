@@ -1,5 +1,5 @@
-import sgMail from '@sendgrid/mail';
-import dotenv from 'dotenv';
+import sgMail from "@sendgrid/mail";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -19,7 +19,7 @@ export const sendEmail = async ({ to, subject, html, text }) => {
     console.log(`✅ Email sent to ${to}`);
     return { success: true };
   } catch (error) {
-    console.error('❌ SendGrid error:', error.response?.body || error.message);
+    console.error("❌ SendGrid error:", error.response?.body || error.message);
     return { success: false, error: error.message };
   }
 };

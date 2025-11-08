@@ -18,7 +18,10 @@ const seedAdmin = async () => {
 
     // 🔹 Step 1: Seed default jobs
     const jobData = [
-      { title: "Administrator", description: "System administrator with full privileges" },
+      {
+        title: "Administrator",
+        description: "System administrator with full privileges",
+      },
       { title: "Manager", description: "Manages teams and workflows" },
       { title: "Developer", description: "Builds and maintains features" },
     ];

@@ -31,10 +31,22 @@ const seed = async () => {
 
     // Insert jobs
     const jobs = await Job.insertMany([
-      { title: "Retail Associate", description: "Works on the sales floor and cash register." },
-      { title: "Barista", description: "Prepares and serves coffee and food items." },
-      { title: "Call Center Agent", description: "Handles incoming and outgoing customer calls." },
-      { title: "Warehouse Worker", description: "Manages inventory, packaging, and logistics." },
+      {
+        title: "Retail Associate",
+        description: "Works on the sales floor and cash register.",
+      },
+      {
+        title: "Barista",
+        description: "Prepares and serves coffee and food items.",
+      },
+      {
+        title: "Call Center Agent",
+        description: "Handles incoming and outgoing customer calls.",
+      },
+      {
+        title: "Warehouse Worker",
+        description: "Manages inventory, packaging, and logistics.",
+      },
     ]);
     console.log("💼 Jobs seeded");
 
@@ -72,7 +84,8 @@ const seed = async () => {
     const posts = await Post.insertMany([
       {
         authorId: users[0]._id, // Admin post
-        content: "Reminder: Please follow our community guidelines when posting. Thanks!",
+        content:
+          "Reminder: Please follow our community guidelines when posting. Thanks!",
         tags: ["announcement", "admin"],
       },
       {
@@ -82,17 +95,20 @@ const seed = async () => {
       },
       {
         authorId: users[1]._id,
-        content: "Had a customer today who argued for 20 minutes over a coupon that expired last year.",
+        content:
+          "Had a customer today who argued for 20 minutes over a coupon that expired last year.",
         tags: ["customer", "coupon"],
       },
       {
         authorId: users[2]._id,
-        content: "Spilled milk all over the counter during a rush, and the customer actually helped me clean it up.",
+        content:
+          "Spilled milk all over the counter during a rush, and the customer actually helped me clean it up.",
         tags: ["coffee", "customerService"],
       },
       {
         authorId: users[3]._id,
-        content: "Back-to-back calls from people yelling because they didn’t read their bill. Tough day in the call center.",
+        content:
+          "Back-to-back calls from people yelling because they didn’t read their bill. Tough day in the call center.",
         tags: ["callcenter", "angryCustomers"],
       },
     ]);
@@ -105,13 +121,13 @@ const seed = async () => {
       { post: posts[3]._id, user: users[1]._id, type: "love" },
       { post: posts[4]._id, user: users[0]._id, type: "haha" }, // admin reacting
       { post: posts[0]._id, user: users[1]._id, type: "like" }, // reaction on admin post
-      { post: posts[1]._id, user: users[3]._id, type: "wow" },   // reaction on admin post
+      { post: posts[1]._id, user: users[3]._id, type: "wow" }, // reaction on admin post
     ]);
     console.log("💬 Reactions seeded");
 
     // Update reactionCounts for each post
     for (const post of posts) {
-      const relatedReactions = reactions.filter(r => r.post.equals(post._id));
+      const relatedReactions = reactions.filter((r) => r.post.equals(post._id));
       const counts = relatedReactions.reduce((acc, r) => {
         acc[r.type] = (acc[r.type] || 0) + 1;
         return acc;
@@ -129,24 +145,46 @@ const seed = async () => {
 
     // Insert comments
     const comments = await Comment.insertMany([
-      { post: posts[0]._id, user: users[1]._id, content: "Thanks for the reminder, admin!" },
-      { post: posts[0]._id, user: users[2]._id, content: "Appreciate you keeping the community in check." },
-      { post: posts[2]._id, user: users[3]._id, content: "Oh man, that sounds frustrating!" },
-      { post: posts[3]._id, user: users[1]._id, content: "Glad the customer was helpful at least!" },
-      { post: posts[4]._id, user: users[2]._id, content: "Call centers are the worst, hang in there." },
+      {
+        post: posts[0]._id,
+        user: users[1]._id,
+        content: "Thanks for the reminder, admin!",
+      },
+      {
+        post: posts[0]._id,
+        user: users[2]._id,
+        content: "Appreciate you keeping the community in check.",
+      },
+      {
+        post: posts[2]._id,
+        user: users[3]._id,
+        content: "Oh man, that sounds frustrating!",
+      },
+      {
+        post: posts[3]._id,
+        user: users[1]._id,
+        content: "Glad the customer was helpful at least!",
+      },
+      {
+        post: posts[4]._id,
+        user: users[2]._id,
+        content: "Call centers are the worst, hang in there.",
+      },
     ]);
     console.log("🗨️ Comments seeded");
 
     // Link comments to posts
     for (const comment of comments) {
-      const post = posts.find(p => p._id.equals(comment.post));
+      const post = posts.find((p) => p._id.equals(comment.post));
       if (post) {
         post.comments.push(comment._id);
         await post.save();
       }
     }
 
-    console.log("✅ Seeding complete with admin posts, reactions, and comments!");
+    console.log(
+      "✅ Seeding complete with admin posts, reactions, and comments!",
+    );
 
     process.exit(0);
   } catch (err) {

@@ -17,8 +17,8 @@ const AttachmentPicker = () => {
 
   const formik = useFormik({
     initialValues: {
-      attachment: "",
-      imgURL: "",
+      attachment: '',
+      imgURL: '',
     },
     validationSchema: Yup.object({
       attachment: Yup.string().required('Selection of attachment is required'),
@@ -33,7 +33,9 @@ const AttachmentPicker = () => {
         type="button"
         className="attachment-button"
         style={{
-          backgroundImage: formik.values?.imgURL ? `url(${formik.values.imgURL})` : '',
+          backgroundImage: formik.values?.imgURL
+            ? `url(${formik.values.imgURL})`
+            : '',
         }}
         onClick={() => setOpen(!open)}
       >
@@ -46,8 +48,11 @@ const AttachmentPicker = () => {
             <button
               key={attachment.attachment}
               type="button"
-              className={`attachment-swatch ${formik.values?.attachment === attachment.attachment ? 'selected' : ''
-                }`}
+              className={`attachment-swatch ${
+                formik.values?.attachment === attachment.attachment
+                  ? 'selected'
+                  : ''
+              }`}
               style={{
                 backgroundImage: `url(${attachment.imgURL})`,
               }}

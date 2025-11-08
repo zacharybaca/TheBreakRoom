@@ -65,54 +65,51 @@ const Breakrooms = ({ rooms = sampleRooms, onJoin }) => {
         <div className="board">
           {rooms.map((r) => (
             <>
-            <hr />
-            <article
-              key={r.id}
-              className="pin-card"
-              style={{ '--accent': r.accent }}
-              role="button"
-              tabIndex={0}
-              onClick={() => onJoin?.(r)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') onJoin?.(r);
-              }}
-              aria-describedby={`${r.id}-meta`}
-            >
-              <div className="pin-top">
-                <span className="pushpin" aria-hidden="true">
-                  📌
-                </span>
-              </div>
-
-              <div className="join-room-button-container">
-                <button
-                  type="button"
-                  id="join-room-button"
-                >
-                  Join Room
-                </button>
-              </div>
-
-              <div className="pin-body">
-                <div className="pin-icon" aria-hidden="true">
-                  {r.icon}
+              <hr />
+              <article
+                key={r.id}
+                className="pin-card"
+                style={{ '--accent': r.accent }}
+                role="button"
+                tabIndex={0}
+                onClick={() => onJoin?.(r)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') onJoin?.(r);
+                }}
+                aria-describedby={`${r.id}-meta`}
+              >
+                <div className="pin-top">
+                  <span className="pushpin" aria-hidden="true">
+                    📌
+                  </span>
                 </div>
 
-                <div className="pin-text">
-                  <h3 className="pin-title">{r.name}</h3>
-                  <p className="pin-vibe">{r.vibe}</p>
+                <div className="join-room-button-container">
+                  <button type="button" id="join-room-button">
+                    Join Room
+                  </button>
                 </div>
 
-                <div className="pin-meta" id={`${r.id}-meta`}>
-                  <span className="occupants">{r.occupants} in</span>
-                  {r.newCount > 0 && (
-                    <span className="new-badge" aria-live="polite">
-                      +{r.newCount}
-                    </span>
-                  )}
+                <div className="pin-body">
+                  <div className="pin-icon" aria-hidden="true">
+                    {r.icon}
+                  </div>
+
+                  <div className="pin-text">
+                    <h3 className="pin-title">{r.name}</h3>
+                    <p className="pin-vibe">{r.vibe}</p>
+                  </div>
+
+                  <div className="pin-meta" id={`${r.id}-meta`}>
+                    <span className="occupants">{r.occupants} in</span>
+                    {r.newCount > 0 && (
+                      <span className="new-badge" aria-live="polite">
+                        +{r.newCount}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </article>
+              </article>
             </>
           ))}
         </div>

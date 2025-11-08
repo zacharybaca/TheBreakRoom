@@ -64,7 +64,9 @@
 
 /* ===== USER CARD FLOAT / SWAY EFFECT ===== */
 #users-container .user-card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
   transform-origin: top center;
   perspective: 800px;
   will-change: transform, box-shadow;
@@ -78,9 +80,15 @@
 
 /* Subtle “swing” motion for realism */
 @keyframes sway {
-  0% { transform: rotateZ(-1deg); }
-  50% { transform: rotateZ(1deg); }
-  100% { transform: rotateZ(-1deg); }
+  0% {
+    transform: rotateZ(-1deg);
+  }
+  50% {
+    transform: rotateZ(1deg);
+  }
+  100% {
+    transform: rotateZ(-1deg);
+  }
 }
 
 #users-container .user-card:hover {
@@ -143,9 +151,9 @@
   width: 50%;
   height: 30%;
   font-size: 1.25rem;
-  font-family: "Finger Paint", sans-serif;
+  font-family: 'Finger Paint', sans-serif;
   font-weight: 800;
-  background-color: #FFE6D6;
+  background-color: #ffe6d6;
   border: 2px solid black;
   border-radius: 10px;
   backdrop-filter: blur(10px);

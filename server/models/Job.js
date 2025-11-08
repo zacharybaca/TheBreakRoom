@@ -6,7 +6,7 @@ const jobSchema = new mongoose.Schema(
     description: { type: String, trim: true },
     category: { type: String, trim: true }, // optional, but helps grouping jobs later
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Normalize title before saving

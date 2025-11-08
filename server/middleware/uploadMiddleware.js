@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     // safe unique filename
     cb(
       null,
-      `${Date.now()}-${file.fieldname}${path.extname(file.originalname)}`
+      `${Date.now()}-${file.fieldname}${path.extname(file.originalname)}`,
     );
   },
 });

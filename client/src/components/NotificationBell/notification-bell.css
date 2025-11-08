@@ -16,30 +16,30 @@
 .notification-badge {
   /* Position absolute relative to the container */
   position: absolute;
-  top: 0; 
+  top: 0;
   right: 0;
-  
+
   /* Visual styling */
   background-color: #ff4d4d; /* Bright red for attention */
   color: white;
   font-weight: bold;
   font-size: 0.75rem;
   border-radius: 50%; /* Makes it a perfect circle */
-  
+
   /* Center the number inside the badge */
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   /* Size and shape adjustments */
   min-width: 20px;
   height: 20px;
   padding: 2px;
-  
+
   /* Ensure the text is centered and doesn't wrap */
   white-space: nowrap;
   text-align: center;
-  
+
   /* Add a small border for contrast against the background */
-  box-shadow: 0 0 0 2px white; 
+  box-shadow: 0 0 0 2px white;
 }

@@ -3,34 +3,33 @@ import MessageCard from '../MessageCard/MessageCard.jsx';
 import { useEffect, useState } from 'react';
 import { useSocket } from '../../hooks/useSocket.js';
 
-
 const ChatRoom = () => {
   const { socket, isConnected, joinRoom, sendMessage } = useSocket();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [room, setRoom] = useState("general");
+  const [room, setRoom] = useState('general');
 
   useEffect(() => {
     if (!socket) return;
 
     const handleReceiveMessage = (data) => {
-      if (!data || typeof data !== "object" || !data.message) {
-        console.warn("⚠️ Received invalid message data:", data);
+      if (!data || typeof data !== 'object' || !data.message) {
+        console.warn('⚠️ Received invalid message data:', data);
         return;
       }
 
-      if (typeof data.message !== "string" || !data.message.trim()) {
-        console.warn("⚠️ Received empty or non-string message:", data);
+      if (typeof data.message !== 'string' || !data.message.trim()) {
+        console.warn('⚠️ Received empty or non-string message:', data);
         return;
       }
 
-      if (typeof data.sender !== "string" || !data.sender.trim()) {
-        console.warn("⚠️ Received message with invalid sender:", data);
+      if (typeof data.sender !== 'string' || !data.sender.trim()) {
+        console.warn('⚠️ Received message with invalid sender:', data);
         return;
       }
 
-      if (data.room && typeof data.room !== "string") {
-        console.warn("⚠️ Received message with invalid room:", data);
+      if (data.room && typeof data.room !== 'string') {
+        console.warn('⚠️ Received message with invalid room:', data);
         return;
       }
 
@@ -42,28 +41,28 @@ const ChatRoom = () => {
         return;
       }
       setMessages((prev) => [...prev, data]);
-      console.log("💬 Message received:", data);
+      console.log('💬 Message received:', data);
     };
 
-    socket.on("receive_message", handleReceiveMessage);
+    socket.on('receive_message', handleReceiveMessage);
 
     // join default room
     joinRoom(room);
 
     return () => {
-      socket.off("receive_message", handleReceiveMessage);
+      socket.off('receive_message', handleReceiveMessage);
     };
   }, [socket, room, joinRoom]);
 
   const handleSendMessage = () => {
     if (!message.trim()) return;
     sendMessage(room, message);
-    setMessages((prev) => [...prev, { sender: "You", message }]);
-    setMessage("");
+    setMessages((prev) => [...prev, { sender: 'You', message }]);
+    setMessage('');
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -75,17 +74,13 @@ const ChatRoom = () => {
         <h1 className="chat-room-heading">Welcome to The Breakroom ☕</h1>
         <p className="chat-room-subtitle">
           {isConnected
-            ? "Connected. Grab a coffee and chat away."
-            : "Connecting to chat server..."}
+            ? 'Connected. Grab a coffee and chat away.'
+            : 'Connecting to chat server...'}
         </p>
 
         <div id="chat-room-frame">
           <div id="messages-container">
-            <MessageCard
-              sender="Zach"
-              message="Hello!"
-              attachment="tack"
-            />
+            <MessageCard sender="Zach" message="Hello!" attachment="tack" />
 
             <MessageCard
               sender="Carlos"
@@ -93,17 +88,9 @@ const ChatRoom = () => {
               attachment="safetypin"
             />
 
-            <MessageCard
-              sender="Robyn"
-              message="Hello!"
-              attachment="tape"
-            />
+            <MessageCard sender="Robyn" message="Hello!" attachment="tape" />
 
-            <MessageCard
-              sender="Ellis"
-              message="Hello!"
-              attachment="nail"
-            />
+            <MessageCard sender="Ellis" message="Hello!" attachment="nail" />
             {/* {messages.length === 0 ? (
               <p className="no-messages">No messages yet — say something!</p>
             ) : (
@@ -135,7 +122,7 @@ const ChatRoom = () => {
               onClick={handleSendMessage}
               disabled={!isConnected}
             >
-              {isConnected ? "Send 💬" : "Connecting..."}
+              {isConnected ? 'Send 💬' : 'Connecting...'}
             </button>
           </div>
         </div>
