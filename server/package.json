@@ -4,7 +4,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "reset": "rm -rf node_modules package-lock.json && npm cache clean --force && npm install"
   },
   "author": "Zachary Baca",
   "license": "ISC",
