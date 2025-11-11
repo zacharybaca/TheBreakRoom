@@ -100,21 +100,21 @@ Ensure you have the following installed on your machine:
 6. **Create a `.env` file in the root directory with the following contents**:
 
    ```bash
-   PORT=5000
-  SECRET=""
-  ACCESS_TOKEN_SECRET=""
-  REFRESH_TOKEN_SECRET=""
-  NODE_ENV=production
-  MONGODB_URI=mongodb+srv://bacazachary:[YOUR_PASSWORD]@cluster0.ij6c4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-  DB_NAME=Nine2Five
-  SMTP_HOST=smtp.yourprovider.com
-  SMTP_PORT=587
-  SMTP_USER=apikey-or-username
-  SMTP_PASS=supersecretpassword
-  EMAIL_FROM="The Breakroom <no-reply@zachary-baca.dev>"
-  NODE_ENV=development || production
-  FRONTEND_URL=https://yourfrontend.com
-  SENDGRID_API_KEY=""
+    PORT=5000
+    SECRET=""
+    ACCESS_TOKEN_SECRET=""
+    REFRESH_TOKEN_SECRET=""
+    NODE_ENV=production
+    MONGODB_URI=mongodb+srv://bacazachary:[YOUR_PASSWORD]@cluster0.ij6c4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    DB_NAME=Nine2Five
+    SMTP_HOST=smtp.yourprovider.com
+    SMTP_PORT=587
+    SMTP_USER=apikey-or-username
+    SMTP_PASS=supersecretpassword
+    EMAIL_FROM="The Breakroom <no-reply@zachary-baca.dev>"
+    NODE_ENV=development || production
+    FRONTEND_URL=https://yourfrontend.com
+    SENDGRID_API_KEY=""
    ```
 
 7. **Optional: If using MongoDB locally, ensure the service is running**:
