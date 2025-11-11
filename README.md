@@ -1,7 +1,5 @@
 <!-- markdownlint-disable MD033 -->
 
-# TheBreakRoom
-
 <p align="center">
   <img src="./logo.png" alt="Nine2Five Logo" width="280" />
 </p>
@@ -17,7 +15,7 @@
 
 <!-- markdownlint-enable MD033 -->
 
-The backend server for Nine2Five, a social platform designed for workers in retail, customer service, and other public-facing roles. The application provides a space where users can share their daily experiences, vent frustrations, and seek advice from peers who understand the challenges of working the 9-to-5 grind.
+The backend server for The Breakroom, a social platform designed for workers in retail, customer service, and other public-facing roles. The application provides a space where users can share their daily experiences, vent frustrations, and seek advice from peers who understand the challenges of working the 9-to-5 grind.
 
 ## Table of Contents
 
