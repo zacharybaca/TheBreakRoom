@@ -18,7 +18,7 @@ export const sendEmailTest = async (req, res) => {
 
     // Render the email template into HTML
     const html = await renderAsync(
-      <SendEmailTemplate url="https://thebreakroom.com/login" />
+      <SendEmailTemplate url="https://thebreakroom.com/login" />,
     );
 
     const result = await sendEmail({

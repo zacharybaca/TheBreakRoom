@@ -249,7 +249,7 @@ export const forgotPassword = async (req, res) => {
     });
   }
 
-  const resetToken = user.createPasswordResetToken();
+  const resetToken = user.passwordResetToken();
   await user.save({ validateBeforeSave: false });
 
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
