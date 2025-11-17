@@ -11,6 +11,7 @@ import CreateBreakRoom from './components/CreateBreakRoom/CreateBreakRoom.jsx';
 import Users from './components/Users/Users.jsx';
 import Loading from './components/Loading/Loading.jsx';
 import ChatRoom from './components/ChatRoom/ChatRoom.jsx';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/loading" element={<Loading />} />
           <Route path="/chatroom" element={<ChatRoom />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route
             path="/error"
             element={
