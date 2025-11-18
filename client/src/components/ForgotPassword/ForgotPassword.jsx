@@ -27,6 +27,8 @@ const ForgotPassword = () => {
   })
 
   return (
+    <>
+    <hr />
     <form onSubmit={formik.handleSubmit} className="forgot-password-form">
       <input
         type="password"
@@ -51,6 +53,8 @@ const ForgotPassword = () => {
 
       <button type="submit">Reset Password</button>
     </form>
+    <hr />
+    </>
   )
 }
 
