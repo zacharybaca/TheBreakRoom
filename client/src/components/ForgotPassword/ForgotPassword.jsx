@@ -36,6 +36,8 @@ const ForgotPassword = () => {
         name="newPassword"
         onChange={formik.handleChange}
         value={formik.values.newPassword}
+        onBlur={formik.handleBlur}
+        placeholder="New Password"
       />
       {formik.touched.newPassword && formik.errors.newPassword && (
         <div className="error">{formik.errors.newPassword}</div>
@@ -46,6 +48,8 @@ const ForgotPassword = () => {
         name="confirmNewPassword"
         onChange={formik.handleChange}
         value={formik.values.confirmNewPassword}
+        onBlur={formik.handleBlur}
+        placeholder="Confirm New Password"
       />
       {formik.touched.confirmNewPassword &&
         formik.errors.confirmNewPassword && (
