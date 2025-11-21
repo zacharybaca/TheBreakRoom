@@ -93,4 +93,26 @@ router.get('/auth/google/callback',
     res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${token}`);
   });
 
+/**
+ * @route GET /api/auth/apple
+ * @desc Initiate Apple Sign-In authentication
+ * @access Public
+ */
+router.get(
+  "/auth/apple",
+  passport.authenticate("apple")
+);
+
+/**
+ * @route GET /api/auth/apple/callback
+ * @desc Handle Apple Sign-In callback
+ * @access Public
+ */
+router.get('/auth/apple/callback',
+  passport.authenticate('apple', { session: false }),
+  async (req, res) => {
+    const token = createJwtForUser(req.user); // your current JWT generator
+    res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${token}`);
+  });
+
 export default router;
