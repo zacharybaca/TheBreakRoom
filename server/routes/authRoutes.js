@@ -10,7 +10,7 @@ import {
   forgotPassword,
 } from "../controllers/authController.js";
 import { sendEmailTest } from "../utils/mail/sendEmailTest.js";
-
+import passport from 'passport';
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -70,4 +70,27 @@ router.post("/forgot-password", forgotPassword);
  * @access Public
  */
 router.post("/test-email", sendEmailTest);
+
+/**
+ * @route   GET /api/auth/google
+ * @desc    Initiate Google OAuth2 authentication
+ * @access  Public
+ */
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+/**
+ * @route   GET /api/auth/google/callback
+ * @desc    Handle Google OAuth2 callback
+ * @access  Public
+ */
+router.get('/auth/google/callback',
+  passport.authenticate('google', { session: false }),
+  async (req, res) => {
+    const token = createJwtForUser(req.user); // your current JWT generator
+    res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${token}`);
+  });
+
 export default router;
