@@ -190,6 +190,13 @@ const Login = () => {
           disabled={formik.isSubmitting}
         />
       </form>
+      <a href={`${import.meta.env.VITE_BACKEND_URL}/auth/google`}>
+        <button>Sign in with Google</button>
+      </a>
+
+      <a href={`${import.meta.env.VITE_BACKEND_URL}/auth/apple`}>
+        <button>Sign in with Apple</button>
+      </a>
     </div>
   );
 };
