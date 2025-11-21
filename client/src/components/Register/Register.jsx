@@ -1,22 +1,23 @@
-import './register.css'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import { useModal } from '../../hooks/useModal'
-import { useAuth } from '../../hooks/useAuth'
-import Modal from '../Modal/Modal.jsx'
-import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx'
-import AttachmentPicker from '../AttachmentPicker/AttachmentPicker.jsx'
-import { motion as Motion, AnimatePresence } from 'framer-motion'
+import './register.css';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useModal } from '../../hooks/useModal';
+import { useAuth } from '../../hooks/useAuth';
+import Modal from '../Modal/Modal.jsx';
+import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
+import AttachmentPicker from '../AttachmentPicker/AttachmentPicker.jsx';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 
 const stepVariants = {
-  enter: direction => ({ x: direction > 0 ? 300 : -300, opacity: 0 }),
+  enter: (direction) => ({ x: direction > 0 ? 300 : -300, opacity: 0 }),
   center: { x: 0, opacity: 1 },
-  exit: direction => ({ x: direction < 0 ? 300 : -300, opacity: 0 })
-}
+  exit: (direction) => ({ x: direction < 0 ? 300 : -300, opacity: 0 }),
+};
 
 const Register = () => {
-  const { step, setStep, direction, setDirection, isOpen, onClose } = useModal()
-  const { user, isAuthenticated } = useAuth()
+  const { step, setStep, direction, setDirection, isOpen, onClose } =
+    useModal();
+  const { user, isAuthenticated } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -28,7 +29,7 @@ const Register = () => {
       job: '',
       bio: '',
       gender: '',
-      avatar: null
+      avatar: null,
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
@@ -36,36 +37,40 @@ const Register = () => {
       email: Yup.string().email('Invalid email').required('Email is required'),
       password: Yup.string()
         .min(6, 'Password must be at least 6 characters')
-        .required('Password is required')
+        .required('Password is required'),
     }),
-    onSubmit: async values => {
-      const formData = new FormData()
+    onSubmit: async (values) => {
+      const formData = new FormData();
       Object.keys(values).forEach(
-        key => values[key] && formData.append(key, values[key])
-      )
+        (key) => values[key] && formData.append(key, values[key])
+      );
       const res = await fetch('http://localhost:9000/api/register', {
         method: 'POST',
-        body: formData
-      })
-      if (!res.ok) throw new Error('Failed to register')
-      onClose()
-    }
-  })
+        body: formData,
+      });
+      if (!res.ok) throw new Error('Failed to register');
+      onClose();
+    },
+  });
 
   const nextStep = () => {
-    setDirection(1)
-    setStep(s => s + 1)
-  }
+    setDirection(1);
+    setStep((s) => s + 1);
+  };
 
   const prevStep = () => {
-    setDirection(-1)
-    setStep(s => s - 1)
-  }
+    setDirection(-1);
+    setStep((s) => s - 1);
+  };
 
   const Step1 = () => (
     <div className="form-fields">
       <label>Name:</label>
-      <input name="name" onChange={formik.handleChange} value={formik.values.name} />
+      <input
+        name="name"
+        onChange={formik.handleChange}
+        value={formik.values.name}
+      />
       {formik.errors.name && <p className="form-error">{formik.errors.name}</p>}
 
       <label>Username:</label>
@@ -85,13 +90,20 @@ const Register = () => {
         onChange={formik.handleChange}
         value={formik.values.email}
       />
-      {formik.errors.email && <p className="form-error">{formik.errors.email}</p>}
+      {formik.errors.email && (
+        <p className="form-error">{formik.errors.email}</p>
+      )}
 
       <div className="step-actions">
-        <ReusableStyledButton title="Next" type="button" onClick={nextStep} className="reusable" />
+        <ReusableStyledButton
+          title="Next"
+          type="button"
+          onClick={nextStep}
+          className="reusable"
+        />
       </div>
     </div>
-  )
+  );
 
   const Step2 = () => (
     <div className="form-fields">
@@ -107,7 +119,11 @@ const Register = () => {
       )}
 
       <label>Role:</label>
-      <select name="role" onChange={formik.handleChange} value={formik.values.role}>
+      <select
+        name="role"
+        onChange={formik.handleChange}
+        value={formik.values.role}
+      >
         <option value="user">User</option>
         {user && user.isAdmin && isAuthenticated && (
           <option value="admin">Admin</option>
@@ -115,16 +131,30 @@ const Register = () => {
       </select>
 
       <div className="step-actions">
-        <ReusableStyledButton title="Back" type="button" onClick={prevStep} className="reusable" />
-        <ReusableStyledButton title="Next" type="button" onClick={nextStep} className="reusable" />
+        <ReusableStyledButton
+          title="Back"
+          type="button"
+          onClick={prevStep}
+          className="reusable"
+        />
+        <ReusableStyledButton
+          title="Next"
+          type="button"
+          onClick={nextStep}
+          className="reusable"
+        />
       </div>
     </div>
-  )
+  );
 
   const Step3 = () => (
     <div className="form-fields">
       <label>Job Title:</label>
-      <input name="job" onChange={formik.handleChange} value={formik.values.job} />
+      <input
+        name="job"
+        onChange={formik.handleChange}
+        value={formik.values.job}
+      />
 
       <label>Bio:</label>
       <textarea
@@ -135,7 +165,11 @@ const Register = () => {
       />
 
       <label>Gender:</label>
-      <select name="gender" onChange={formik.handleChange} value={formik.values.gender}>
+      <select
+        name="gender"
+        onChange={formik.handleChange}
+        value={formik.values.gender}
+      >
         <option value="">Select...</option>
         <option value="male">Male</option>
         <option value="female">Female</option>
@@ -146,7 +180,9 @@ const Register = () => {
       <input
         name="avatar"
         type="file"
-        onChange={e => formik.setFieldValue('avatar', e.currentTarget.files[0])}
+        onChange={(e) =>
+          formik.setFieldValue('avatar', e.currentTarget.files[0])
+        }
       />
 
       <AttachmentPicker
@@ -159,20 +195,33 @@ const Register = () => {
       )}
 
       <div className="step-actions-submit">
-        <ReusableStyledButton title="Back" type="button" onClick={prevStep} className="reusable" />
-        <ReusableStyledButton title="Submit" type="submit" className="reusable" />
+        <ReusableStyledButton
+          title="Back"
+          type="button"
+          onClick={prevStep}
+          className="reusable"
+        />
+        <ReusableStyledButton
+          title="Submit"
+          type="submit"
+          className="reusable"
+        />
       </div>
     </div>
-  )
+  );
 
-  const progressValue = (step / 3) * 100
+  const progressValue = (step / 3) * 100;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={formik.handleSubmit} className="form-container">
         <h1>Sign Up</h1>
 
-        <progress max="100" value={progressValue} className="register-progress" />
+        <progress
+          max="100"
+          value={progressValue}
+          className="register-progress"
+        />
 
         <AnimatePresence mode="wait" custom={direction}>
           <Motion.div
@@ -191,7 +240,7 @@ const Register = () => {
         </AnimatePresence>
       </form>
     </Modal>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
