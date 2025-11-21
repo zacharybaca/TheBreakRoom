@@ -140,3 +140,51 @@ button[type='submit']:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.social-login-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+/* anchor wrapper */
+.social-login-buttons-container a {
+  width: 100%;
+  text-decoration: none;
+}
+
+/* base */
+.social-login-buttons-container button {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Google */
+.google-btn {
+  background: #ffffff;
+  border-color: #dadce0;
+  color: #3c4043;
+}
+
+.google-btn:hover {
+  background: #f7f7f7;
+}
+
+/* Apple */
+.apple-btn {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+.apple-btn:hover {
+  background: #1a1a1a;
+}
