@@ -178,6 +178,13 @@ button[type='submit']:disabled {
   background: #f7f7f7;
 }
 
+.google-btn img {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
 /* Apple */
 .apple-btn {
   background: #000000;
@@ -187,4 +194,12 @@ button[type='submit']:disabled {
 
 .apple-btn:hover {
   background: #1a1a1a;
+}
+
+.apple-btn img {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  background-color: white;
 }
