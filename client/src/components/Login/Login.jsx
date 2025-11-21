@@ -193,11 +193,11 @@ const Login = () => {
 
       <div className="social-login-buttons-container">
         <a href={`${import.meta.env.VITE_BACKEND_URL}/auth/google`}>
-          <button className="google-btn">Sign in with Google</button>
+          <button className="google-btn"><img src="/assets/google.png" alt="google icon" />Sign in with Google</button>
         </a>
 
         <a href={`${import.meta.env.VITE_BACKEND_URL}/auth/apple`}>
-          <button className="apple-btn">Sign in with Apple</button>
+          <button className="apple-btn"><img src="/assets/apple.png" alt="apple icon" />Sign in with Apple</button>
         </a>
       </div>
 
