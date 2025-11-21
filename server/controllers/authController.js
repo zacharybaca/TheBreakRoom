@@ -305,3 +305,9 @@ export const testEmail = async (req, res) => {
     res.status(500).json({ success: false, message: result.error });
   }
 };
+
+export const loginWithToken = (token) => {
+  localStorage.setItem('accessToken', token);
+  setAccessToken(token);
+};
+  navigate('/'); // redirect to home or dashboard
