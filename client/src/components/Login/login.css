@@ -187,8 +187,8 @@ button[type='submit']:disabled {
 
 /* Apple */
 .apple-btn {
-  background: #000000;
-  color: #ffffff;
+  background: #ffffff;
+  color: #000000;
   border-color: #000000;
 }
 
@@ -201,5 +201,4 @@ button[type='submit']:disabled {
   width: 18px;
   height: 18px;
   object-fit: contain;
-  background-color: white;
 }
