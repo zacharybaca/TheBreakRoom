@@ -192,10 +192,6 @@ button[type='submit']:disabled {
   border-color: #000000;
 }
 
-.apple-btn:hover {
-  background: #1a1a1a;
-}
-
 .apple-btn img {
   margin-right: 8px;
   width: 18px;

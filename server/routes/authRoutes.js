@@ -77,7 +77,7 @@ router.post("/test-email", sendEmailTest);
  * @access  Public
  */
 router.get(
-  "/auth/google",
+  "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
@@ -86,7 +86,7 @@ router.get(
  * @desc    Handle Google OAuth2 callback
  * @access  Public
  */
-router.get('/auth/google/callback',
+router.get('/google/callback',
   passport.authenticate('google', { session: false }),
   async (req, res) => {
     const token = createJwtForUser(req.user); // your current JWT generator
@@ -99,7 +99,7 @@ router.get('/auth/google/callback',
  * @access Public
  */
 router.get(
-  "/auth/apple",
+  "/apple",
   passport.authenticate("apple")
 );
 
@@ -108,7 +108,7 @@ router.get(
  * @desc Handle Apple Sign-In callback
  * @access Public
  */
-router.get('/auth/apple/callback',
+router.get('/apple/callback',
   passport.authenticate('apple', { session: false }),
   async (req, res) => {
     const token = createJwtForUser(req.user); // your current JWT generator

@@ -190,7 +190,7 @@ const Login = () => {
           disabled={formik.isSubmitting}
         />
       </form>
-
+      <br />
       <div className="social-login-buttons-container">
         <a href={`${import.meta.env.VITE_BACKEND_URL}/auth/google`}>
           <button className="google-btn"><img src="/assets/google.png" alt="google icon" />Sign in with Google</button>
