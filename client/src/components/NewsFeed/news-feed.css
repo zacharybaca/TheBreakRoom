@@ -1,21 +1,21 @@
 #news-feed {
   width: 100%;
-  max-width: 700px;
+  max-width: 680px;
+  padding: 28px 32px;
   margin: 0 auto;
-  padding: 25px;
-  border: 1px solid rgba(0,0,0,0.4);
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(52, 35, 21, 0.25);
+  border: 1px solid rgba(0,0,0,0.35);
+  border-radius: 10px;
   backdrop-filter: blur(2px);
-  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25) inset;
 }
 
-/* header */
 .nf-header {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 28px;
 }
 
-/* composer */
+/* Composer */
 .nf-composer {
   display: flex;
   flex-direction: column;
@@ -24,10 +24,11 @@
 }
 
 .nf-input {
+  width: 100%;
   padding: 12px;
+  background: #fafafa;
   border: 1px solid #3a3a3a;
   border-radius: 6px;
-  background: #f5f5f5;
   color: #000;
 }
 
@@ -35,26 +36,32 @@
   width: 110px;
   padding: 8px;
   border: 1px solid #2a2a2a;
-  background: #e6e6e6;
   border-radius: 6px;
+  background: #e6e6e6;
   font-weight: 600;
 }
 
-/* feed list */
+/* Posts List */
 .nf-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
-/* post card styling */
+/* Sticky-note cards */
 .nf-item {
-  background: #fffef2;
-  border: 1px solid #ccb98c;
-  padding: 16px 18px;
-  border-radius: 6px;
+  padding: 14px 18px;
+  background: #fff5c9;          /* warm sticky-note tone */
+  border: 1px solid #d3c28b;
+  border-radius: 8px;
   color: #000;
   box-shadow:
-    0 1px 3px rgba(0,0,0,0.25),
-    0 0 0 2px rgba(255,255,255,0.4) inset;
+    0 3px 4px rgba(0,0,0,0.25),
+    0 0 0 2px rgba(255,255,255,0.35) inset;
+}
+.nf-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
