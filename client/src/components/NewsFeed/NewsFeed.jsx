@@ -8,10 +8,7 @@ const NewsFeed = () => {
       </header>
 
       <section className="nf-composer">
-        <textarea
-          className="nf-input"
-          placeholder="Share an update..."
-        />
+        <textarea className="nf-input" placeholder="Share an update..." />
         <button className="nf-submit">Post</button>
       </section>
 
