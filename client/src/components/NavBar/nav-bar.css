@@ -55,10 +55,13 @@
   text-align: center;
   /* Aesthetic Change: Reduced gap to make the logo/slogan unit tighter */
   gap: 0.25rem;
+  /* 💡 ADDED: Limit overall section width to 40% of viewport width */
+  max-width: 40vw;
 }
 
+/* 💡 CHANGED: Simplified logo width to be relative to its parent (#app-icon) */
 #app-logo {
-  width: 90px;
+  width: 90%;
   height: auto;
   border-radius: 10px;
 }
@@ -70,9 +73,7 @@
   gap: 0.5rem;
 }
 
-/* ✅ FIX 1: Replaced 6vh with a standard, manageable rem size for consistency.
-   This ensures icons are not gigantic on huge screens.
-*/
+/* Icon Sizing (Remains the same as our previous fix) */
 .nav-bar-images,
 .nav-bar-images-default {
   height: 2.5rem; /* Standard size (~40px) */
@@ -92,6 +93,7 @@
     auto;
 }
 
+/* 💡 CHANGED: Implemented clamp() for fluid, constrained font sizing. */
 .slogan {
   font-family: 'Schoolbell', cursive;
   font-weight: 400;
@@ -100,9 +102,9 @@
   color: white;
   margin: 0;
   line-height: 1.2;
-  /* Aesthetic Change: Limited max-width for better readability on wide screens */
-  max-width: 600px;
-  font-size: 1.25rem; /* Set a slightly smaller default size for wide screens */
+  /* Removed: max-width: 600px; - Let the clamp and parent max-width handle it */
+  /* Replaced fixed size with fluid clamp() function */
+  font-size: clamp(0.9rem, 2vw, 1.25rem);
 }
 
 /* 900px breakpoint: Tablet View */
@@ -123,8 +125,9 @@
     flex-direction: row;
   }
 
+  /* 💡 MODIFIED: App logo width is now relative to the viewport. */
   #app-logo {
-    width: 70px;
+    width: 80%;
   }
 
   /* Shrink icons slightly for tablet screens */
@@ -133,11 +136,8 @@
     height: 2rem; /* (~32px) */
   }
 
-  /* Shrink slogan text for tablet readability */
-  .slogan {
-    font-size: 0.9rem;
-    max-width: 90%; /* Allow it to use more width on tablets */
-  }
+  /* ❌ REMOVED: Slogan font-size change, as clamp() handles it dynamically. */
+  /* ❌ REMOVED: max-width: 90%; */
 }
 
 /* 480px breakpoint: Mobile View (Updated to 768px for clarity, maintaining original logic) */
@@ -170,8 +170,9 @@
     gap: 0.25rem;
   }
 
+  /* 💡 MODIFIED: App logo width is now relative to the viewport. */
   #app-logo {
-    width: 50px; /* Smaller logo for mobile */
+    width: 60%; /* Will be roughly 30vw */
   }
 
   /* Ensure icons are aligned at the start/end of their columns */
@@ -188,14 +189,11 @@
   }
 }
 
-/* ✅ CHANGE 2: Removed redundant min-width: 768px block since
-   the main sizing block now covers all min-widths by default.
-*/
-
 /* Custom large screen sizing */
 @media screen and (min-width: 1140px) {
+  /* 💡 MODIFIED: App logo width is now relative to the viewport. */
   #app-logo {
-    width: 120px;
+    width: 75%; /* Allows for a max width of about 30vw * 0.75 */
   }
 
   .slogan {
