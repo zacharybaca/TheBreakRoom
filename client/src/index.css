@@ -2,7 +2,9 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box; /* predictable sizing everywhere */
+  /* You already had this excellent best practice, ensuring borders and padding
+     don't increase the total size of elements. */
+  box-sizing: border-box;
 }
 
 :root {
@@ -20,6 +22,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* ✅ CHANGE 1: Explicitly setting the base font size.
+     This ensures 1rem always equals 16px (the standard browser default). */
+  font-size: 100%;
 }
 
 /* ---- Global Element Styles ---- */
@@ -36,8 +42,18 @@ a:hover {
 }
 
 body {
-  display: flex;
-  place-items: center;
+  /* ✅ CHANGE 2: Removing default browser margins/padding. */
+  margin: 0;
+  padding: 0;
+
+  /* ❌ Removed the centering properties that caused the issue:
+     display: flex;
+     place-items: center;
+
+     The body will now behave like a standard web page, allowing your content
+     to flow naturally and fill the viewport.
+  */
+
   min-width: 320px;
   min-height: 100vh;
 }
