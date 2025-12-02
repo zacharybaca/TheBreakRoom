@@ -1,4 +1,5 @@
 import './news-feed.css';
+import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton';
 
 const NewsFeed = () => {
   return (
@@ -9,7 +10,11 @@ const NewsFeed = () => {
 
       <section className="nf-composer">
         <textarea className="nf-input" placeholder="Share an update..." />
-        <button className="nf-submit">Post</button>
+        <ReusableStyledButton
+          title="Post"
+          type="submit"
+          className="nf-submit"
+        />
       </section>
 
       <section className="nf-list">
