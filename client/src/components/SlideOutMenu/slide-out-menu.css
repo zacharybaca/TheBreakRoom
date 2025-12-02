@@ -8,36 +8,113 @@
   width: 70%;
   max-width: 300px;
   height: 100%;
-  background: linear-gradient(180deg, #ff914d, #ff4d4d); /* gradient theme */
+  /* Gradient theme */
+  background: linear-gradient(180deg, #ff914d, #ff4d4d);
   color: white;
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
   z-index: 2000; /* sits above backdrop */
   padding: 1rem;
+
+  /* ✅ ADDED: Polish - Rounded corners and shadow */
+  border-radius: 0 1rem 1rem 0;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.4);
 }
 
 .slideout.open {
   transform: translateX(0);
-  border-radius: 10px;
+  /* Removed redundant border-radius here */
 }
 
-/* Close button */
+/* Close button (Bootstrap component) */
 .close-btn {
-  background-color: red;
-  font-size: 2rem;
-  color: white;
-  cursor:
-    url('/assets/pointer-cursor.png') 0 0,
-    auto;
+  /* We are styling the CloseButton component from react-bootstrap.
+     We need to override its defaults. */
+  background: none;
+  border: none;
   align-self: flex-end;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  color: white;
+  opacity: 0.8;
+  padding: 0.5rem;
 }
 
 .close-btn:hover {
+  opacity: 1;
+}
+
+/* --- LOG ON/OFF Button Styling --- */
+
+.log-off-on-button-container {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem; /* Increased vertical space after log button */
+}
+
+.log-off-on-button-container a {
+  /* Reset the link style so the button itself is styled */
+  text-decoration: none;
+}
+
+.log-off-on-button-container button {
+  /* Style the button container */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  /* Use a subtle, contrasting background */
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid white;
+  color: white;
+  border-radius: 0.5rem;
+}
+
+.log-off-on-button-container button img {
+  width: 30px; /* Consistent icon size with menu items */
+  height: 30px;
   cursor:
     url('/assets/pointer-cursor.png') 0 0,
     auto;
 }
+
+.log-off-on-button-container button h3 {
+  /* Target the h3 inside the button to remove default margins */
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: white; /* Ensure text color is white */
+}
+
+
+/* --- PRIVATE PROFILE Button Styling --- */
+
+#private-profile-button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1.5rem; /* Space below the toggle */
+}
+
+#private-profile-button-container button {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  /* ✅ CHANGE 1: Increase vertical padding for a larger button area */
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+
+/* Resizing the image inside the toggle button */
+#private-profile-button-container button img {
+  /* ✅ CHANGE 2: Increase icon size for better visibility */
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+}
+
+
+/* --- MENU LIST Styling --- */
 
 /* Menu list */
 .slideout ul {
@@ -48,8 +125,9 @@
 
 .slideout li {
   display: flex;
-  align-items: center; /* vertical centering of icon + text */
-  margin: 1rem 0;
+  align-items: center;
+  /* Reduced vertical margin for tighter packing */
+  margin: 0.1rem 0;
   cursor:
     url('/assets/pointer-cursor.png') 0 0,
     auto;
@@ -58,45 +136,63 @@
 .slideout a {
   display: flex;
   align-items: center;
-  gap: 0.75rem; /* space between icon and text */
+  gap: 0.75rem;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.1rem; /* Slightly smaller font for better fit */
   text-decoration: none;
-  width: 100%; /* makes the whole row clickable */
-  padding: 0.25rem 0;
-  transition: color 0.2s ease;
+  width: 100%;
+  /* Increased padding to make the hover target larger */
+  padding: 0.5rem 0.5rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-radius: 0.25rem;
 }
 
 .slideout a:hover {
   cursor:
     url('/assets/pointer-cursor.png') 0 0,
     auto;
-  color: #ffe0d1; /* subtle hover effect */
+  /* Use a solid background hover for better visual feedback */
+  background-color: rgba(0, 0, 0, 0.15);
+  color: white;
 }
 
 /* Menu icons */
 .menu-image-class {
-  width: 30px;
-  height: 30px;
-  flex-shrink: 0; /* prevents shrinking */
-  cursor:
-    url('/assets/pointer-cursor.png') 0 0,
-    auto;
-}
-
-/* Standalone button (like login at top) */
-.slideout button img {
-  width: 40px;
-  height: 40px;
-  cursor:
-    url('/assets/pointer-cursor.png') 0 0,
-    auto;
+  width: 26px; /* Slightly smaller to match the new font size */
+  height: 26px;
+  flex-shrink: 0;
 }
 
 /* Optional dividers between items */
+.slideout hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 0.5rem 0;
+}
+
+/* Disable old separator styling */
 .slideout li + li {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding-top: 1rem;
+  border-top: none;
+  padding-top: 0;
+}
+
+/* Delete button at the bottom */
+#delete-button {
+  color: white;
+  background-color: #a30000; /* Darker red for emphasis */
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  font-size: 1.1rem;
+  align-self: center;
+}
+
+/* --- Misc Button Overrides (General button rule must be overridden) --- */
+
+/* This rule should be made more specific if you need to override the index.css 'button' rule */
+button {
+  border-radius: 0.5rem;
+  /* Ensure background color doesn't conflict with log buttons above */
 }
 
 /* Backdrop overlay */
@@ -108,36 +204,4 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5); /* semi-transparent black */
   z-index: 1500; /* sits below the slideout menu */
-}
-
-#delete-button {
-  color: white;
-  background-color: red;
-  cursor:
-    url('/assets/pointer-cursor.png') 0 0,
-    auto;
-}
-
-button {
-  border-radius: 10px;
-  background-color: #ff0000;
-}
-
-#private-profile-button-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-#private-profile-button-container button {
-  width: 100%;
-}
-
-#private-profile-button-container button img {
-  width: 50%;
-  height: 100%;
-}
-
-.log-off-on-button-container {
-  gap: 10px;
 }
