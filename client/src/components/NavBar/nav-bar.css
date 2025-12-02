@@ -22,7 +22,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 0.75rem 1rem;
+  /* Reduced vertical padding to keep the bar height minimal */
+  padding: 0.5rem 1rem;
   box-sizing: border-box;
 }
 
@@ -56,16 +57,18 @@
   /* Aesthetic Change: Reduced gap to make the logo/slogan unit tighter */
   gap: 0.25rem;
 
-  /* ✅ FIX: Reverting from 40vw to a controlled max-width for desktop (min-width: 901px) */
+  /* Max width controls the logo's horizontal space on standard screens */
   max-width: 350px;
 }
 
-/* 💡 CHANGED: Simplified logo width to be relative to its parent (#app-icon) */
+/* Simplified logo width to be relative to its parent (#app-icon) */
 #app-logo {
-  /* Let the logo take up a large percentage of its small, constrained parent */
   width: 90%;
   height: auto;
   border-radius: 10px;
+  /* ✅ FIX 1: Explicitly cap the maximum height of the logo image to shrink the bar vertically. */
+  max-height: 5rem; /* Max height of 80px (5 * 16px) */
+  object-fit: contain; /* Ensures the image scales down without being cut off */
 }
 
 #menu-icon {
@@ -75,7 +78,7 @@
   gap: 0.5rem;
 }
 
-/* Icon Sizing (Remains the same as our previous fix) */
+/* Icon Sizing */
 .nav-bar-images,
 .nav-bar-images-default {
   height: 2.5rem; /* Standard size (~40px) */
@@ -95,13 +98,14 @@
     auto;
 }
 
-/* 💡 CHANGED: Implemented clamp() for fluid, constrained font sizing. */
+/* Implemented clamp() for fluid, constrained font sizing. */
 .slogan {
   font-family: 'Schoolbell', cursive;
   font-weight: 400;
   font-style: normal;
   text-align: center;
   color: white;
+  /* ✅ FIX 2: Ensure margins are completely removed from the H1 element to prevent vertical inflation. */
   margin: 0;
   line-height: 1.2;
   /* Font size scales between 0.9rem and 1.25rem based on screen width */
@@ -111,14 +115,26 @@
 /* 900px breakpoint: Tablet View (900px down to 769px) */
 @media screen and (max-width: 900px) {
   #menu-icon-container {
-    /* Responsive Change: Keeps layout horizontal (3 columns) on tablets */
     grid-template-columns: 1fr 2fr 1fr;
-    padding: 0.5rem 1rem;
+    /* Reduced padding for tablet view */
+    padding: 0.35rem 1rem;
   }
 
   /* Ensure logo container is not too wide on tablets */
   #app-icon {
-    max-width: 40vw; /* Allows it to expand relative to the tablet screen */
+    max-width: 40vw;
+  }
+
+  #app-logo {
+    width: 80%;
+    /* Cap logo height tighter for tablet */
+    max-height: 4rem;
+  }
+
+  /* Shrink icons slightly for tablet screens */
+  .nav-bar-images,
+  .nav-bar-images-default {
+    height: 2rem; /* (~32px) */
   }
 
   /* Ensures sections are properly aligned on the single row */
@@ -130,25 +146,14 @@
   #notifications-group {
     flex-direction: row;
   }
-
-  /* 💡 MODIFIED: App logo width is now relative to the viewport. */
-  #app-logo {
-    width: 80%;
-  }
-
-  /* Shrink icons slightly for tablet screens */
-  .nav-bar-images,
-  .nav-bar-images-default {
-    height: 2rem; /* (~32px) */
-  }
 }
 
 /* Mobile View (768px down) */
 @media screen and (max-width: 768px) {
   #menu-icon-container {
-    /* Responsive Change: Keeps layout horizontal (3 columns) on mobile */
     grid-template-columns: 1fr auto 1fr;
-    padding: 0.5rem;
+    /* Reduced mobile padding for a tighter bar. */
+    padding: 0.25rem;
   }
 
   /* Shrink icons further for mobile screens */
@@ -162,6 +167,12 @@
     display: none;
   }
 
+  #app-logo {
+    width: 60%;
+    /* Cap logo height tighter for mobile */
+    max-height: 3rem;
+  }
+
   /* Hide the word 'Notifications:' to save space on mobile */
   #notifications-group h3 {
     display: none;
@@ -171,11 +182,6 @@
     /* Responsive Change: Keep icons on a single row */
     flex-direction: row;
     gap: 0.25rem;
-  }
-
-  /* 💡 MODIFIED: App logo width is now relative to the viewport. */
-  #app-logo {
-    width: 60%;
   }
 
   /* Ensure icons are aligned at the start/end of their columns */
@@ -196,7 +202,7 @@
 
 /* Custom large screen sizing (1140px up) */
 @media screen and (min-width: 1140px) {
-  /* 💡 ADDED: Set a fixed, slightly larger max-width for the logo container */
+  /* Set a fixed, slightly larger max-width for the logo container */
   #app-icon {
     max-width: 450px;
   }
