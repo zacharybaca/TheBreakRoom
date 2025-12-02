@@ -10,7 +10,7 @@ import {
   forgotPassword,
 } from "../controllers/authController.js";
 import { sendEmailTest } from "../utils/mail/sendEmailTest.js";
-import passport from 'passport';
+import passport from "passport";
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -78,7 +78,7 @@ router.post("/test-email", sendEmailTest);
  */
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"] }),
 );
 
 /**
@@ -86,33 +86,34 @@ router.get(
  * @desc    Handle Google OAuth2 callback
  * @access  Public
  */
-router.get('/google/callback',
-  passport.authenticate('google', { session: false }),
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { session: false }),
   async (req, res) => {
     const token = createJwtForUser(req.user); // your current JWT generator
     res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${token}`);
-  });
+  },
+);
 
 /**
  * @route GET /api/auth/apple
  * @desc Initiate Apple Sign-In authentication
  * @access Public
  */
-router.get(
-  "/apple",
-  passport.authenticate("apple")
-);
+router.get("/apple", passport.authenticate("apple"));
 
 /**
  * @route GET /api/auth/apple/callback
  * @desc Handle Apple Sign-In callback
  * @access Public
  */
-router.get('/apple/callback',
-  passport.authenticate('apple', { session: false }),
+router.get(
+  "/apple/callback",
+  passport.authenticate("apple", { session: false }),
   async (req, res) => {
     const token = createJwtForUser(req.user); // your current JWT generator
     res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${token}`);
-  });
+  },
+);
 
 export default router;

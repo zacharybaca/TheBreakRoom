@@ -307,7 +307,7 @@ export const testEmail = async (req, res) => {
 };
 
 export const loginWithToken = (token) => {
-  localStorage.setItem('accessToken', token);
+  localStorage.setItem("accessToken", token);
   setAccessToken(token);
 };
-  navigate('/'); // redirect to home or dashboard
+navigate("/"); // redirect to home or dashboard

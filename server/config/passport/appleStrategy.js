@@ -1,4 +1,4 @@
-import AppleStrategy from 'passport-apple';
+import AppleStrategy from "passport-apple";
 
 passport.use(
   new AppleStrategy(
@@ -7,7 +7,7 @@ passport.use(
       teamID: process.env.APPLE_TEAM_ID,
       keyID: process.env.APPLE_KEY_ID,
       privateKeyString: process.env.APPLE_PRIVATE_KEY,
-      callbackURL: `${process.env.SERVER_URL}/auth/apple/callback`
+      callbackURL: `${process.env.SERVER_URL}/auth/apple/callback`,
     },
     async (accessToken, refreshToken, idToken, profile, done) => {
       const email = profile.email;
@@ -16,11 +16,11 @@ passport.use(
       if (!user) {
         user = await User.create({
           email,
-          provider: 'apple'
+          provider: "apple",
         });
       }
 
       return done(null, user);
-    }
-  )
+    },
+  ),
 );

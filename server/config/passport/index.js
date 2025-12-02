@@ -1,2 +1,2 @@
-import './googleStrategy.js';
-import './appleStrategy.js';
+import "./googleStrategy.js";
+import "./appleStrategy.js";

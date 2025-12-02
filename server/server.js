@@ -10,8 +10,7 @@ import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
 import http from "http";
 import { Server as SocketServer } from "socket.io";
-import './config/passport/index.js';
-
+import "./config/passport/index.js";
 
 import connectDB from "./config/db.js";
 import { errorMiddleware } from "./middleware/errorMiddleware.js";
