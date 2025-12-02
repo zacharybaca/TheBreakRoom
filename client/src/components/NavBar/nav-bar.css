@@ -70,10 +70,14 @@
   gap: 0.5rem;
 }
 
-/* Aesthetic Change: Standardized icon sizes to match for visual balance */
+/* ✅ FIX 1: Replaced 6vh with a standard, manageable rem size for consistency.
+   This ensures icons are not gigantic on huge screens.
+*/
 .nav-bar-images,
 .nav-bar-images-default {
-  height: 6vh; /* Unified height for all icons (switch, bell, menu) */
+  height: 2.5rem; /* Standard size (~40px) */
+  width: auto; /* Maintain aspect ratio */
+  transition: all 0.2s ease-in-out; /* Added for smoother visual feedback */
 }
 
 .nav-bar-images {
@@ -123,6 +127,12 @@
     width: 70px;
   }
 
+  /* Shrink icons slightly for tablet screens */
+  .nav-bar-images,
+  .nav-bar-images-default {
+    height: 2rem; /* (~32px) */
+  }
+
   /* Shrink slogan text for tablet readability */
   .slogan {
     font-size: 0.9rem;
@@ -130,12 +140,18 @@
   }
 }
 
-/* 480px breakpoint: Mobile View */
+/* 480px breakpoint: Mobile View (Updated to 768px for clarity, maintaining original logic) */
 @media screen and (max-width: 768px) {
   #menu-icon-container {
     /* Responsive Change: Keeps layout horizontal (3 columns) on mobile */
     grid-template-columns: 1fr auto 1fr;
     padding: 0.5rem;
+  }
+
+  /* Shrink icons further for mobile screens */
+  .nav-bar-images,
+  .nav-bar-images-default {
+    height: 1.75rem; /* (~28px) */
   }
 
   /* Responsive Change: Hide long slogan text to save precious vertical space */
@@ -172,12 +188,11 @@
   }
 }
 
-@media screen and (min-width: 768px) {
-  #app-logo {
-    width: 100px;
-  }
-}
+/* ✅ CHANGE 2: Removed redundant min-width: 768px block since
+   the main sizing block now covers all min-widths by default.
+*/
 
+/* Custom large screen sizing */
 @media screen and (min-width: 1140px) {
   #app-logo {
     width: 120px;
