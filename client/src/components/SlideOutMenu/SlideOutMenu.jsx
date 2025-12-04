@@ -42,7 +42,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
   {!isAuthenticated && (
     <ReusableStyledButton
       onClick={handleTogglePrivateProfile}
-      fullWidth
+      fullWidth={true}
       className="private-toggle-button"
       title={
         privateProfile ? (
