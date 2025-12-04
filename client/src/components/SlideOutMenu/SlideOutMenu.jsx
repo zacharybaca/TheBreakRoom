@@ -48,12 +48,13 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
         privateProfile ? (
           <img
             src="/assets/private-icon.png"
-            className="toggle-off"
+            id="toggle-off"
             alt="private toggle off icon"
           />
         ) : (
           <img
             src="/assets/public-icon.png"
+            id="toggle-off"
             alt="private toggle on icon"
           />
         )
