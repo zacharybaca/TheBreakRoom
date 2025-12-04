@@ -205,3 +205,17 @@ button {
   background: rgba(0, 0, 0, 0.5); /* semi-transparent black */
   z-index: 1500; /* sits below the slideout menu */
 }
+
+/* Override sizing for the custom reusable button when used as the profile toggle */
+.private-toggle-button {
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255,255,255,0.5);
+  background-color: rgba(0,0,0,0.1);
+}
+
+/* Ensure icons keep the intended size */
+.private-toggle-button img {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+}
