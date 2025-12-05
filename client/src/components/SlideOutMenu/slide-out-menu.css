@@ -86,7 +86,6 @@
   color: white; /* Ensure text color is white */
 }
 
-
 /* --- PRIVATE PROFILE Button Styling --- */
 
 #private-profile-button-container {
@@ -112,7 +111,6 @@
   height: 2.5rem;
   object-fit: contain;
 }
-
 
 /* --- MENU LIST Styling --- */
 
@@ -143,7 +141,9 @@
   width: 100%;
   /* Increased padding to make the hover target larger */
   padding: 0.5rem 0.5rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
   border-radius: 0.25rem;
 }
 
@@ -209,8 +209,8 @@ button {
 /* Override sizing for the custom reusable button when used as the profile toggle */
 .private-toggle-button {
   padding: 0.75rem 1rem;
-  border: 1px solid rgba(255,255,255,0.5);
-  background-color: rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Ensure icons keep the intended size */

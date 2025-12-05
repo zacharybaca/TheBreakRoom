@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useToggle } from '../../hooks/useToggle.js';
 import { Button, CloseButton } from 'react-bootstrap';
 import Avatar from '../Avatar/Avatar.jsx';
-import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx'
+import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
 const SlideOutMenu = ({ isOpen, onClose }) => {
   const { isAuthenticated, logoutUser } = useAuth();
   const { privateProfile, handleTogglePrivateProfile } = useToggle();
@@ -39,29 +39,29 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
         )}
         <br />
         <div id="private-profile-button-container">
-  {!isAuthenticated && (
-    <ReusableStyledButton
-      onClick={handleTogglePrivateProfile}
-      fullWidth={true}
-      className="private-toggle-button"
-      title={
-        privateProfile ? (
-          <img
-            src="/assets/private-icon.png"
-            id="toggle-off"
-            alt="private toggle off icon"
-          />
-        ) : (
-          <img
-            src="/assets/public-icon.png"
-            id="toggle-off"
-            alt="private toggle on icon"
-          />
-        )
-      }
-    />
-  )}
-</div>
+          {!isAuthenticated && (
+            <ReusableStyledButton
+              onClick={handleTogglePrivateProfile}
+              fullWidth={true}
+              className="private-toggle-button"
+              title={
+                privateProfile ? (
+                  <img
+                    src="/assets/private-icon.png"
+                    id="toggle-off"
+                    alt="private toggle off icon"
+                  />
+                ) : (
+                  <img
+                    src="/assets/public-icon.png"
+                    id="toggle-off"
+                    alt="private toggle on icon"
+                  />
+                )
+              }
+            />
+          )}
+        </div>
 
         <ul>
           <li>
