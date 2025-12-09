@@ -1,4 +1,4 @@
-import "./send-email-template.css";
+
 import {
   Html,
   Button,

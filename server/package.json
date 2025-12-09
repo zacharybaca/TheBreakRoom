@@ -4,7 +4,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "tsx watch server.js",
     "reset": "rm -rf node_modules package-lock.json && npm cache clean --force && npm install",
     "lint": "eslint .",
     "format": "prettier \"**/*.{js,jsx,json,md,css}\" --write"
@@ -38,7 +38,8 @@
     "passport": "^0.7.0",
     "passport-apple": "^2.0.2",
     "passport-google-oauth20": "^2.0.0",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "tsx": "^4.21.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

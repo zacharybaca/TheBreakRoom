@@ -1,7 +1,7 @@
 import { sendEmail } from "./sendEmail.js";
 import sgMail from "@sendgrid/mail";
 import dotenv from "dotenv";
-import { renderAsync } from "@react-email/render";
+import { render } from "@react-email/render";
 import SendEmailTemplate from "../../email/templates/SendEmailTemplate.jsx";
 
 dotenv.config();
@@ -17,7 +17,7 @@ export const sendEmailTest = async (req, res) => {
     }
 
     // Render the email template into HTML
-    const html = await renderAsync(
+    const html = await render(
       <SendEmailTemplate url="https://thebreakroom.com/login" />,
     );
 
