@@ -1,87 +1,149 @@
-footer {
-  background: linear-gradient(90deg, #005ab4, #0cb1ff);
-  color: #fdfdfd;
-  text-align: center;
-  padding: 1.5rem 1rem;
-  border-top: 2px solid rgba(255, 255, 255, 0.2); /* subtle divider */
-  box-shadow: 0 -4px 12px rgba(0, 90, 180, 0.35); /* bluish glow above footer */
-  font-size: 0.9rem;
+@import url('https://fonts.googleapis.com/css2?family=Schoolbell&display=swap');
+
+#footer-container {
+  width: 100%;
+  /* Match Header Gradient & Border exactly */
+  background: linear-gradient(90deg, #004a94, #0090e0);
+  color: white;
+  /* Match Header Shadow & Accent Border */
+  box-shadow:
+    0 -4px 8px rgba(0, 0, 0, 0.2),
+    0 0 0 3px #ffe066; /* Gold border accent */
+
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  padding: 0.5rem 1rem; /* Match header padding */
+  box-sizing: border-box;
 }
 
-.footer-top img {
-  width: 5%;
-  height: 5%;
+#footer-content {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* Left | Center | Right */
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
 }
 
-.footer-img {
-  border-radius: 10px;
+/* --- SECTIONS --- */
+
+/* Left: Links */
+.footer-left {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-/* Tagline */
-.tagline {
-  font-size: 1rem;
-  font-style: italic;
-  margin-bottom: 0.5rem;
-  color: #e3f2fd;
-}
-
-/* Navigation Links */
-.footer-links {
-  margin-bottom: 1rem;
-}
-
-.footer-links a {
-  color: #fdfdfd;
-  margin: 0 0.75rem;
+.footer-left a {
+  color: #fff;
   text-decoration: none;
-  transition: color 0.3s ease;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+  white-space: nowrap;
 }
 
-.footer-links a:hover {
-  color: #ffe082;
+.footer-left a:hover {
+  color: #ffe082; /* Gold hover */
 }
 
-/* Bottom Section */
-.footer-bottom {
+/* Center: Logo & Tagline */
+.footer-center {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  text-align: center;
+  gap: 0.25rem;
 }
 
-.footer-bottom .copyright {
+.footer-logo {
+  height: 2.5rem; /* Matches icon size in header */
+  width: auto;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.tagline {
+  font-family: 'Schoolbell', cursive;
+  font-size: 0.8rem;
   margin: 0;
-  font-size: 0.85rem;
-  color: #fdfdfd;
+  color: #e3f2fd;
+  white-space: nowrap;
 }
 
-/* Social Icons */
+/* Right: Socials & Copyright */
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
 .social-icons {
   display: flex;
-  gap: 1rem;
-  margin-top: 0.25rem;
+  gap: 0.75rem;
 }
 
 .social-icons a {
-  color: #fdfdfd;
-  transition:
-    transform 0.2s ease,
-    color 0.3s ease;
+  color: #fff;
+  transition: transform 0.2s, color 0.2s;
 }
 
 .social-icons a:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
   color: #ffe082;
 }
 
-/* Responsive */
-@media screen and (max-width: 480px) {
-  .footer-links a {
-    display: block;
-    margin: 0.25rem 0;
+.copyright {
+  margin: 0;
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+/* --- RESPONSIVE (Matches Header Breakpoints) --- */
+
+@media screen and (max-width: 900px) {
+  #footer-content {
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
   }
 
-  .footer-bottom {
+  .footer-left {
+    flex-wrap: wrap; /* Allow links to stack if needed */
     gap: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #footer-container {
+    padding: 0.5rem;
+  }
+
+  #footer-content {
+    /* Stack vertically on mobile, just like header elements sometimes do */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-left {
+    justify-content: center;
+    font-size: 0.8rem;
+  }
+
+  .footer-center {
+    order: -1; /* Put logo on top in mobile view */
+  }
+
+  .footer-right {
+    align-items: center;
+    flex-direction: row; /* Put copyright next to icons on mobile */
+    gap: 1rem;
+  }
+
+  .tagline {
+    display: none; /* Hide tagline on mobile to save space, matching header slogan logic */
   }
 }
