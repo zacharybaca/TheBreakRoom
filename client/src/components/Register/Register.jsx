@@ -1,8 +1,10 @@
+import { useState } from 'react'; // Added useState for error handling
 import './register.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useModal } from '../../hooks/useModal';
 import { useAuth } from '../../hooks/useAuth';
+import { useFetcher } from '../../hooks/useFetcher'; // 1. Import the hook
 import Modal from '../Modal/Modal.jsx';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
 import AttachmentPicker from '../AttachmentPicker/AttachmentPicker.jsx';
@@ -15,9 +17,10 @@ const stepVariants = {
 };
 
 const Register = () => {
-  const { step, setStep, direction, setDirection, isOpen, onClose } =
-    useModal();
+  const { step, setStep, direction, setDirection, isOpen, onClose } = useModal();
   const { user, isAuthenticated } = useAuth();
+  const { fetcher } = useFetcher(); // 2. Get the fetcher function
+  const [serverError, setServerError] = useState(''); // 3. State for backend errors
 
   const formik = useFormik({
     initialValues: {
@@ -40,16 +43,27 @@ const Register = () => {
         .required('Password is required'),
     }),
     onSubmit: async (values) => {
+      setServerError(''); // Clear previous errors
+
       const formData = new FormData();
       Object.keys(values).forEach(
         (key) => values[key] && formData.append(key, values[key])
       );
-      const res = await fetch('http://localhost:9000/api/register', {
+
+      // 4. Use the fetcher hook
+      // Note: We don't set Content-Type here; fetcher + FormData handles the boundary automatically.
+      const { success, error } = await fetcher('/api/auth/register', {
         method: 'POST',
         body: formData,
       });
-      if (!res.ok) throw new Error('Failed to register');
-      onClose();
+
+      if (!success) {
+        // This will display "Whoa, slow down!" if rate limited
+        setServerError(error);
+      } else {
+        onClose();
+        // Optional: Reset form or show success toast here
+      }
     },
   });
 
@@ -150,10 +164,15 @@ const Register = () => {
   const Step3 = () => (
     <div className="form-fields">
       <label>Job Title:</label>
+      {/* This text input sends a String.
+         The backend logic we added (authController.js) will detect this string,
+         normalize it (e.g. "  barista " -> "Barista"), and auto-create the Job.
+      */}
       <input
         name="job"
         onChange={formik.handleChange}
         value={formik.values.job}
+        placeholder="e.g. Cashier, Server, Manager"
       />
 
       <label>Bio:</label>
@@ -192,6 +211,13 @@ const Register = () => {
 
       {formik.errors.attachment && (
         <p className="form-error">{formik.errors.attachment}</p>
+      )}
+
+      {/* Display Server Errors (Like Rate Limits) */}
+      {serverError && (
+        <p className="form-error" style={{ textAlign: 'center', marginTop: '10px' }}>
+          {serverError}
+        </p>
       )}
 
       <div className="step-actions-submit">
