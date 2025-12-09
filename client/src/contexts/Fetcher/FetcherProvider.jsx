@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FetcherContext } from './FetcherContext.jsx';
-import { useAuth } from '../../hooks/useAuth.js'; // 👈 get tokens from here
+import { useAuth } from '../../hooks/useAuth.js'; 
 
 export const FetcherProvider = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -15,7 +15,6 @@ export const FetcherProvider = ({ children }) => {
   ) => {
     const finalUrl = url.startsWith('/') ? `${backendUrl}${url}` : url;
 
-    // attach access token if present
     const headers = {
       ...(options.headers || {}),
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
@@ -26,20 +25,34 @@ export const FetcherProvider = ({ children }) => {
     try {
       let response = await fetch(finalUrl, config);
 
-      // 🔄 if token expired, try refresh once
+      // 🔄 1. Handle Token Expiry (401)
       if (response.status === 401) {
         const newToken = await refreshToken();
         if (newToken) {
           config.headers.Authorization = `Bearer ${newToken}`;
-          response = await fetch(finalUrl, config); // retry once
+          response = await fetch(finalUrl, config);
         } else {
-          logout(); // refresh failed → force logout
+          logout();
           return { success: false, error: 'Session expired', status: 401 };
         }
       }
 
+      // 🛑 2. NEW: Handle Rate Limiting (429) Explicitly
+      if (response.status === 429) {
+        setIsLoaded(true);
+        // Try to parse the backend message, but have a hard fallback just in case
+        const data = await response.json().catch(() => null);
+        return {
+          success: false,
+          error: data?.message || "Whoa, slow down! You're doing that too fast. Please wait 15 minutes.",
+          status: 429,
+        };
+      }
+
+      // 3. Parse JSON safely
       const data = await response.json().catch(() => ({}));
 
+      // 4. Handle other errors (400, 404, 500)
       if (!response.ok || data.success === false) {
         const errorMessage = data?.message || fallbackError;
         setIsLoaded(true);
@@ -49,6 +62,7 @@ export const FetcherProvider = ({ children }) => {
       setIsLoaded(true);
       return { success: true, data };
     } catch (err) {
+      console.error("Fetcher error:", err);
       setIsLoaded(true);
       return { success: false, error: 'Network error', status: null };
     }
