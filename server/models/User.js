@@ -13,20 +13,15 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "admin", "moderator"],
       default: "user",
     },
 
-    job: {
+    jobs: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Job",
       required: true,
-    },
-
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
+    }],
 
     bio: { type: String },
     gender: {

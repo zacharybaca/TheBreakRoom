@@ -2,31 +2,29 @@ import mongoose from "mongoose";
 
 const breakroomSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, unique: true },
-    description: { type: String },
+    name: { type: String, required: true, unique: true, trim: true },
+    description: { type: String, maxlength: 500 }, // Add limits to prevent spam
     vibe: { type: String },
     accent: {
-      color: { type: String, required: true }, // hex value
-      vibe: { type: String, required: true }, // friendly name like "Chill Blue"
+      color: { type: String, required: true },
+      vibe: { type: String, required: true },
     },
     iconURL: { type: String },
 
-    // Job types this breakroom is related to (optional)
+    // Keep this, it's useful for filtering
     jobTags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
 
-    // Members in this breakroom
-    members: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-          required: true,
-        },
-        joinedAt: { type: Date, default: Date.now },
-      },
-    ],
+    // TRACK COUNT ONLY instead of full array
+    memberCount: { type: Number, default: 0 }
   },
-  { timestamps: true },
+  { timestamps: true }
 );
+
+// Virtual to find members if needed (expensive, use carefully)
+breakroomSchema.virtual('membersList', {
+  ref: 'User',
+  localField: '_id',
+  foreignField: 'breakrooms'
+});
 
 export default mongoose.model("Breakroom", breakroomSchema);

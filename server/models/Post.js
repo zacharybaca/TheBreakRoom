@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
 
-function arrayLimit(val) {
-  return val.length <= 5;
-}
-
 const postSchema = new mongoose.Schema(
   {
     authorId: {
@@ -11,21 +7,22 @@ const postSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-
     content: { type: String, required: true, maxlength: 2000 },
-
     imageUrl: { type: String },
 
+    // Vital for your specific app concept
     anonymous: { type: Boolean, default: false },
 
     tags: {
       type: [String],
-      validate: [arrayLimit, "Exceeds the limit of 5 tags"],
-      set: (tags) => tags.map((tag) => tag.toLowerCase()), // normalize tags
+      validate: [val => val.length <= 5, "Exceeds the limit of 5 tags"],
+      set: (tags) => tags.map((tag) => tag.toLowerCase()),
     },
 
-    reactions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reaction" }],
+    // REMOVED: reactions: [] (This will explode on viral posts)
+    // REMOVED: comments: [] (Use the Comment model to query these)
 
+    // Keep these counts, they are excellent for performance
     reactionCounts: {
       like: { type: Number, default: 0 },
       love: { type: Number, default: 0 },
@@ -35,50 +32,43 @@ const postSchema = new mongoose.Schema(
       angry: { type: Number, default: 0 },
     },
 
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-
-    // New: store comment count for performance
     commentCount: { type: Number, default: 0 },
-
     isDeleted: { type: Boolean, default: false },
+
+    // NEW: Moderation for "venting" apps is crucial
+    isFlagged: { type: Boolean, default: false },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-// Indexes
-postSchema.index({ authorId: 1 });
-postSchema.index({ tags: 1 });
-postSchema.index({ createdAt: -1 });
-
-// Utility: recalc reactions
+// Ensure this is in models/Post.js
 postSchema.methods.updateReactionCounts = async function () {
   const Reaction = mongoose.model("Reaction");
 
+  // Aggregate all reactions for this post
   const counts = await Reaction.aggregate([
     { $match: { post: this._id } },
     { $group: { _id: "$type", count: { $sum: 1 } } },
   ]);
 
+  // Reset counts
   this.reactionCounts = {
-    like: 0,
-    love: 0,
-    haha: 0,
-    wow: 0,
-    sad: 0,
-    angry: 0,
+    like: 0, love: 0, haha: 0, wow: 0, sad: 0, angry: 0,
   };
 
+  // Apply new counts
   counts.forEach((c) => {
-    this.reactionCounts[c._id] = c.count;
+    if (this.reactionCounts.hasOwnProperty(c._id)) {
+      this.reactionCounts[c._id] = c.count;
+    }
   });
 
-  await this.save();
-  return this.reactionCounts;
+  return this.save(); // This saves the post
 };
 
-// Virtual: if you want live comment counts (fallback to DB query)
-postSchema.virtual("commentsCount").get(function () {
-  return this.commentCount ?? 0;
-});
+// Indexes
+postSchema.index({ authorId: 1 });
+postSchema.index({ tags: 1 });
+postSchema.index({ createdAt: -1 }); // Critical for "Feed" queries
 
 export default mongoose.model("Post", postSchema);
