@@ -2,6 +2,7 @@
 // ✅ Load environment variables FIRST
 import dotenv from "dotenv";
 dotenv.config({ path: "./server/.env" });
+import rateLimit from "express-rate-limit";
 import express from "express";
 import cors from "cors";
 import path from "path";
@@ -62,6 +63,20 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Root route
 app.get("/", (req, res) => res.json({ message: "API is running..." }));
+
+/* RATE LIMITER CONFIGURATION */
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20, // Limit each IP to 20 requests per `window` (here, per 15 minutes)
+  message: {
+    message: "Too many login/register attempts from this IP, please try again after 15 minutes"
+  },
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+// Apply the rate limiting middleware to all requests that start with /api/auth
+app.use("/api/auth", authLimiter);
 
 // Routes
 app.use("/api/auth", authRoutes); // login & registration
