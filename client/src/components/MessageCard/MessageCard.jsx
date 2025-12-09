@@ -15,7 +15,6 @@ const MessageCard = ({
   const cardTilt = tilt ?? (Math.random() * 4 - 2).toFixed(2);
 
   // 2. Helper: Sum up all reaction types (like + love + haha...)
-  // The backend gives us: { like: 10, love: 5, ... }
   const totalReactions = reactionCounts
     ? Object.values(reactionCounts).reduce((sum, count) => sum + count, 0)
     : 0;
@@ -26,23 +25,27 @@ const MessageCard = ({
     <div className="message-card-wrapper">
       <div
         className={`message-card ${attachment || 'pushpin'}`} // Default to pushpin if missing
-        style={{ transform: `rotate(${cardTilt}deg)` }}
+        // 🔧 FIX: We set a CSS variable here instead of a direct transform.
+        // This allows the CSS :hover state to override the rotation!
+        style={{ '--tilt': `${cardTilt}deg` }}
       >
         <div className="message-card-content">
-          {/* Header: Sender */}
+
+          {/* Header: Sender & Delete Button */}
           <h3 className="message-font-alt-style info-line item">
-            <FaUserCircle className="card-icon" />
-            <span>
-              <span className="info-text-title">From:</span> {sender}
+            <span style={{ display: 'flex', alignItems: 'center' }}>
+              <FaUserCircle className="card-icon" />
+              <span>
+                <span className="info-text-title">From:</span> {sender}
+              </span>
             </span>
 
-            {/* 3. Delete Button (Only visible if isOwner is true) */}
+            {/* Delete Button (Only visible if isOwner is true) */}
             {isOwner && (
               <button
                 onClick={onDelete}
                 className="delete-btn"
                 title="Delete Post"
-                style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: '#d9534f' }}
               >
                 <FaTrash />
               </button>
@@ -58,22 +61,14 @@ const MessageCard = ({
             </span>
           </div>
 
-          {/* 4. Footer: Stats (Likes & Comments) */}
-          <div className="message-card-footer" style={{
-            marginTop: '15px',
-            paddingTop: '10px',
-            borderTop: '1px dashed rgba(0,0,0,0.1)',
-            display: 'flex',
-            gap: '15px',
-            fontSize: '0.9rem',
-            color: '#555'
-          }}>
-            <span title="Total Reactions" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          {/* Footer: Stats (Likes & Comments) */}
+          <div className="message-card-footer">
+            <span title="Total Reactions">
               <FaHeart className="stat-icon" style={{ color: '#e0245e' }} />
               {totalReactions}
             </span>
 
-            <span title="Comments" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <span title="Comments">
               <FaRegCommentDots className="stat-icon" style={{ color: '#1da1f2' }} />
               {totalComments}
             </span>
