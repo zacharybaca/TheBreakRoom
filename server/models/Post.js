@@ -33,13 +33,24 @@ const postSchema = new mongoose.Schema(
     },
 
     commentCount: { type: Number, default: 0 },
+
+    // --- Soft Delete Flag ---
     isDeleted: { type: Boolean, default: false },
 
     // NEW: Moderation for "venting" apps is crucial
     isFlagged: { type: Boolean, default: false },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
+
+// --- NEW MIDDLEWARE: Auto-filter deleted posts ---
+// This regex /^find/ covers find, findOne, findById, etc.
+postSchema.pre(/^find/, function (next) {
+  // 'this' refers to the query currently running.
+  // We add a filter to exclude any document where isDeleted is true.
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
 
 // Ensure this is in models/Post.js
 postSchema.methods.updateReactionCounts = async function () {
