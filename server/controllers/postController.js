@@ -1,12 +1,15 @@
 import Post from "../models/Post.js";
 import Comment from "../models/Comment.js";
 
-// Helper to format post with counts
+// Helper to format post response
 const formatPostResponse = async (post) => {
+  // We ensure counts are fresh before sending
+  // Note: For high-traffic apps, you might remove this line and update counts only on user action
   await post.updateReactionCounts();
+
   const commentCount = await Comment.countDocuments({
     postId: post._id,
-    isDeleted: false,
+    isDeleted: false, // If you added middleware to Comment model, you can remove this line too
   });
 
   return {
@@ -34,6 +37,8 @@ export const createPost = async (req, res) => {
     });
 
     await newPost.save();
+
+    // Populate author details so the frontend can display the user immediately
     newPost = await newPost.populate("authorId", "username name avatarUrl");
 
     const formattedPost = await formatPostResponse(newPost);
@@ -56,18 +61,11 @@ export const createPost = async (req, res) => {
 // Get all Posts
 export const getPosts = async (req, res) => {
   try {
-    const query = Post.find({ isDeleted: false })
+    // 1. We removed { isDeleted: false } because the Schema Middleware handles it automatically now.
+    // 2. We removed .populate("reactions") because that array no longer exists (better for scale).
+    const posts = await Post.find()
       .sort({ createdAt: -1 })
       .populate("authorId", "username name avatarUrl");
-
-    if (req.query.withReactions === "true") {
-      query.populate({
-        path: "reactions",
-        populate: { path: "user", select: "username avatarUrl" },
-      });
-    }
-
-    const posts = await query;
 
     const postsWithCounts = await Promise.all(posts.map(formatPostResponse));
 
@@ -83,19 +81,10 @@ export const getPosts = async (req, res) => {
 // Get Post by ID
 export const getPostById = async (req, res) => {
   try {
-    const query = Post.findOne({
-      _id: req.params.id,
-      isDeleted: false,
-    }).populate("authorId", "username name avatarUrl");
+    // Schema Middleware automatically filters out deleted posts here
+    const post = await Post.findById(req.params.id)
+        .populate("authorId", "username name avatarUrl");
 
-    if (req.query.withReactions === "true") {
-      query.populate({
-        path: "reactions",
-        populate: { path: "user", select: "username avatarUrl" },
-      });
-    }
-
-    const post = await query;
     if (!post) return res.status(404).json({ message: "Post not found" });
 
     res.status(200).json(await formatPostResponse(post));
@@ -116,12 +105,10 @@ export const updatePost = async (req, res) => {
       return res.status(400).json({ message: "Content cannot be empty" });
     }
 
-    const updatedPost = await Post.findById(req.params.id).populate(
-      "authorId",
-      "username name avatarUrl",
-    );
+    const updatedPost = await Post.findById(req.params.id);
 
-    if (!updatedPost || updatedPost.isDeleted) {
+    // If 'post' is null, it either doesn't exist OR it was soft-deleted (middleware hid it)
+    if (!updatedPost) {
       return res.status(404).json({ message: "Post not found" });
     }
 
@@ -142,6 +129,9 @@ export const updatePost = async (req, res) => {
 
     await updatedPost.save();
 
+    // Repopulate author for the response
+    await updatedPost.populate("authorId", "username name avatarUrl");
+
     res.status(200).json(await formatPostResponse(updatedPost));
   } catch (err) {
     res.status(500).json({
@@ -155,6 +145,8 @@ export const updatePost = async (req, res) => {
 export const deletePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
+
+    // If middleware is working, this returns null if the post is already soft-deleted.
     if (!post) return res.status(404).json({ message: "Post not found" });
 
     if (
@@ -166,6 +158,7 @@ export const deletePost = async (req, res) => {
         .json({ message: "Not authorized to delete this post" });
     }
 
+    // This triggers the save() logic which is safer than findByIdAndUpdate
     post.isDeleted = true;
     await post.save();
 
