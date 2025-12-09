@@ -1,15 +1,26 @@
 {
-  "name": "nine2five",
+  "name": "the-breakroom",
   "version": "1.0.0",
-  "description": "🚀 **A modern React + Vite starter template** — fast, minimal, and pre-configured with ESLint, Prettier, and VS Code workspace settings. No clutter. No nonsense. Just clean, scalable React development.",
+  "description": "The backend server for The Breakroom, a social platform designed for workers in retail, customer service, and other public-facing roles.",
   "scripts": {
-  "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\""
-},
+    "start": "concurrently \"npm run start --prefix server\" \"npm run start --prefix client\"",
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "install-all": "npm install && npm install --prefix server && npm install --prefix client"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zacharybaca/nine2five.git"
+    "url": "https://github.com/zacharybaca/TheBreakRoom.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "MERN",
+    "Social Media",
+    "React",
+    "Node",
+    "Retail"
+  ],
+  "author": "Zachary Baca",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
 }
