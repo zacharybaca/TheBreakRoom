@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import crypto from "crypto"; // Added this so resetPassword works
 import User from "../models/User.js";
 import Job from "../models/Job.js";
 import {
@@ -8,6 +9,18 @@ import {
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/mail/sendEmail.js";
 import { passwordResetTemplate } from "../utils/mail/templates.js";
+
+// --- HELPER: Normalize Text ---
+// Converts "  cashier " -> "Cashier"
+const normalizeJobTitle = (title) => {
+  if (!title) return "Unemployed";
+  return title
+    .trim()
+    .toLowerCase()
+    .split(/\s+/) // Splits by any length of whitespace
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
 
 // Helper to ensure JWT secrets are loaded
 const ensureSecrets = () => {
@@ -79,14 +92,24 @@ export const register = async (req, res) => {
     if (existingUser)
       return res.status(400).json({ message: "Username/email already exists" });
 
+    // --- NORMALIZATION LOGIC ---
     let jobDoc;
+
+    // Check if 'job' is a valid MongoDB ID (User selected from dropdown)
     if (mongoose.Types.ObjectId.isValid(job)) {
       jobDoc = await Job.findById(job);
       if (!jobDoc) return res.status(400).json({ message: "Job not found" });
-    } else {
-      jobDoc =
-        (await Job.findOne({ title: job })) ||
-        (await Job.create({ title: job, description: "" }));
+    }
+    // If it's a string (User typed it manually), normalize and find/create
+    else {
+      const cleanTitle = normalizeJobTitle(job);
+
+      jobDoc = await Job.findOne({ title: cleanTitle });
+
+      if (!jobDoc) {
+        // Auto-create the job if it doesn't exist
+        jobDoc = await Job.create({ title: cleanTitle, description: "" });
+      }
     }
 
     const newUser = new User({
@@ -96,6 +119,7 @@ export const register = async (req, res) => {
       avatarUrl,
       job: jobDoc._id,
     });
+
     const saved = await newUser.save();
     await saved.populate("job", "title description");
 
@@ -164,7 +188,7 @@ export const refreshAccessToken = async (req, res) => {
 
         const accessToken = generateAccessToken(user);
         res.status(200).json({ accessToken });
-      },
+      }
     );
   } catch (err) {
     console.error("Refresh token error:", err);
@@ -305,9 +329,3 @@ export const testEmail = async (req, res) => {
     res.status(500).json({ success: false, message: result.error });
   }
 };
-
-export const loginWithToken = (token) => {
-  localStorage.setItem("accessToken", token);
-  setAccessToken(token);
-};
-navigate("/"); // redirect to home or dashboard
