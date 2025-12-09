@@ -5,12 +5,12 @@ const reactionSchema = new mongoose.Schema(
     post: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
-      required: true
+      required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      required: true,
     },
     type: {
       type: String,
@@ -18,7 +18,7 @@ const reactionSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // 1. Prevent duplicate reactions: A user can only have ONE reaction per post

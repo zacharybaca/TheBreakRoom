@@ -15,16 +15,16 @@ const breakroomSchema = new mongoose.Schema(
     jobTags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
 
     // TRACK COUNT ONLY instead of full array
-    memberCount: { type: Number, default: 0 }
+    memberCount: { type: Number, default: 0 },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Virtual to find members if needed (expensive, use carefully)
-breakroomSchema.virtual('membersList', {
-  ref: 'User',
-  localField: '_id',
-  foreignField: 'breakrooms'
+breakroomSchema.virtual("membersList", {
+  ref: "User",
+  localField: "_id",
+  foreignField: "breakrooms",
 });
 
 export default mongoose.model("Breakroom", breakroomSchema);

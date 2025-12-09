@@ -17,11 +17,13 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
 
-    jobs: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Job",
-      required: true,
-    }],
+    jobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job",
+        required: true,
+      },
+    ],
 
     bio: { type: String },
     gender: {

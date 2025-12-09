@@ -15,7 +15,7 @@ const postSchema = new mongoose.Schema(
 
     tags: {
       type: [String],
-      validate: [val => val.length <= 5, "Exceeds the limit of 5 tags"],
+      validate: [(val) => val.length <= 5, "Exceeds the limit of 5 tags"],
       set: (tags) => tags.map((tag) => tag.toLowerCase()),
     },
 
@@ -38,7 +38,7 @@ const postSchema = new mongoose.Schema(
     // NEW: Moderation for "venting" apps is crucial
     isFlagged: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Ensure this is in models/Post.js
@@ -53,7 +53,12 @@ postSchema.methods.updateReactionCounts = async function () {
 
   // Reset counts
   this.reactionCounts = {
-    like: 0, love: 0, haha: 0, wow: 0, sad: 0, angry: 0,
+    like: 0,
+    love: 0,
+    haha: 0,
+    wow: 0,
+    sad: 0,
+    angry: 0,
   };
 
   // Apply new counts
