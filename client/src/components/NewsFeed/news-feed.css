@@ -3,6 +3,7 @@
   max-width: 680px;
   padding: 28px 32px;
   margin: 0 auto;
+  /* Keep your original glassmorphism look */
   background: rgba(52, 35, 21, 0.25);
   border: 1px solid rgba(0, 0, 0, 0.35);
   border-radius: 10px;
@@ -13,6 +14,13 @@
 .nf-header {
   text-align: center;
   margin-bottom: 28px;
+}
+
+.nf-header h1 {
+  /* Optional: Ensure the header text pops against the glass background */
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  margin: 0;
 }
 
 .nf-composer {
@@ -29,6 +37,18 @@
   border: 1px solid #3a3a3a;
   border-radius: 6px;
   color: #000;
+
+  /* UX Tweaks: */
+  font-family: inherit; /* Matches your site's font */
+  resize: vertical;     /* Allows user to make it taller, but not wider */
+  min-height: 80px;     /* Prevents it from being too small */
+}
+
+.nf-input:focus {
+  /* Accessibility: Highlights the box when typing */
+  outline: none;
+  border-color: #d6c48d; /* Matches your sticky note theme */
+  box-shadow: 0 0 0 2px rgba(214, 196, 141, 0.5);
 }
 
 .nf-submit {
@@ -38,53 +58,24 @@
   border-radius: 6px;
   background: #e6e6e6;
   font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end; /* Aligns button to the right side */
+  transition: all 0.2s ease;
+}
+
+.nf-submit:hover {
+  background: #fff;
+  transform: translateY(-1px);
 }
 
 .nf-list {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 22px; /* Space between MessageCards */
+  padding-bottom: 20px;
 }
 
-.nf-item {
-  width: 85%;
-  margin: 0 auto;
-  padding: 18px 20px 14px 20px;
-  background: #fff7c7;
-  border: 1px solid #d6c48d;
-  border-radius: 6px;
-  color: #000;
-  position: relative;
-  box-shadow:
-    0 4px 6px rgba(0, 0, 0, 0.25),
-    0 0 0 2px rgba(255, 255, 255, 0.35) inset;
-}
-
-.nf-item::before {
-  content: '';
-  width: 12px;
-  height: 12px;
-  background: #c23a3a;
-  border-radius: 50%;
-  border: 1px solid #7a1f1f;
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-.nf-item:nth-child(1) {
-  transform: rotate(-0.6deg);
-}
-
-.nf-item:nth-child(2) {
-  transform: rotate(0.4deg);
-}
-
-.nf-item:nth-child(3) {
-  transform: rotate(-0.8deg);
-}
-.nf-item:nth-child(4) {
-  transform: rotate(0.6deg);
-}
+/* REMOVED: .nf-item and all :nth-child rotations.
+   Why? Because <MessageCard /> now handles the sticky note look,
+   the pin, and the random tilt automatically.
+*/
