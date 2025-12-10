@@ -22,6 +22,9 @@ const commentSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // Add these to your schema definitions
+    isFlagged: { type: Boolean, default: false },
+    reportCount: { type: Number, default: 0 },
   },
   { timestamps: true },
 );
