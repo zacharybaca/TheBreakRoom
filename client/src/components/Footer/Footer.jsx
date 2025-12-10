@@ -5,7 +5,6 @@ const Footer = () => {
   return (
     <footer id="footer-container">
       <div id="footer-content">
-        
         {/* LEFT — Navigation Links */}
         <nav className="footer-section footer-left">
           <a href="/about">About</a>
@@ -21,7 +20,9 @@ const Footer = () => {
             className="footer-logo"
             alt="footer logo"
           />
-          <p className="tagline">From the breakroom, to the world....we speak.</p>
+          <p className="tagline">
+            From the breakroom, to the world....we speak.
+          </p>
         </div>
 
         {/* RIGHT — Socials & Copyright */}
@@ -44,11 +45,8 @@ const Footer = () => {
               <Github size={20} />
             </a>
           </div>
-          <p className="copyright">
-            ©️ {new Date().getFullYear()} Nine2Five
-          </p>
+          <p className="copyright">©️ {new Date().getFullYear()} Nine2Five</p>
         </div>
-
       </div>
     </footer>
   );

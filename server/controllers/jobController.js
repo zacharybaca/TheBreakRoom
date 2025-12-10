@@ -58,7 +58,10 @@ export const createJob = async (req, res) => {
       return res.status(400).json({ message: "Job already exists" });
     }
 
-    const job = await Job.create({ title: cleanTitle, description: description || "" });
+    const job = await Job.create({
+      title: cleanTitle,
+      description: description || "",
+    });
     res.status(201).json(job);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });

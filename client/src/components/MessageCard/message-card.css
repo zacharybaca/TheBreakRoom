@@ -14,10 +14,10 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  
+
   /* 🔧 FIX: Use a variable so we can override it on hover */
   transform: rotate(var(--tilt, 0deg));
-  
+
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
   display: flex;
@@ -79,7 +79,7 @@
 .message-card-footer {
   margin-top: 12px;
   padding-top: 10px;
-  border-top: 1px dashed rgba(0,0,0,0.15);
+  border-top: 1px dashed rgba(0, 0, 0, 0.15);
   display: flex;
   gap: 15px;
   font-size: 0.9rem;
@@ -136,11 +136,45 @@
 }
 
 /* ... (Keep your existing background-image rules for pins here) ... */
-.message-card.pushpin::before { background-image: url('/assets/pushpin.png'); width: 24px; height: 24px; }
-.message-card.tape::before { background-image: url('/assets/tape-strip.png'); width: 65px; height: 25px; }
-.message-card.tack::before { background-image: url('/assets/thumbtack.png'); width: 18px; height: 18px; }
-.message-card.safetypin::before { background-image: url('/assets/safety-pin.png'); width: 18px; height: 18px; }
-.message-card.paperclip::before { background-image: url('/assets/paper-clip.png'); top: -20px; width: 18px; height: 18px; }
-.message-card.magnet::before { background-image: url('/assets/magnet.png'); width: 18px; height: 18px; }
-.message-card.mappin::before { background-image: url('/assets/map-pin.png'); top: -1px; width: 18px; height: 18px; }
-.message-card.nail::before { background-image: url('/assets/nail.png'); width: 18px; height: 18px; }
+.message-card.pushpin::before {
+  background-image: url('/assets/pushpin.png');
+  width: 24px;
+  height: 24px;
+}
+.message-card.tape::before {
+  background-image: url('/assets/tape-strip.png');
+  width: 65px;
+  height: 25px;
+}
+.message-card.tack::before {
+  background-image: url('/assets/thumbtack.png');
+  width: 18px;
+  height: 18px;
+}
+.message-card.safetypin::before {
+  background-image: url('/assets/safety-pin.png');
+  width: 18px;
+  height: 18px;
+}
+.message-card.paperclip::before {
+  background-image: url('/assets/paper-clip.png');
+  top: -20px;
+  width: 18px;
+  height: 18px;
+}
+.message-card.magnet::before {
+  background-image: url('/assets/magnet.png');
+  width: 18px;
+  height: 18px;
+}
+.message-card.mappin::before {
+  background-image: url('/assets/map-pin.png');
+  top: -1px;
+  width: 18px;
+  height: 18px;
+}
+.message-card.nail::before {
+  background-image: url('/assets/nail.png');
+  width: 18px;
+  height: 18px;
+}

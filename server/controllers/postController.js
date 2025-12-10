@@ -82,8 +82,10 @@ export const getPosts = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     // Schema Middleware automatically filters out deleted posts here
-    const post = await Post.findById(req.params.id)
-        .populate("authorId", "username name avatarUrl");
+    const post = await Post.findById(req.params.id).populate(
+      "authorId",
+      "username name avatarUrl",
+    );
 
     if (!post) return res.status(404).json({ message: "Post not found" });
 

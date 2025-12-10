@@ -40,7 +40,7 @@ const postSchema = new mongoose.Schema(
     // NEW: Moderation for "venting" apps is crucial
     isFlagged: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // --- NEW MIDDLEWARE: Auto-filter deleted posts ---

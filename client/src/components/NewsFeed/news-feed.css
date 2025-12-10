@@ -19,7 +19,7 @@
 .nf-header h1 {
   /* Optional: Ensure the header text pops against the glass background */
   color: #fff;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   margin: 0;
 }
 
@@ -40,8 +40,8 @@
 
   /* UX Tweaks: */
   font-family: inherit; /* Matches your site's font */
-  resize: vertical;     /* Allows user to make it taller, but not wider */
-  min-height: 80px;     /* Prevents it from being too small */
+  resize: vertical; /* Allows user to make it taller, but not wider */
+  min-height: 80px; /* Prevents it from being too small */
 }
 
 .nf-input:focus {

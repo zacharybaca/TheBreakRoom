@@ -188,7 +188,7 @@ export const refreshAccessToken = async (req, res) => {
 
         const accessToken = generateAccessToken(user);
         res.status(200).json({ accessToken });
-      }
+      },
     );
   } catch (err) {
     console.error("Refresh token error:", err);

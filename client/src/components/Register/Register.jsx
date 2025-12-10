@@ -17,7 +17,8 @@ const stepVariants = {
 };
 
 const Register = () => {
-  const { step, setStep, direction, setDirection, isOpen, onClose } = useModal();
+  const { step, setStep, direction, setDirection, isOpen, onClose } =
+    useModal();
   const { user, isAuthenticated } = useAuth();
   const { fetcher } = useFetcher(); // 2. Get the fetcher function
   const [serverError, setServerError] = useState(''); // 3. State for backend errors
@@ -215,7 +216,10 @@ const Register = () => {
 
       {/* Display Server Errors (Like Rate Limits) */}
       {serverError && (
-        <p className="form-error" style={{ textAlign: 'center', marginTop: '10px' }}>
+        <p
+          className="form-error"
+          style={{ textAlign: 'center', marginTop: '10px' }}
+        >
           {serverError}
         </p>
       )}

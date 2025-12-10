@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FetcherContext } from './FetcherContext.jsx';
-import { useAuth } from '../../hooks/useAuth.js'; 
+import { useAuth } from '../../hooks/useAuth.js';
 
 export const FetcherProvider = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -44,7 +44,9 @@ export const FetcherProvider = ({ children }) => {
         const data = await response.json().catch(() => null);
         return {
           success: false,
-          error: data?.message || "Whoa, slow down! You're doing that too fast. Please wait 15 minutes.",
+          error:
+            data?.message ||
+            "Whoa, slow down! You're doing that too fast. Please wait 15 minutes.",
           status: 429,
         };
       }
@@ -62,7 +64,7 @@ export const FetcherProvider = ({ children }) => {
       setIsLoaded(true);
       return { success: true, data };
     } catch (err) {
-      console.error("Fetcher error:", err);
+      console.error('Fetcher error:', err);
       setIsLoaded(true);
       return { success: false, error: 'Network error', status: null };
     }

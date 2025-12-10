@@ -56,7 +56,7 @@ const NewsFeed = () => {
 
     // If API fails, revert the change (put the post back)
     if (!success) {
-      alert("Failed to delete post. Please try again.");
+      alert('Failed to delete post. Please try again.');
       setPosts(previousPosts);
     }
   };
@@ -86,17 +86,18 @@ const NewsFeed = () => {
       {/* List Section */}
       <section className="nf-list">
         {isLoading ? (
-          <p style={{textAlign: 'center', color: '#666'}}>Loading breakroom chatter...</p>
+          <p style={{ textAlign: 'center', color: '#666' }}>
+            Loading breakroom chatter...
+          </p>
         ) : (
           posts.map((post) => (
             <MessageCard
               key={post._id}
               // Data Props
-              sender={post.authorId?.name || "Unknown Worker"}
+              sender={post.authorId?.name || 'Unknown Worker'}
               message={post.content}
               reactionCounts={post.reactionCounts} // { like: 5, love: 2 }
               commentCount={post.commentCount}
-
               // Logic Props
               isOwner={user?._id === post.authorId?._id} // Show delete button if owner
               onDelete={() => handleDeletePost(post._id)}
@@ -105,7 +106,9 @@ const NewsFeed = () => {
         )}
 
         {!isLoading && posts.length === 0 && (
-          <p style={{textAlign: 'center', color: '#999'}}>The breakroom is quiet... too quiet.</p>
+          <p style={{ textAlign: 'center', color: '#999' }}>
+            The breakroom is quiet... too quiet.
+          </p>
         )}
       </section>
     </div>
