@@ -38,9 +38,11 @@ const postSchema = new mongoose.Schema(
     isDeleted: { type: Boolean, default: false },
 
     // NEW: Moderation for "venting" apps is crucial
+    // Add these to your schema definitions
     isFlagged: { type: Boolean, default: false },
+    reportCount: { type: Number, default: 0 },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 // --- NEW MIDDLEWARE: Auto-filter deleted posts ---
