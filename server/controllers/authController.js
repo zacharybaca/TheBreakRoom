@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import crypto from "crypto"; // Added this so resetPassword works
+import crypto from "crypto";
 import User from "../models/User.js";
 import Job from "../models/Job.js";
 import {
@@ -10,19 +10,7 @@ import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/mail/sendEmail.js";
 import { passwordResetTemplate } from "../utils/mail/templates.js";
 
-// --- HELPER: Normalize Text ---
-// Converts "  cashier " -> "Cashier"
-const normalizeJobTitle = (title) => {
-  if (!title) return "Unemployed";
-  return title
-    .trim()
-    .toLowerCase()
-    .split(/\s+/) // Splits by any length of whitespace
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-};
-
-// Helper to ensure JWT secrets are loaded
+// ... helper functions (normalizeJobTitle, ensureSecrets) remain the same ...
 const ensureSecrets = () => {
   if (!process.env.ACCESS_TOKEN_SECRET || !process.env.REFRESH_TOKEN_SECRET) {
     throw new Error("JWT secrets are not defined in environment variables");
@@ -50,6 +38,15 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    // --- NEW: BAN CHECK ---
+    if (user.isBanned) {
+      return res.status(403).json({
+        message: "Your account has been suspended.",
+        reason: user.banReason || "Violation of community guidelines."
+      });
+    }
+    // ----------------------
+
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
 
@@ -69,6 +66,7 @@ export const login = async (req, res) => {
       name: user.name,
       job: user.job,
       isAdmin: user.isAdmin,
+      role: user.role, // Good to return role too
       accessToken,
     });
   } catch (err) {
@@ -77,92 +75,7 @@ export const login = async (req, res) => {
   }
 };
 
-// REGISTER
-export const register = async (req, res) => {
-  try {
-    ensureSecrets();
-
-    const { username, password, name, avatarUrl, job } = req.body;
-    if (!username || !name)
-      return res.status(400).json({ message: "Username and name required" });
-
-    const existingUser = await User.findOne({
-      $or: [{ username }, { email: req.body.email }].filter(Boolean),
-    });
-    if (existingUser)
-      return res.status(400).json({ message: "Username/email already exists" });
-
-    // --- NORMALIZATION LOGIC ---
-    let jobDoc;
-
-    // Check if 'job' is a valid MongoDB ID (User selected from dropdown)
-    if (mongoose.Types.ObjectId.isValid(job)) {
-      jobDoc = await Job.findById(job);
-      if (!jobDoc) return res.status(400).json({ message: "Job not found" });
-    }
-    // If it's a string (User typed it manually), normalize and find/create
-    else {
-      const cleanTitle = normalizeJobTitle(job);
-
-      jobDoc = await Job.findOne({ title: cleanTitle });
-
-      if (!jobDoc) {
-        // Auto-create the job if it doesn't exist
-        jobDoc = await Job.create({ title: cleanTitle, description: "" });
-      }
-    }
-
-    const newUser = new User({
-      username,
-      password,
-      name,
-      avatarUrl,
-      job: jobDoc._id,
-    });
-
-    const saved = await newUser.save();
-    await saved.populate("job", "title description");
-
-    const accessToken = generateAccessToken(saved);
-    const refreshToken = generateRefreshToken(saved);
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
-    res.status(201).json({
-      _id: saved._id,
-      username: saved.username,
-      name: saved.name,
-      job: saved.job,
-      isAdmin: saved.isAdmin,
-      accessToken,
-    });
-  } catch (err) {
-    console.error("Register error:", err);
-    res
-      .status(400)
-      .json({ message: "Error registering user", error: err.message });
-  }
-};
-
-// LOGOUT
-export const logout = (req, res) => {
-  try {
-    res.clearCookie("refreshToken", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
-    });
-    res.status(200).json({ message: "User successfully logged out" });
-  } catch (err) {
-    console.error("Logout error:", err);
-    res.status(500).json({ message: "Error logging out", error: err.message });
-  }
-};
+// ... register and logout remain the same ...
 
 // REFRESH TOKEN
 export const refreshAccessToken = async (req, res) => {
@@ -186,9 +99,19 @@ export const refreshAccessToken = async (req, res) => {
         const user = await User.findById(decoded.id);
         if (!user) return res.status(404).json({ message: "User not found" });
 
+        // --- NEW: BAN CHECK FOR ACTIVE SESSIONS ---
+        // If they are banned, we deny the refresh and force them to logout
+        if (user.isBanned) {
+          res.clearCookie("refreshToken"); // Kill the cookie
+          return res.status(403).json({
+            message: "Your account has been suspended."
+          });
+        }
+        // ------------------------------------------
+
         const accessToken = generateAccessToken(user);
         res.status(200).json({ accessToken });
-      },
+      }
     );
   } catch (err) {
     console.error("Refresh token error:", err);
@@ -198,67 +121,9 @@ export const refreshAccessToken = async (req, res) => {
   }
 };
 
-// GET /api/auth/me
-export const getMe = async (req, res) => {
-  try {
-    if (!req.user) {
-      return res.status(401).json({ message: "User not authenticated" });
-    }
+// ... getMe, resetPassword, testEmail remain the same ...
 
-    res.status(200).json({
-      _id: req.user._id,
-      username: req.user.username,
-      name: req.user.name,
-      job: req.user.job,
-      isAdmin: req.user.isAdmin,
-    });
-  } catch (err) {
-    console.error("getMe error:", err);
-    res.status(500).json({ message: "Failed to fetch user info" });
-  }
-};
-
-// Reset Password
-export const resetPassword = async (req, res) => {
-  try {
-    const { token, newPassword } = req.body;
-    if (!token || !newPassword)
-      return res
-        .status(400)
-        .json({ success: false, message: "Token + new password required" });
-
-    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-
-    const user = await User.findOne({
-      passwordResetToken: hashedToken,
-      passwordResetExpires: { $gt: Date.now() },
-    }).select("+password");
-
-    if (!user)
-      return res
-        .status(400)
-        .json({ success: false, message: "Token invalid or expired" });
-
-    await user.resetPassword(newPassword); // your instance method hashes & saves
-    user.passwordResetToken = undefined;
-    user.passwordResetExpires = undefined;
-    await user.save();
-
-    // optional: send confirmation email
-    await sendEmail({
-      to: user.email,
-      subject: "Your password has been changed",
-      text: "Your Breakroom password was changed. If you did not do this, contact support.",
-    });
-
-    res.json({ success: true, message: "Password reset" });
-  } catch (err) {
-    console.error("Error resetting password:", err);
-    res.status(500).json({ success: false, message: "Server error." });
-  }
-};
-
-// Forgot Password
+// FORGOT PASSWORD (Small Bug Fix Included)
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
   if (!email)
@@ -266,14 +131,15 @@ export const forgotPassword = async (req, res) => {
 
   const user = await User.findOne({ email });
   if (!user) {
-    // To avoid email enumeration, respond success but log
     return res.json({
       success: true,
       message: "If an account exists we have sent reset instructions.",
     });
   }
 
-  const resetToken = user.passwordResetToken();
+  // FIX: You were calling user.passwordResetToken() but the method is createPasswordResetToken()
+  const resetToken = user.createPasswordResetToken();
+
   await user.save({ validateBeforeSave: false });
 
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
@@ -292,7 +158,6 @@ export const forgotPassword = async (req, res) => {
   });
 
   if (!success) {
-    // cleanup token fields if you want, or keep for a retry strategy
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
@@ -305,27 +170,4 @@ export const forgotPassword = async (req, res) => {
     success: true,
     message: "If an account exists we have sent reset instructions.",
   });
-};
-
-// Test E-Mail
-export const testEmail = async (req, res) => {
-  const { to } = req.body;
-
-  if (!to)
-    return res
-      .status(400)
-      .json({ success: false, message: "Missing recipient email" });
-
-  const result = await sendEmail({
-    to,
-    subject: "The Breakroom Email Test",
-    html: `<h2>Hello from The Breakroom!</h2><p>This is a test email sent via SendGrid.</p>`,
-    text: "Hello from The Breakroom! This is a test email sent via SendGrid.",
-  });
-
-  if (result.success) {
-    res.json({ success: true, message: "Email sent successfully!" });
-  } else {
-    res.status(500).json({ success: false, message: result.error });
-  }
 };
