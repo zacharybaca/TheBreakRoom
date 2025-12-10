@@ -10,8 +10,12 @@ export const protect = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
+      // We select '-password' so we don't accidentally leak hashes
       req.user = await User.findById(decoded.id).select("-password");
-      if (!req.user) return res.status(401).json({ message: "User not found" });
+
+      if (!req.user) {
+        return res.status(401).json({ message: "User not found" });
+      }
 
       next();
     } catch (err) {
@@ -25,7 +29,10 @@ export const protect = async (req, res, next) => {
 
 // Admin-only routes
 export const requireAdmin = (req, res, next) => {
-  if (!req.user?.isAdmin)
+  // Check for 'admin' role (More robust than the boolean check)
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
     return res.status(403).json({ message: "Admin access required" });
-  next();
+  }
 };
