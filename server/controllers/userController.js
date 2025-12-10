@@ -1,7 +1,7 @@
-// controllers/userController.js
 import User from "../models/User.js";
 import Job from "../models/Job.js";
 import Comment from "../models/Comment.js";
+import Post from "../models/Post.js"; // <--- ADDED THIS (Required for deleteUser)
 
 // @desc    Create a new user (Admin only)
 // @route   POST /api/users
@@ -26,6 +26,7 @@ export const createUser = async (req, res) => {
     const user = await User.create({
       username,
       password,
+      role: isAdmin ? "admin" : "user", // Sync role with isAdmin flag
       isAdmin: isAdmin || false,
       job: job._id,
     });
@@ -35,6 +36,7 @@ export const createUser = async (req, res) => {
         _id: user._id,
         username: user.username,
         isAdmin: user.isAdmin,
+        role: user.role,
         job: job.title,
       });
     } else {
@@ -88,7 +90,12 @@ export const updateUser = async (req, res) => {
       if (password) {
         user.password = password;
       }
-      user.isAdmin = isAdmin !== undefined ? isAdmin : user.isAdmin;
+
+      // Update both isAdmin and Role to keep them in sync
+      if (isAdmin !== undefined) {
+          user.isAdmin = isAdmin;
+          user.role = isAdmin ? "admin" : "user";
+      }
 
       if (jobTitle) {
         let job = await Job.findOne({ title: jobTitle });
@@ -104,6 +111,7 @@ export const updateUser = async (req, res) => {
         _id: updatedUser._id,
         username: updatedUser.username,
         isAdmin: updatedUser.isAdmin,
+        role: updatedUser.role,
         job: jobTitle || (await Job.findById(updatedUser.job)).title,
       });
     } else {
@@ -115,10 +123,9 @@ export const updateUser = async (req, res) => {
   }
 };
 
-// @desc    Delete user (Admin only)
+// @desc    Delete user (Admin or Self)
 // @route   DELETE /api/users/:id
-// @access  Private/Admin
-// Delete user (admin or self)
+// @access  Private
 export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -137,8 +144,8 @@ export const deleteUser = async (req, res) => {
     }
 
     // Cascade delete: remove all posts and comments by this user
-    await Post.deleteMany({ author: user._id });
-    await Comment.deleteMany({ author: user._id });
+    await Post.deleteMany({ authorId: user._id }); // Note: Ensure your Post model uses 'authorId' or 'author'
+    await Comment.deleteMany({ authorId: user._id }); // Same for Comment
 
     // Delete user
     await user.deleteOne();
@@ -156,7 +163,7 @@ export const deleteUser = async (req, res) => {
 
 // @desc    Upload user avatar
 // @route   POST /api/users/:id/avatar
-// @access  Private (user or admin)
+// @access  Private
 export const uploadAvatar = async (req, res) => {
   try {
     const { id } = req.params;
@@ -176,7 +183,6 @@ export const uploadAvatar = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Set avatar URL (public URL served from /uploads)
     user.avatarUrl = `/uploads/${req.file.filename}`;
     await user.save();
 
@@ -192,12 +198,11 @@ export const uploadAvatar = async (req, res) => {
 
 // @desc    Update user avatar
 // @route   PUT /api/users/:id/avatar
-// @access  Private (user or admin)
+// @access  Private
 export const updateUserAvatar = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Only allow the user themselves or an admin
     if (req.user.id !== id && !req.user.isAdmin) {
       return res
         .status(403)
@@ -213,14 +218,6 @@ export const updateUserAvatar = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // ✅ Optional: delete old avatar file from disk if it exists
-    // (use fs.unlinkSync or fs.promises.unlink, but only if you want to clean up)
-    // if (user.avatarUrl) {
-    //   const oldPath = path.join(process.cwd(), user.avatarUrl);
-    //   try { fs.unlinkSync(oldPath); } catch (err) { console.warn("Could not delete old avatar:", err.message); }
-    // }
-
-    // Save new avatar
     user.avatarUrl = `/uploads/${req.file.filename}`;
     await user.save();
 
@@ -233,5 +230,53 @@ export const updateUserAvatar = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error updating avatar", error: error.message });
+  }
+};
+
+// --- NEW FUNCTION ADDED BELOW ---
+
+// @desc    Ban or Unban a user
+// @route   PUT /api/users/:id/ban
+// @access  Admin Only
+export const banUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { banReason } = req.body;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Safety: Prevent banning other admins
+    // Checks both role and isAdmin flag for safety
+    if (user.role === "admin" || user.isAdmin) {
+      return res.status(400).json({ message: "You cannot ban another admin." });
+    }
+
+    // Toggle ban status
+    user.isBanned = !user.isBanned;
+
+    // Save reason if banning
+    if (user.isBanned) {
+      user.banReason = banReason || "Violation of community guidelines";
+    } else {
+      user.banReason = undefined; // Clear reason on unban
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: user.isBanned
+        ? `User ${user.username} has been banned.`
+        : `User ${user.username} has been unbanned.`,
+      isBanned: user.isBanned
+    });
+
+  } catch (err) {
+    console.error("❌ Error banning user:", err.message);
+    res.status(500).json({ message: err.message });
   }
 };
