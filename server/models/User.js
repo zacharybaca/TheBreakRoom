@@ -44,6 +44,15 @@ const userSchema = new mongoose.Schema(
     passwordResetExpires: {
       type: Date,
     },
+    isBanned: {
+    type: Boolean,
+    default: false,
+  },
+
+  // Optional: Track why they were banned
+  banReason: {
+    type: String,
+  }
   },
   { timestamps: true },
 );
