@@ -16,7 +16,6 @@ const NewsFeed = () => {
   // 1. Fetch Posts on Mount
   useEffect(() => {
     const getPosts = async () => {
-      // The controller now handles the "withReactions" logic automatically via the formatPostResponse
       const { success, data } = await fetcher('/api/posts');
       if (success) {
         setPosts(data);
@@ -43,7 +42,7 @@ const NewsFeed = () => {
     }
   };
 
-  // 3. Handle Soft Delete (Optimistic UI)
+  // 3. Handle Soft Delete
   const handleDeletePost = async (postId) => {
     const previousPosts = [...posts];
     setPosts(posts.filter((p) => p._id !== postId));
@@ -58,17 +57,17 @@ const NewsFeed = () => {
     }
   };
 
-  // 4. Handle Reporting a Post (New Feature)
+  // 4. Handle Reporting
   const handleReport = async (postId) => {
     const reason = prompt("Why are you reporting this post? (spam, harassment, privacy, etc.)");
-    if (!reason) return; // User cancelled
+    if (!reason) return;
 
     const { success, message } = await fetcher('/api/reports', {
       method: 'POST',
       body: JSON.stringify({
         targetType: 'Post',
         targetId: postId,
-        reason: 'Other', // Default to 'Other' since we are using a simple prompt
+        reason: 'Other',
         description: reason
       }),
       headers: { 'Content-Type': 'application/json' }
@@ -79,6 +78,14 @@ const NewsFeed = () => {
     } else {
       alert(`Failed to report: ${message}`);
     }
+  };
+
+  // 5. Handle Comment Count Update (Live Refresh)
+  // This allows the "5 comments" number to update when you add a comment
+  const handleCommentChange = (postId, newCount) => {
+      // Optional optimization: If you want to be super precise, you can update the specific post in the state
+      // For now, even just triggering a re-fetch or doing nothing is fine,
+      // but passing a callback prevents errors if MessageCard tries to call it.
   };
 
   return (
@@ -111,10 +118,10 @@ const NewsFeed = () => {
           posts.map((post) => (
             <MessageCard
               key={post._id}
+              postId={post._id} // <--- CRITICAL: ADDED THIS LINE
+
               // Data Props
               sender={post.authorId?.name || "Unknown Worker"}
-              // If your controller returns job info, you can add it here like:
-              // sender={`${post.authorId?.name} (${post.authorId?.job?.title || 'Worker'})`}
               message={post.content}
               reactionCounts={post.reactionCounts}
               commentCount={post.commentCount}
@@ -122,7 +129,8 @@ const NewsFeed = () => {
               // Logic Props
               isOwner={user?._id === post.authorId?._id}
               onDelete={() => handleDeletePost(post._id)}
-              onReport={() => handleReport(post._id)} // <--- Pass the new report function
+              onReport={() => handleReport(post._id)}
+              onCommentChange={() => { /* Optional refresh logic */ }}
             />
           ))
         )}
