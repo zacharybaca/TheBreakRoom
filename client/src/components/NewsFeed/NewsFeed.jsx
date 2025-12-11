@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './news-feed.css';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton';
-import MessageCard from '../MessageCard/MessageCard'; // Import your card
+import MessageCard from '../MessageCard/MessageCard';
 import { useFetcher } from '../../hooks/useFetcher';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -11,20 +11,20 @@ const NewsFeed = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { fetcher } = useFetcher();
-  const { user } = useAuth(); // Needed to check ownership
+  const { user } = useAuth();
 
   // 1. Fetch Posts on Mount
   useEffect(() => {
     const getPosts = async () => {
-      // We ask for posts AND their reaction details
-      const { success, data } = await fetcher('/api/posts?withReactions=true');
+      // The controller now handles the "withReactions" logic automatically via the formatPostResponse
+      const { success, data } = await fetcher('/api/posts');
       if (success) {
         setPosts(data);
       }
       setIsLoading(false);
     };
     getPosts();
-  }, []); // Empty dependency array = run once on mount
+  }, []);
 
   // 2. Handle Creating a New Post
   const handlePostSubmit = async (e) => {
@@ -38,15 +38,13 @@ const NewsFeed = () => {
     });
 
     if (success) {
-      // Add the new post to the top of the list immediately
       setPosts([data, ...posts]);
-      setNewPostContent(''); // Clear input
+      setNewPostContent('');
     }
   };
 
   // 3. Handle Soft Delete (Optimistic UI)
   const handleDeletePost = async (postId) => {
-    // Optimistically remove it from the UI first (feels faster)
     const previousPosts = [...posts];
     setPosts(posts.filter((p) => p._id !== postId));
 
@@ -54,10 +52,32 @@ const NewsFeed = () => {
       method: 'DELETE',
     });
 
-    // If API fails, revert the change (put the post back)
     if (!success) {
-      alert('Failed to delete post. Please try again.');
+      alert("Failed to delete post. Please try again.");
       setPosts(previousPosts);
+    }
+  };
+
+  // 4. Handle Reporting a Post (New Feature)
+  const handleReport = async (postId) => {
+    const reason = prompt("Why are you reporting this post? (spam, harassment, privacy, etc.)");
+    if (!reason) return; // User cancelled
+
+    const { success, message } = await fetcher('/api/reports', {
+      method: 'POST',
+      body: JSON.stringify({
+        targetType: 'Post',
+        targetId: postId,
+        reason: 'Other', // Default to 'Other' since we are using a simple prompt
+        description: reason
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (success) {
+      alert("Report submitted. Thank you for helping keep the breakroom clean.");
+    } else {
+      alert(`Failed to report: ${message}`);
     }
   };
 
@@ -86,29 +106,29 @@ const NewsFeed = () => {
       {/* List Section */}
       <section className="nf-list">
         {isLoading ? (
-          <p style={{ textAlign: 'center', color: '#666' }}>
-            Loading breakroom chatter...
-          </p>
+          <p style={{ textAlign: 'center', color: '#666' }}>Loading breakroom chatter...</p>
         ) : (
           posts.map((post) => (
             <MessageCard
               key={post._id}
               // Data Props
-              sender={post.authorId?.name || 'Unknown Worker'}
+              sender={post.authorId?.name || "Unknown Worker"}
+              // If your controller returns job info, you can add it here like:
+              // sender={`${post.authorId?.name} (${post.authorId?.job?.title || 'Worker'})`}
               message={post.content}
-              reactionCounts={post.reactionCounts} // { like: 5, love: 2 }
+              reactionCounts={post.reactionCounts}
               commentCount={post.commentCount}
+
               // Logic Props
-              isOwner={user?._id === post.authorId?._id} // Show delete button if owner
+              isOwner={user?._id === post.authorId?._id}
               onDelete={() => handleDeletePost(post._id)}
+              onReport={() => handleReport(post._id)} // <--- Pass the new report function
             />
           ))
         )}
 
         {!isLoading && posts.length === 0 && (
-          <p style={{ textAlign: 'center', color: '#999' }}>
-            The breakroom is quiet... too quiet.
-          </p>
+          <p style={{ textAlign: 'center', color: '#999' }}>The breakroom is quiet... too quiet.</p>
         )}
       </section>
     </div>
