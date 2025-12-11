@@ -23,6 +23,7 @@ import breakroomRoutes from "./routes/breakroomRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
+import reactionRoutes from "./routes/reactionRoutes.js";
 
 // -- CONFIGURATION --
 const __filename = fileURLToPath(import.meta.url);
@@ -116,6 +117,7 @@ app.use("/api/comments", commentRoutes);// Comments (New)
 app.use("/api/jobs", jobRoutes);        // Job Titles
 app.use("/api/breakrooms", breakroomRoutes); // Rooms
 app.use("/api/reports", reportRoutes);  // Moderation (New)
+app.use("/api/reactions", reactionRoutes); // Reactions (New)
 
 // 404 Fallback
 app.use((req, res) =>
