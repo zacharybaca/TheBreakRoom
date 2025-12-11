@@ -8,7 +8,7 @@ const isValidId = (id) => mongoose.Types.ObjectId.isValid(id);
 // Fields to consistently populate
 const populateConfig = [
   { path: "postId", select: "authorId content" },
-  { path: "authorId", select: "username name avatarUrl" },
+  { path: "authorId", select: "username name avatarUrl job" }, // Added 'job' for context
 ];
 
 /**
@@ -26,9 +26,10 @@ export const createComment = async (req, res) => {
       return res.status(400).json({ message: "Content is required" });
     }
 
-    const post = await Post.findById(postId).select(
-      "_id isDeleted commentCount comments",
-    );
+    // 1. Check if post exists (and isn't deleted)
+    // We removed 'comments' from the select because it doesn't exist anymore!
+    const post = await Post.findById(postId).select("_id isDeleted commentCount");
+
     if (!post || post.isDeleted) {
       return res.status(404).json({ message: "Post not found" });
     }
@@ -41,17 +42,17 @@ export const createComment = async (req, res) => {
 
     const saved = await newComment.save();
 
-    // push comment reference & increment count
-    post.comments.push(saved._id);
-    post.commentCount = (post.commentCount || 0) + 1;
-    await post.save();
+    // 2. CRITICAL FIX: Only update the COUNT. Do not push to an array.
+    // Atomic increment is safer under high load
+    await Post.findByIdAndUpdate(postId, { $inc: { commentCount: 1 } });
 
     const populated = await saved.populate(populateConfig);
 
     return res.status(201).json({
       message: "Comment created successfully",
       comment: populated,
-      commentCount: post.commentCount,
+      // Return the new count (old count + 1)
+      commentCount: (post.commentCount || 0) + 1,
     });
   } catch (err) {
     return res.status(500).json({
@@ -75,21 +76,24 @@ export const getComments = async (req, res) => {
       return res.status(400).json({ message: "Valid postId is required" });
     }
 
-    const post = await Post.findById(postId).select(
-      "_id isDeleted commentCount",
-    );
+    const post = await Post.findById(postId).select("_id isDeleted commentCount");
     if (!post || post.isDeleted) {
       return res.status(404).json({ message: "Post not found" });
     }
 
     const filter = { postId };
+
+    // 3. Logic Update: Hide deleted AND flagged comments
+    // Unless the user is an admin requesting to see them
     if (!includeDeleted || req.user.role !== "admin") {
       filter.isDeleted = false;
+      // If you added isFlagged to your Comment schema, uncomment this:
+      // filter.isFlagged = { $ne: true };
     }
 
     const comments = await Comment.find(filter)
       .populate(populateConfig)
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: 1 }); // Changed to 1 (Oldest first) which is standard for reading threads
 
     return res.status(200).json({
       comments,
@@ -155,6 +159,7 @@ export const updateComment = async (req, res) => {
 
     const isOwner = comment.authorId.equals(req.user._id);
     const isAdmin = req.user.role === "admin";
+
     if (!isOwner && !isAdmin) {
       return res
         .status(403)
@@ -194,6 +199,7 @@ export const deleteComment = async (req, res) => {
 
     const isOwner = comment.authorId.equals(req.user._id);
     const isAdmin = req.user.role === "admin";
+
     if (!isOwner && !isAdmin) {
       return res
         .status(403)
@@ -203,11 +209,11 @@ export const deleteComment = async (req, res) => {
     comment.isDeleted = true;
     await comment.save();
 
-    // decrement count & clean up ref
+    // 4. CRITICAL FIX: Only decrement count. Do not try to $pull from array.
     const post = await Post.findByIdAndUpdate(
       comment.postId,
       {
-        $pull: { comments: comment._id },
+        // Removed: $pull: { comments: comment._id },
         $inc: { commentCount: -1 },
       },
       { new: true },
