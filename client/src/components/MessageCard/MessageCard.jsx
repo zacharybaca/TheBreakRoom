@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import './message-card.css';
 import { FaRegCommentDots, FaUserCircle, FaHeart, FaTrash, FaFlag } from 'react-icons/fa';
+import CommentSection from '../CommentSection/CommentSection';
 
 const MessageCard = ({
+  postId, // <--- We need this to fetch the specific comments
   sender,
   message,
   attachment,
@@ -10,12 +13,16 @@ const MessageCard = ({
   commentCount,
   isOwner,
   onDelete,
-  onReport // <--- Receive the prop
+  onReport,
+  onCommentChange // Optional: Function to refresh parent if count changes
 }) => {
-  // 1. Calculate random tilt if not provided
+  // 1. State to toggle comments
+  const [showComments, setShowComments] = useState(false);
+
+  // 2. Calculate random tilt if not provided
   const cardTilt = tilt ?? (Math.random() * 4 - 2).toFixed(2);
 
-  // 2. Helper: Sum up all reaction types
+  // 3. Helper: Sum up all reaction types
   const totalReactions = reactionCounts
     ? Object.values(reactionCounts).reduce((sum, count) => sum + count, 0)
     : 0;
@@ -43,7 +50,7 @@ const MessageCard = ({
             {/* Right side: Action Buttons (Report + Delete) */}
             <div style={{ display: 'flex', gap: '8px' }}>
 
-              {/* Report Button (Visible to everyone) */}
+              {/* Report Button */}
               <button
                 onClick={onReport}
                 className="action-btn report-btn"
@@ -59,7 +66,7 @@ const MessageCard = ({
                 <FaFlag />
               </button>
 
-              {/* Delete Button (Only visible if isOwner is true) */}
+              {/* Delete Button */}
               {isOwner && (
                 <button
                   onClick={onDelete}
@@ -95,11 +102,25 @@ const MessageCard = ({
               {totalReactions}
             </span>
 
-            <span title="Comments">
+            {/* Toggle Comments on Click */}
+            <span
+              title="Toggle Comments"
+              onClick={() => setShowComments(!showComments)}
+              style={{ cursor: 'pointer', userSelect: 'none' }}
+            >
               <FaRegCommentDots className="stat-icon" style={{ color: '#1da1f2' }} />
               {totalComments}
             </span>
           </div>
+
+          {/* 4. Render Comment Section if Open */}
+          {showComments && (
+            <CommentSection
+              postId={postId}
+              onCommentAdded={onCommentChange}
+              onCommentDeleted={onCommentChange}
+            />
+          )}
 
         </div>
       </div>
