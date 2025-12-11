@@ -42,7 +42,7 @@ export const login = async (req, res) => {
     if (user.isBanned) {
       return res.status(403).json({
         message: "Your account has been suspended.",
-        reason: user.banReason || "Violation of community guidelines."
+        reason: user.banReason || "Violation of community guidelines.",
       });
     }
     // ----------------------
@@ -104,14 +104,14 @@ export const refreshAccessToken = async (req, res) => {
         if (user.isBanned) {
           res.clearCookie("refreshToken"); // Kill the cookie
           return res.status(403).json({
-            message: "Your account has been suspended."
+            message: "Your account has been suspended.",
           });
         }
         // ------------------------------------------
 
         const accessToken = generateAccessToken(user);
         res.status(200).json({ accessToken });
-      }
+      },
     );
   } catch (err) {
     console.error("Refresh token error:", err);

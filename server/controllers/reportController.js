@@ -10,7 +10,9 @@ export const createReport = async (req, res) => {
     // 1. Prevent double reporting by the same person
     const existing = await Report.findOne({ reporter, targetId });
     if (existing) {
-      return res.status(400).json({ message: "You have already reported this content." });
+      return res
+        .status(400)
+        .json({ message: "You have already reported this content." });
     }
 
     // 2. Save the report
@@ -19,7 +21,7 @@ export const createReport = async (req, res) => {
       targetType,
       targetId,
       reason,
-      description
+      description,
     });
 
     // 3. Increment reportCount on the target item
@@ -31,7 +33,7 @@ export const createReport = async (req, res) => {
       const item = await TargetModel.findByIdAndUpdate(
         targetId,
         { $inc: { reportCount: 1 } },
-        { new: true }
+        { new: true },
       );
 
       // Auto-flag logic: hide post if more than 5 reports

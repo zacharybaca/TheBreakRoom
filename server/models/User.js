@@ -45,14 +45,14 @@ const userSchema = new mongoose.Schema(
       type: Date,
     },
     isBanned: {
-    type: Boolean,
-    default: false,
-  },
+      type: Boolean,
+      default: false,
+    },
 
-  // Optional: Track why they were banned
-  banReason: {
-    type: String,
-  }
+    // Optional: Track why they were banned
+    banReason: {
+      type: String,
+    },
   },
   { timestamps: true },
 );

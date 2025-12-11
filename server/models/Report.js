@@ -6,21 +6,21 @@ const reportSchema = new mongoose.Schema(
     reporter: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      required: true,
     },
 
     // What is being reported? (Post, Comment, or User)
     targetType: {
       type: String,
       enum: ["Post", "Comment", "User"],
-      required: true
+      required: true,
     },
 
     // The specific ID of that item
     targetId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      refPath: 'targetType' // Dynamically refs the targetType field
+      refPath: "targetType", // Dynamically refs the targetType field
     },
 
     // Why are they reporting it?
@@ -32,28 +32,28 @@ const reportSchema = new mongoose.Schema(
         "Workplace Privacy Violation",
         "Spam",
         "Misinformation",
-        "Other"
+        "Other",
       ],
-      required: true
+      required: true,
     },
 
     description: {
       type: String,
       maxlength: 500,
-      trim: true
+      trim: true,
     },
 
     // Admin review status
     status: {
       type: String,
       enum: ["pending", "reviewed", "dismissed", "action_taken"],
-      default: "pending"
+      default: "pending",
     },
 
     // Tracking who handled the report
-    adminNotes: { type: String }
+    adminNotes: { type: String },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Indexes for fast searching in your Admin Dashboard

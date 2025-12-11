@@ -3,7 +3,7 @@ import { protect, requireAdmin } from "../middleware/authMiddleware.js";
 import {
   createReport,
   getReports,
-  resolveReport
+  resolveReport,
 } from "../controllers/reportController.js";
 
 const router = express.Router();

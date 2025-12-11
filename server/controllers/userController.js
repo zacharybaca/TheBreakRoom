@@ -93,8 +93,8 @@ export const updateUser = async (req, res) => {
 
       // Update both isAdmin and Role to keep them in sync
       if (isAdmin !== undefined) {
-          user.isAdmin = isAdmin;
-          user.role = isAdmin ? "admin" : "user";
+        user.isAdmin = isAdmin;
+        user.role = isAdmin ? "admin" : "user";
       }
 
       if (jobTitle) {
@@ -272,9 +272,8 @@ export const banUser = async (req, res) => {
       message: user.isBanned
         ? `User ${user.username} has been banned.`
         : `User ${user.username} has been unbanned.`,
-      isBanned: user.isBanned
+      isBanned: user.isBanned,
     });
-
   } catch (err) {
     console.error("❌ Error banning user:", err.message);
     res.status(500).json({ message: err.message });

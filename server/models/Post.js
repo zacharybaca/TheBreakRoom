@@ -42,7 +42,7 @@ const postSchema = new mongoose.Schema(
     isFlagged: { type: Boolean, default: false },
     reportCount: { type: Number, default: 0 },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // --- NEW MIDDLEWARE: Auto-filter deleted posts ---
