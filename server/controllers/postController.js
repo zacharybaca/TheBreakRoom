@@ -1,22 +1,23 @@
 import Post from "../models/Post.js";
 import Comment from "../models/Comment.js";
 
-// Helper to format post response
-const formatPostResponse = async (post) => {
-  // We ensure counts are fresh before sending
-  // Note: For high-traffic apps, you might remove this line and update counts only on user action
-  await post.updateReactionCounts();
+// Helper: Formats response without extra DB calls
+const formatPostResponse = (post) => {
+  const postObj = post.toObject();
 
-  const commentCount = await Comment.countDocuments({
-    postId: post._id,
-    isDeleted: false, // If you added middleware to Comment model, you can remove this line too
-  });
+  // 1. PRIVACY CHECK: Mask the author if anonymous
+  if (postObj.anonymous) {
+    postObj.authorId = {
+      _id: "anonymous",
+      name: "Anonymous Worker",
+      username: "anonymous",
+      avatarUrl: "https://avatar.iran.liara.run/public/job/doctor", // Generic icon
+      job: null // Hide job if it reveals identity
+    };
+  }
 
-  return {
-    ...post.toObject(),
-    reactionCounts: post.reactionCounts,
-    commentCount,
-  };
+  // 2. Return stored counts directly (Fast!)
+  return postObj;
 };
 
 // Create Post
@@ -38,15 +39,14 @@ export const createPost = async (req, res) => {
 
     await newPost.save();
 
-    // Populate author details so the frontend can display the user immediately
-    newPost = await newPost.populate("authorId", "username name avatarUrl");
+    // Populate author so we can format it (even if anonymous, we need the structure)
+    // Added 'job' to populate so we can show "Cashier" next to name
+    newPost = await newPost.populate("authorId", "username name avatarUrl job");
 
-    const formattedPost = await formatPostResponse(newPost);
+    const formattedPost = formatPostResponse(newPost);
 
-    // Broadcast to all connected clients via WebSocket
     if (req.io) {
       req.io.emit("postCreated", formattedPost);
-      console.log("📡 Emitted postCreated event via WebSocket");
     }
 
     res.status(201).json(formattedPost);
@@ -61,15 +61,16 @@ export const createPost = async (req, res) => {
 // Get all Posts
 export const getPosts = async (req, res) => {
   try {
-    // 1. We removed { isDeleted: false } because the Schema Middleware handles it automatically now.
-    // 2. We removed .populate("reactions") because that array no longer exists (better for scale).
-    const posts = await Post.find()
+    // 1. MODERATION: Filter out flagged posts
+    // 2. POPULATE: Added 'job' so you can display it in the feed
+    const posts = await Post.find({ isFlagged: false })
       .sort({ createdAt: -1 })
-      .populate("authorId", "username name avatarUrl");
+      .populate("authorId", "username name avatarUrl job");
 
-    const postsWithCounts = await Promise.all(posts.map(formatPostResponse));
+    // No await needed here anymore (Sync operation)
+    const formattedPosts = posts.map(formatPostResponse);
 
-    res.status(200).json(postsWithCounts);
+    res.status(200).json(formattedPosts);
   } catch (err) {
     res.status(500).json({
       message: "Error fetching posts",
@@ -81,15 +82,12 @@ export const getPosts = async (req, res) => {
 // Get Post by ID
 export const getPostById = async (req, res) => {
   try {
-    // Schema Middleware automatically filters out deleted posts here
-    const post = await Post.findById(req.params.id).populate(
-      "authorId",
-      "username name avatarUrl",
-    );
+    const post = await Post.findById(req.params.id)
+        .populate("authorId", "username name avatarUrl job");
 
     if (!post) return res.status(404).json({ message: "Post not found" });
 
-    res.status(200).json(await formatPostResponse(post));
+    res.status(200).json(formatPostResponse(post));
   } catch (err) {
     res.status(500).json({
       message: "Error fetching post",
@@ -109,7 +107,6 @@ export const updatePost = async (req, res) => {
 
     const updatedPost = await Post.findById(req.params.id);
 
-    // If 'post' is null, it either doesn't exist OR it was soft-deleted (middleware hid it)
     if (!updatedPost) {
       return res.status(404).json({ message: "Post not found" });
     }
@@ -131,10 +128,9 @@ export const updatePost = async (req, res) => {
 
     await updatedPost.save();
 
-    // Repopulate author for the response
-    await updatedPost.populate("authorId", "username name avatarUrl");
+    await updatedPost.populate("authorId", "username name avatarUrl job");
 
-    res.status(200).json(await formatPostResponse(updatedPost));
+    res.status(200).json(formatPostResponse(updatedPost));
   } catch (err) {
     res.status(500).json({
       message: "Error updating post",
@@ -148,7 +144,6 @@ export const deletePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    // If middleware is working, this returns null if the post is already soft-deleted.
     if (!post) return res.status(404).json({ message: "Post not found" });
 
     if (
@@ -160,13 +155,10 @@ export const deletePost = async (req, res) => {
         .json({ message: "Not authorized to delete this post" });
     }
 
-    // This triggers the save() logic which is safer than findByIdAndUpdate
     post.isDeleted = true;
     await post.save();
 
-    res
-      .status(200)
-      .json({ message: "Post deleted successfully (soft delete)" });
+    res.status(200).json({ message: "Post deleted successfully" });
   } catch (err) {
     res.status(500).json({
       message: "Error deleting post",
