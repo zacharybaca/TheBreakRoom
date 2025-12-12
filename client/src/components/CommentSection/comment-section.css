@@ -1,57 +1,79 @@
+/* comment-section.css */
+
 .comment-section {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid #eee;
-  background-color: #fafafa; /* Slight grey to distinguish from post */
-  border-radius: 0 0 8px 8px;
-  padding: 1rem;
+  margin-top: 15px;
+  padding-top: 15px;
+  /* Dashed line to separate message from comments (like a perforated notebook) */
+  border-top: 2px dashed rgba(0, 0, 0, 0.1);
+  background-color: transparent; /* Let the yellow note show through! */
+  width: 100%;
+  box-sizing: border-box;
 }
 
+/* --- Input Area --- */
 .comment-input-wrapper {
   display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
 .comment-input {
   flex-grow: 1;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
+  padding: 10px 15px;
+  border: 2px solid rgba(0,0,0,0.1); /* Subtle border */
+  background: rgba(255, 255, 255, 0.6); /* Semi-transparent white */
   border-radius: 20px;
   outline: none;
+  font-family: 'Open Sans', sans-serif; /* Readable font */
   font-size: 0.9rem;
+  transition: all 0.2s;
 }
 
 .comment-input:focus {
-  border-color: #007bff;
+  background: #fff;
+  border-color: #4f46e5; /* Indigo focus ring */
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 .comment-submit-btn {
-  background-color: #007bff;
+  background-color: #4f46e5; /* Match your other Indigo buttons */
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 8px 18px;
   border-radius: 20px;
   cursor: pointer;
-  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.comment-submit-btn:hover {
+  background-color: #4338ca;
 }
 
 .comment-submit-btn:disabled {
-  background-color: #ccc;
+  background-color: rgba(0,0,0,0.2);
   cursor: not-allowed;
 }
 
+/* --- Comment List --- */
 .comment-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
 }
 
 .comment-item {
   display: flex;
   gap: 10px;
   font-size: 0.9rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .comment-avatar {
@@ -59,13 +81,16 @@
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: #ddd;
+  background-color: rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
+/* The "Bubble" - Now blends into the sticky note */
 .comment-bubble {
-  background-color: #fff;
-  border: 1px solid #eee;
+  background-color: rgba(255, 255, 255, 0.5); /* 50% opacity white */
+  border: 1px solid rgba(0,0,0,0.05);
   border-radius: 12px;
+  border-top-left-radius: 2px; /* Makes it look like a speech bubble */
   padding: 8px 12px;
   position: relative;
   flex-grow: 1;
@@ -74,38 +99,43 @@
 .comment-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 4px;
 }
 
 .comment-author {
-  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
   font-size: 0.85rem;
   color: #333;
 }
 
 .comment-job {
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.75rem;
-  color: #777;
+  color: #666;
   margin-left: 6px;
 }
 
 .comment-delete-btn {
   background: none;
   border: none;
-  color: #dc3545; /* Red */
+  color: #e53e3e;
   cursor: pointer;
   font-size: 0.8rem;
-  opacity: 0.6;
-  padding: 0;
+  opacity: 0.5;
+  padding: 2px;
+  transition: opacity 0.2s;
 }
 
 .comment-delete-btn:hover {
   opacity: 1;
-  text-decoration: underline;
 }
 
 .comment-text {
-  color: #444;
+  font-family: 'Open Sans', sans-serif; /* Keep comments very readable */
+  color: #2d3748;
   line-height: 1.4;
+  font-size: 0.95rem;
+  word-break: break-word;
 }
