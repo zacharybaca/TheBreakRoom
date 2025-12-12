@@ -9,7 +9,7 @@
   min-width: 100vw;
   min-height: 100vh;
   box-sizing: border-box;
-  /* Your existing background image */
+  /* Your Corkboard Background */
   background-image: url('/assets/app-background-image.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -23,40 +23,49 @@
   flex: 1;
 }
 
-/* Keeping this just in case other components use it, but it's not used for the hero anymore */
+/* Keeping this just in case, though usually not needed with the new banner */
 .jumbotron-container {
   display: flex;
   justify-content: center;
 }
 
-/* --- NEW HERO BANNER STYLES --- */
+/* --- NEW "PINNED PHOTO" BANNER STYLES --- */
 
 .hero-banner {
   /* Layout & Sizing */
   width: 90%;
-  max-width: 1100px;
+  max-width: 1000px; 
   min-height: 320px;
-  margin: 2rem auto;
-
-  /* Centering Content */
+  margin: 3rem auto; /* Spacing from the top nav */
+  
+  /* Centering Content inside the photo */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  /* Background Image (Unsplash Placeholder) */
+  
+  /* The "Photo" Image (Coffee Shop Vibe) */
   background-image: url('https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80');
   background-size: cover;
   background-position: center;
-
-  /* Modern Styling */
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
+  
+  /* --- THE CORKBOARD FIT --- */
+  /* 1. The "Photo Frame" Look */
+  border: 12px solid #ffffff; /* Thick white border like a printed photo */
+  border-radius: 2px;         /* Sharper corners look more like paper */
+  
+  /* 2. Realistic Depth */
+  /* Heavier shadow implies it is sitting ON TOP of the corkboard */
+  box-shadow: 6px 8px 20px rgba(0, 0, 0, 0.4); 
+  
+  /* 3. The "Organic" Placement */
+  transform: rotate(-1.5deg); /* Slight tilt makes it feel pinned by hand */
+  
+  position: relative; 
+  overflow: hidden; 
 }
 
-/* Dark Overlay for Text Readability */
+/* The Dark Overlay: Makes text readable */
 .hero-banner::before {
   content: '';
   position: absolute;
@@ -64,14 +73,29 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* Gradient from semi-transparent to dark */
-  background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.8));
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
   z-index: 1;
+}
+
+/* The "Thumbtack" - A visual detail to pin the photo to the board */
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  top: 10px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  /* Shiny Red Pin */
+  background: radial-gradient(circle at 30% 30%, #ff7675, #d63031); 
+  border-radius: 50%;
+  box-shadow: 2px 4px 6px rgba(0,0,0,0.5); 
+  z-index: 10;
 }
 
 .hero-content {
   position: relative;
-  z-index: 2; /* Ensures text sits on top of the overlay */
+  z-index: 2; /* Text sits above the overlay */
   text-align: center;
   color: #fff;
   padding: 0 20px;
@@ -82,10 +106,10 @@
 .hero-content h1 {
   font-family: 'Poppins', sans-serif;
   font-size: 3.5rem;
-  font-weight: 800;
+  font-weight: 800; 
   margin: 0;
   margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
   letter-spacing: 0.5px;
 }
 
@@ -94,28 +118,28 @@
   font-size: 1.4rem;
   font-weight: 400;
   margin: 0;
-  opacity: 0.9;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  opacity: 0.95;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
 
 /* Mobile Responsiveness */
 @media screen and (max-width: 600px) {
-  /* Retaining your specific icon rule */
   #app-icon-container img {
     width: 40%;
   }
 
-  /* Adjusting hero for smaller screens */
   .hero-banner {
-    width: 95%;
+    width: 92%;
     min-height: 220px;
-    margin: 1rem auto;
+    margin: 2rem auto;
+    border-width: 8px; /* Slightly thinner border on mobile */
+    transform: rotate(0deg); /* Straighten it on mobile for better space usage */
   }
-
+  
   .hero-content h1 {
     font-size: 2rem;
   }
-
+  
   .hero-content p {
     font-size: 1rem;
   }
