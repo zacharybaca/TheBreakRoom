@@ -1,5 +1,6 @@
 // routes/authRoutes.js
 import express from "express";
+import passport from "passport";
 import {
   login,
   logout,
@@ -10,66 +11,29 @@ import {
   forgotPassword,
 } from "../controllers/authController.js";
 import { sendEmailTest } from "../utils/mail/sendEmailTest.js";
-import passport from "passport";
 import { protect } from "../middleware/authMiddleware.js";
+
+// !!! CRITICAL FIX: Make sure you import your JWT generator here !!!
+// Adjust the path to wherever you store your token generation logic
+import { createJwtForUser } from "../utils/tokenUtils.js";
 
 const router = express.Router();
 
-/**
- * @route   POST /api/auth/register
- * @desc    Register a new user (self-registration)
- * @access  Public
- */
+// ... [Existing Standard Routes are fine and omitted for brevity] ...
+
 router.post("/register", register);
-
-/**
- * @route   POST /api/auth/login
- * @desc    Authenticate user & get token
- * @access  Public
- */
 router.post("/login", login);
-
-/**
- * @route POST /api/auth/logout
- * @desc Logout a current "logged-in" user
- * @access Public
- */
 router.post("/logout", logout);
-
-/**
- * @route POST /api/auth/refresh
- * @desc Refreshes user's token
- * @access Private
- */
 router.post("/refresh", refreshAccessToken);
-
-/**
- * @route   GET /api/auth/me
- * @desc    Get current authenticated user's info
- * @access  Private
- */
 router.get("/me", protect, getMe);
-
-/**
- * @route POST /api/auth/reset-password
- * @desc Change current authenticated user's password
- * @access Private
- */
 router.post("/reset-password", resetPassword);
-
-/**
- * @route POST /api/auth/forgot-password
- * @desc Enables a user to reset their password
- * @access Private
- */
 router.post("/forgot-password", forgotPassword);
-
-/**
- * @route POST /api/auth/test-email
- * @desc Sends a Test E-Mail
- * @access Public
- */
 router.post("/test-email", sendEmailTest);
+
+
+/* -------------------------------------------------------------------------- */
+/* OAUTH ROUTES                                */
+/* -------------------------------------------------------------------------- */
 
 /**
  * @route   GET /api/auth/google
@@ -90,28 +54,33 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { session: false }),
   async (req, res) => {
-    const token = createJwtForUser(req.user); // your current JWT generator
+    // 1. Generate the JWT (ensure this function exists!)
+    const token = createJwtForUser(req.user);
+
+    // 2. Redirect to Frontend with token
+    // Security Note: Ensure CLIENT_URL is set in .env to avoid open redirect vulnerabilities
     res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${token}`);
   },
 );
 
 /**
- * @route GET /api/auth/apple
- * @desc Initiate Apple Sign-In authentication
- * @access Public
+ * @route   GET /api/auth/apple
+ * @desc    Initiate Apple Sign-In authentication
+ * @access  Public
  */
 router.get("/apple", passport.authenticate("apple"));
 
 /**
- * @route GET /api/auth/apple/callback
- * @desc Handle Apple Sign-In callback
- * @access Public
+ * @route   POST /api/auth/apple/callback
+ * @desc    Handle Apple Sign-In callback
+ * @note    APPLE SENDS A POST REQUEST, NOT A GET!
+ * @access  Public
  */
-router.get(
+router.post( // <--- CHANGED FROM GET TO POST
   "/apple/callback",
   passport.authenticate("apple", { session: false }),
   async (req, res) => {
-    const token = createJwtForUser(req.user); // your current JWT generator
+    const token = createJwtForUser(req.user);
     res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${token}`);
   },
 );
