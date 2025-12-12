@@ -22,17 +22,20 @@ function App() {
   return (
     <div id="main-app-container">
       <NavBar />
+
+      {/* --- NEW HERO SECTION START --- */}
       {!isAuthenticated ? (
-        <div className="jumbotron-container">
-          <img
-            src="/assets/app_homepage_logo.png"
-            id="jumbotron-img"
-            alt="homepage jumbotron"
-          />
+        <div className="hero-banner">
+          <div className="hero-content">
+            <h1>The Breakroom</h1>
+            <p>Welcome to The Breakroom — Now Online</p>
+          </div>
         </div>
       ) : (
         ''
       )}
+      {/* --- NEW HERO SECTION END --- */}
+
       <main id="content">
         <Routes>
           <Route path="/" element={<Login />} />
