@@ -1,81 +1,105 @@
+/* news-feed.css */
+
+/* 1. The Feed Container */
 #news-feed {
   width: 100%;
-  max-width: 680px;
-  padding: 28px 32px;
+  max-width: 720px; /* Slightly wider for better readability */
+  padding: 30px;
   margin: 0 auto;
-  /* Keep your original glassmorphism look */
-  background: rgba(52, 35, 21, 0.25);
-  border: 1px solid rgba(0, 0, 0, 0.35);
-  border-radius: 10px;
-  backdrop-filter: blur(2px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) inset;
+  box-sizing: border-box;
+
+  /* THE NEW LOOK: Frosted White Glass */
+  /* Matches the Login Card vibe but slightly more transparent */
+  background: rgba(255, 255, 255, 0.85); 
+  backdrop-filter: blur(12px); /* Blurs the background image behind it */
+  
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* Soft, deep shadow */
 }
 
+/* 2. Header */
 .nf-header {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05); /* Subtle divider */
+  padding-bottom: 15px;
 }
 
 .nf-header h1 {
-  /* Optional: Ensure the header text pops against the glass background */
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: 'Poppins', sans-serif; /* Consistent Font */
+  font-weight: 700;
+  font-size: 2rem;
+  color: #2d3748; /* Dark slate text (not pure black) */
   margin: 0;
+  letter-spacing: -0.5px;
 }
 
+/* 3. Composer Section (The Text Area) */
 .nf-composer {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 32px;
+  gap: 15px;
+  margin-bottom: 40px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Lifts the composer slightly */
 }
 
 .nf-input {
   width: 100%;
-  padding: 12px;
-  background: #fafafa;
-  border: 1px solid #3a3a3a;
-  border-radius: 6px;
-  color: #000;
-
-  /* UX Tweaks: */
-  font-family: inherit; /* Matches your site's font */
-  resize: vertical; /* Allows user to make it taller, but not wider */
-  min-height: 80px; /* Prevents it from being too small */
-}
-
-.nf-input:focus {
-  /* Accessibility: Highlights the box when typing */
-  outline: none;
-  border-color: #d6c48d; /* Matches your sticky note theme */
-  box-shadow: 0 0 0 2px rgba(214, 196, 141, 0.5);
-}
-
-.nf-submit {
-  width: 110px;
-  padding: 8px;
-  border: 1px solid #2a2a2a;
-  border-radius: 6px;
-  background: #e6e6e6;
-  font-weight: 600;
-  cursor: pointer;
-  align-self: flex-end; /* Aligns button to the right side */
+  padding: 16px;
+  background: #f8fafc; /* Very light slate background */
+  border: 2px solid #edf2f7;
+  border-radius: 8px;
+  color: #2d3748;
+  
+  /* Typography */
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  
+  resize: vertical;
+  min-height: 100px;
+  box-sizing: border-box;
   transition: all 0.2s ease;
 }
 
-.nf-submit:hover {
-  background: #fff;
-  transform: translateY(-1px);
+.nf-input::placeholder {
+  color: #a0aec0;
 }
 
+.nf-input:focus {
+  outline: none;
+  background: #fff;
+  border-color: #667eea; /* Matches your Indigo brand color */
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+/* 4. Submit Button Positioning */
+.nf-submit {
+  align-self: flex-end;
+  min-width: 120px;
+  /* Note: The actual colors are handled by your ReusableStyledButton CSS */
+}
+
+/* 5. The List */
 .nf-list {
   display: flex;
   flex-direction: column;
-  gap: 22px; /* Space between MessageCards */
+  gap: 25px; /* Nice breathing room between posts */
   padding-bottom: 20px;
 }
 
-/* REMOVED: .nf-item and all :nth-child rotations.
-   Why? Because <MessageCard /> now handles the sticky note look,
-   the pin, and the random tilt automatically.
-*/
+/* Mobile Responsiveness */
+@media screen and (max-width: 600px) {
+  #news-feed {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  .nf-header h1 {
+    font-size: 1.6rem;
+  }
+}
