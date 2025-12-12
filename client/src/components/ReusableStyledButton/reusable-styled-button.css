@@ -1,30 +1,66 @@
-/* ---------- Glow effect only ---------- */
-.glow-on-arrival-entry {
+/* reusable-styled-button.css */
+
+/* ---------- Reusable button base ---------- */
+.reusable-styled-button {
+  /* Core Structure */
   position: relative;
   z-index: 0;
-  border-radius: 10px;
+  border-radius: 8px; /* Matches input fields */
+  padding: 12px 20px;
+  border: none;
+
+  /* Typography */
+  font-family: 'Poppins', sans-serif; /* Matches your new Header font */
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+
+  /* Default Appearance (The "Cozy" Blue) */
+  background: #4f46e5;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+
+  /* Remove default gray borders */
+  outline: none;
+}
+
+/* Hover State - Slight lift and color shift */
+.reusable-styled-button:hover {
+  transform: translateY(-2px);
+  background: #4338ca; /* Slightly darker indigo */
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4); /* Soft shadow matching button color */
+}
+
+/* Active State - Click press effect */
+.reusable-styled-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ---------- The Glow Effect (Refined) ---------- */
+/* Only apply this if the class 'glow-on-arrival-entry' is present */
+.glow-on-arrival-entry {
+  position: relative;
 }
 
 .glow-on-arrival-entry:before {
   content: '';
+  /* REPLACED THE RAINBOW WITH A PROFESSIONAL GRADIENT */
   background: linear-gradient(
     45deg,
-    #ff0000,
-    #ff7300,
-    #fffb00,
-    #48ff00,
-    #00ffd5,
-    #002bff,
-    #7a00ff,
-    #ff00c8,
-    #ff0000
+    #4f46e5,
+    #818cf8,
+    #6366f1,
+    #4338ca,
+    #4f46e5
   );
   position: absolute;
   top: -2px;
   left: -2px;
   background-size: 400%;
   z-index: -1;
-  filter: blur(5px);
+  filter: blur(8px); /* Softer blur */
   width: calc(100% + 4px);
   height: calc(100% + 4px);
   animation: glowing 20s linear infinite;
@@ -34,9 +70,10 @@
 }
 
 .glow-on-arrival-entry:hover:before {
-  opacity: 1;
+  opacity: 0.7; /* Subtle glow, not blinding */
 }
 
+/* Use a pseudo-element to keep the background solid over the glow */
 .glow-on-arrival-entry:after {
   z-index: -1;
   content: '';
@@ -45,53 +82,33 @@
   height: 100%;
   left: 0;
   top: 0;
-  border-radius: 10px;
-}
-
-.glow-on-arrival-entry:active {
-  color: #000;
+  background: #4f46e5; /* Match base button color */
+  border-radius: 8px;
 }
 
 .glow-on-arrival-entry:active:after {
-  background: transparent;
+  background: #4338ca; /* Darken on click */
 }
 
 @keyframes glowing {
-  0% {
-    background-position: 0 0;
-  }
-  50% {
-    background-position: 400% 0;
-  }
-  100% {
-    background-position: 0 0;
-  }
-}
-
-/* ---------- Reusable button base ---------- */
-.reusable-styled-button {
-  font-size: 1rem;
-  font-weight: bold;
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
-  cursor: pointer;
-  border-radius: 10px;
-  padding: 0.85rem;
-}
-
-.reusable-styled-button:hover {
-  transform: translateY(-2px);
-  background: #ea580c;
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
 }
 
 /* ---------- Context-specific sizing ---------- */
-.glow-fixed {
-  width: 220px;
-  height: 50px;
-}
-
 .register-button {
   margin-top: 0.5rem;
   width: 100%;
+}
+
+/* Disabled State */
+.reusable-styled-button:disabled {
+  background: #a5a5a5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.reusable-styled-button:disabled:before {
+  display: none; /* No glow when disabled */
 }
