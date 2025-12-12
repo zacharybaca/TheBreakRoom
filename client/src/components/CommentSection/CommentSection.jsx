@@ -46,13 +46,13 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
       setNewComment('');
       if (onCommentAdded) onCommentAdded(); // Notify parent to update count
     } else {
-      alert("Failed to post comment.");
+      alert('Failed to post comment.');
     }
   };
 
   // 3. Delete Comment
   const handleDelete = async (commentId) => {
-    if (!window.confirm("Delete this comment?")) return;
+    if (!window.confirm('Delete this comment?')) return;
 
     // Optimistic Remove
     const prevComments = [...comments];
@@ -65,12 +65,17 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
     if (success) {
       if (onCommentDeleted) onCommentDeleted(); // Notify parent to update count
     } else {
-      alert("Failed to delete.");
+      alert('Failed to delete.');
       setComments(prevComments); // Revert
     }
   };
 
-  if (isLoading) return <div style={{ padding: '10px', fontSize: '0.9rem' }}>Loading comments...</div>;
+  if (isLoading)
+    return (
+      <div style={{ padding: '10px', fontSize: '0.9rem' }}>
+        Loading comments...
+      </div>
+    );
 
   return (
     <div className="comment-section">
@@ -102,22 +107,27 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
 
         {comments.map((comment) => {
           // Check if current user owns this comment
-          const isOwner = user?._id === comment.authorId?._id || user?.role === 'admin';
+          const isOwner =
+            user?._id === comment.authorId?._id || user?.role === 'admin';
 
           return (
             <div key={comment._id} className="comment-item">
               {/* Avatar */}
               {comment.authorId?.avatarUrl ? (
                 <img
-                  src={comment.authorId.avatarUrl.startsWith('http')
-                    ? comment.authorId.avatarUrl
-                    : `${import.meta.env.VITE_BACKEND_URL}${comment.authorId.avatarUrl}`
+                  src={
+                    comment.authorId.avatarUrl.startsWith('http')
+                      ? comment.authorId.avatarUrl
+                      : `${import.meta.env.VITE_BACKEND_URL}${comment.authorId.avatarUrl}`
                   }
                   alt="Avatar"
                   className="comment-avatar"
                 />
               ) : (
-                <FaUserCircle className="comment-avatar" style={{ padding: '2px', color: '#ccc' }} />
+                <FaUserCircle
+                  className="comment-avatar"
+                  style={{ padding: '2px', color: '#ccc' }}
+                />
               )}
 
               {/* Bubble */}
@@ -125,7 +135,7 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
                 <div className="comment-header">
                   <div>
                     <span className="comment-author">
-                      {comment.authorId?.name || "Unknown"}
+                      {comment.authorId?.name || 'Unknown'}
                     </span>
                     {comment.authorId?.job && (
                       <span className="comment-job">

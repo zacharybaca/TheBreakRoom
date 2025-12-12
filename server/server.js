@@ -61,20 +61,23 @@ app.use((req, res, next) => {
 });
 
 // 3. Express CORS Middleware
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps, curl, or Postman)
-    if (!origin) return callback(null, true);
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, or Postman)
+      if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-  },
-  credentials: true, // <--- CRITICAL: Allows cookies to be sent back and forth
-}));
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        const msg =
+          "The CORS policy for this site does not allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+    },
+    credentials: true, // <--- CRITICAL: Allows cookies to be sent back and forth
+  }),
+);
 
 // Standard Middleware
 app.use(express.json());
@@ -99,7 +102,8 @@ const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 20, // Limit each IP to 20 requests per window
   message: {
-    message: "Too many login/register attempts from this IP, please try again after 15 minutes"
+    message:
+      "Too many login/register attempts from this IP, please try again after 15 minutes",
   },
   standardHeaders: true,
   legacyHeaders: false,
@@ -110,13 +114,13 @@ app.use("/api/auth", authLimiter);
 // -- ROUTES --
 app.get("/", (req, res) => res.json({ message: "API is running..." }));
 
-app.use("/api/auth", authRoutes);       // Login/Register
-app.use("/api/users", userRoutes);      // Admin Management
-app.use("/api/posts", postRoutes);      // Feed
-app.use("/api/comments", commentRoutes);// Comments (New)
-app.use("/api/jobs", jobRoutes);        // Job Titles
+app.use("/api/auth", authRoutes); // Login/Register
+app.use("/api/users", userRoutes); // Admin Management
+app.use("/api/posts", postRoutes); // Feed
+app.use("/api/comments", commentRoutes); // Comments (New)
+app.use("/api/jobs", jobRoutes); // Job Titles
 app.use("/api/breakrooms", breakroomRoutes); // Rooms
-app.use("/api/reports", reportRoutes);  // Moderation (New)
+app.use("/api/reports", reportRoutes); // Moderation (New)
 app.use("/api/reactions", reactionRoutes); // Reactions (New)
 
 // 404 Fallback

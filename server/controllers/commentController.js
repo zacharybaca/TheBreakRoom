@@ -28,7 +28,9 @@ export const createComment = async (req, res) => {
 
     // 1. Check if post exists (and isn't deleted)
     // We removed 'comments' from the select because it doesn't exist anymore!
-    const post = await Post.findById(postId).select("_id isDeleted commentCount");
+    const post = await Post.findById(postId).select(
+      "_id isDeleted commentCount",
+    );
 
     if (!post || post.isDeleted) {
       return res.status(404).json({ message: "Post not found" });
@@ -76,7 +78,9 @@ export const getComments = async (req, res) => {
       return res.status(400).json({ message: "Valid postId is required" });
     }
 
-    const post = await Post.findById(postId).select("_id isDeleted commentCount");
+    const post = await Post.findById(postId).select(
+      "_id isDeleted commentCount",
+    );
     if (!post || post.isDeleted) {
       return res.status(404).json({ message: "Post not found" });
     }

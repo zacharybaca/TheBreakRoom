@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import './message-card.css';
-import { FaRegCommentDots, FaUserCircle, FaHeart, FaTrash, FaFlag } from 'react-icons/fa';
+import {
+  FaRegCommentDots,
+  FaUserCircle,
+  FaHeart,
+  FaTrash,
+  FaFlag,
+} from 'react-icons/fa';
 import CommentSection from '../CommentSection/CommentSection';
 
 const MessageCard = ({
@@ -14,7 +20,7 @@ const MessageCard = ({
   isOwner,
   onDelete,
   onReport,
-  onCommentChange // Optional: Function to refresh parent if count changes
+  onCommentChange, // Optional: Function to refresh parent if count changes
 }) => {
   // 1. State to toggle comments
   const [showComments, setShowComments] = useState(false);
@@ -36,9 +42,11 @@ const MessageCard = ({
         style={{ '--tilt': `${cardTilt}deg` }}
       >
         <div className="message-card-content">
-
           {/* Header: Sender Info + Actions */}
-          <h3 className="message-font-alt-style info-line item" style={{ justifyContent: 'space-between' }}>
+          <h3
+            className="message-font-alt-style info-line item"
+            style={{ justifyContent: 'space-between' }}
+          >
             {/* Left side: Avatar + Name */}
             <span style={{ display: 'flex', alignItems: 'center' }}>
               <FaUserCircle className="card-icon" />
@@ -49,7 +57,6 @@ const MessageCard = ({
 
             {/* Right side: Action Buttons (Report + Delete) */}
             <div style={{ display: 'flex', gap: '8px' }}>
-
               {/* Report Button */}
               <button
                 onClick={onReport}
@@ -60,7 +67,7 @@ const MessageCard = ({
                   border: 'none',
                   cursor: 'pointer',
                   color: '#888',
-                  padding: '4px'
+                  padding: '4px',
                 }}
               >
                 <FaFlag />
@@ -77,7 +84,7 @@ const MessageCard = ({
                     border: 'none',
                     cursor: 'pointer',
                     color: '#dc3545',
-                    padding: '4px'
+                    padding: '4px',
                   }}
                 >
                   <FaTrash />
@@ -88,7 +95,10 @@ const MessageCard = ({
 
           {/* Body: Message */}
           <div className="info-text info-line item" style={{ flexGrow: 1 }}>
-            <FaRegCommentDots className="card-icon" style={{ marginTop: '4px' }} />
+            <FaRegCommentDots
+              className="card-icon"
+              style={{ marginTop: '4px' }}
+            />
             <span>
               <span className="info-text-title">Message: </span>
               {message}
@@ -108,7 +118,10 @@ const MessageCard = ({
               onClick={() => setShowComments(!showComments)}
               style={{ cursor: 'pointer', userSelect: 'none' }}
             >
-              <FaRegCommentDots className="stat-icon" style={{ color: '#1da1f2' }} />
+              <FaRegCommentDots
+                className="stat-icon"
+                style={{ color: '#1da1f2' }}
+              />
               {totalComments}
             </span>
           </div>
@@ -121,7 +134,6 @@ const MessageCard = ({
               onCommentDeleted={onCommentChange}
             />
           )}
-
         </div>
       </div>
     </div>
