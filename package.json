@@ -5,7 +5,8 @@
   "scripts": {
     "start": "concurrently \"npm run start --prefix server\" \"npm run start --prefix client\"",
     "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
-    "install-all": "npm install && npm install --prefix server && npm install --prefix client"
+    "install-all": "npm install && npm install --prefix server && npm install --prefix client",
+    "format": "concurrently \"npm run format --prefix server\" \"npm run format --prefix client\""
   },
   "repository": {
     "type": "git",
