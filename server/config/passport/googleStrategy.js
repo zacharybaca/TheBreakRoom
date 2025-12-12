@@ -10,18 +10,32 @@ passport.use(
       callbackURL: `${process.env.SERVER_URL}/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
-      const { email, name } = extractGoogleProfile(profile);
+      try {
+        const { email, name } = extractGoogleProfile(profile);
 
-      let user = await User.findOne({ email });
-      if (!user) {
-        user = await User.create({
-          email,
-          username: name,
-          provider: "google",
-        });
+        // 1. Check if user already exists
+        let user = await User.findOne({ email });
+
+        if (!user) {
+          // 2. Handle Username Uniqueness
+          // If "John Doe" exists, make this one "John Doe 1234"
+          let newUsername = name;
+          const userExists = await User.findOne({ username: newUsername });
+          if (userExists) {
+            newUsername += ` ${Math.floor(Math.random() * 10000)}`;
+          }
+
+          user = await User.create({
+            email,
+            username: newUsername,
+            provider: "google",
+          });
+        }
+
+        return done(null, user);
+      } catch (err) {
+        return done(err, null);
       }
-
-      return done(null, user);
     },
   ),
 );
