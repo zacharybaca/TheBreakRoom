@@ -12,10 +12,8 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
   const { fetcher } = useFetcher();
   const { user } = useAuth();
 
-  // 1. Fetch Comments on Mount
   useEffect(() => {
     const fetchComments = async () => {
-      // Use the route: GET /api/comments/:postId
       const { success, data } = await fetcher(`/api/comments/${postId}`);
       if (success && data.comments) {
         setComments(data.comments);
@@ -26,14 +24,9 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
     if (postId) fetchComments();
   }, [postId]);
 
-  // 2. Add Comment
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newComment.trim()) return;
-
-    // Optimistic Update (Optional, but makes it feel snappy)
-    // We can't do full optimistic UI easily because we need the Author ID/Avatar populated
-    // So we'll rely on the API response which returns the populated comment.
 
     const { success, comment } = await fetcher('/api/comments', {
       method: 'POST',
@@ -42,19 +35,17 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
     });
 
     if (success) {
-      setComments([...comments, comment]); // Add to bottom of list
+      setComments([...comments, comment]);
       setNewComment('');
-      if (onCommentAdded) onCommentAdded(); // Notify parent to update count
+      if (onCommentAdded) onCommentAdded();
     } else {
-      alert('Failed to post comment.');
+      alert("Failed to post comment.");
     }
   };
 
-  // 3. Delete Comment
   const handleDelete = async (commentId) => {
-    if (!window.confirm('Delete this comment?')) return;
+    if (!window.confirm("Delete this comment?")) return;
 
-    // Optimistic Remove
     const prevComments = [...comments];
     setComments(comments.filter((c) => c._id !== commentId));
 
@@ -63,79 +54,54 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
     });
 
     if (success) {
-      if (onCommentDeleted) onCommentDeleted(); // Notify parent to update count
+      if (onCommentDeleted) onCommentDeleted();
     } else {
-      alert('Failed to delete.');
-      setComments(prevComments); // Revert
+      alert("Failed to delete.");
+      setComments(prevComments);
     }
   };
 
-  if (isLoading)
-    return (
-      <div style={{ padding: '10px', fontSize: '0.9rem' }}>
-        Loading comments...
-      </div>
-    );
+  if (isLoading) return <div style={{ padding: '10px', fontSize: '0.9rem', fontStyle: 'italic', color: '#666' }}>Loading thoughts...</div>;
 
   return (
     <div className="comment-section">
-      {/* Input Area */}
-      <form className="comment-input-wrapper" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          className="comment-input"
-          placeholder="Write a comment..."
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-        />
-        <button
-          type="submit"
-          className="comment-submit-btn"
-          disabled={!newComment.trim()}
-        >
-          Post
-        </button>
-      </form>
-
       {/* List Area */}
       <div className="comment-list">
         {comments.length === 0 && (
-          <p style={{ color: '#999', fontSize: '0.9rem', textAlign: 'center' }}>
-            No comments yet. Be the first!
+          <p style={{ color: '#777', fontSize: '0.9rem', textAlign: 'center', fontStyle: 'italic', marginBottom: '15px' }}>
+            No notes here yet. Add one below!
           </p>
         )}
 
         {comments.map((comment) => {
-          // Check if current user owns this comment
-          const isOwner =
-            user?._id === comment.authorId?._id || user?.role === 'admin';
+          const isOwner = user?._id === comment.authorId?._id || user?.role === 'admin';
+
+          // Robust Avatar URL handling
+          let avatarSrc = null;
+          if (comment.authorId?.avatarUrl) {
+            avatarSrc = comment.authorId.avatarUrl.startsWith('http')
+              ? comment.authorId.avatarUrl
+              : `${import.meta.env.VITE_BACKEND_URL}${comment.authorId.avatarUrl}`;
+          }
 
           return (
             <div key={comment._id} className="comment-item">
-              {/* Avatar */}
-              {comment.authorId?.avatarUrl ? (
+              {avatarSrc ? (
                 <img
-                  src={
-                    comment.authorId.avatarUrl.startsWith('http')
-                      ? comment.authorId.avatarUrl
-                      : `${import.meta.env.VITE_BACKEND_URL}${comment.authorId.avatarUrl}`
-                  }
+                  src={avatarSrc}
                   alt="Avatar"
                   className="comment-avatar"
+                  onError={(e) => { e.target.style.display = 'none'; }} // Hide if broken
                 />
               ) : (
-                <FaUserCircle
-                  className="comment-avatar"
-                  style={{ padding: '2px', color: '#ccc' }}
-                />
+                <FaUserCircle className="comment-avatar" style={{ padding: '2px', color: '#888', background: 'transparent', border: 'none' }} />
               )}
 
-              {/* Bubble */}
               <div className="comment-bubble">
                 <div className="comment-header">
                   <div>
                     <span className="comment-author">
-                      {comment.authorId?.name || 'Unknown'}
+                      {comment.authorId?.name || "Unknown"}
                     </span>
                     {comment.authorId?.job && (
                       <span className="comment-job">
@@ -161,6 +127,24 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
           );
         })}
       </div>
+
+      {/* Input Area (Moved to bottom for better flow) */}
+      <form className="comment-input-wrapper" onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
+        <input
+          type="text"
+          className="comment-input"
+          placeholder="Write a reply..."
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+        />
+        <button
+          type="submit"
+          className="comment-submit-btn"
+          disabled={!newComment.trim()}
+        >
+          Post
+        </button>
+      </form>
     </div>
   );
 };
