@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import './message-card.css';
-import { FaRegCommentDots, FaUserCircle, FaHeart, FaTrash, FaFlag } from 'react-icons/fa';
+import {
+  FaRegCommentDots,
+  FaUserCircle,
+  FaHeart,
+  FaTrash,
+  FaFlag,
+} from 'react-icons/fa';
 import CommentSection from '../CommentSection/CommentSection';
 
 const MessageCard = ({
@@ -14,7 +20,7 @@ const MessageCard = ({
   isOwner,
   onDelete,
   onReport,
-  onCommentChange
+  onCommentChange,
 }) => {
   const [showComments, setShowComments] = useState(false);
 
@@ -34,7 +40,6 @@ const MessageCard = ({
         style={{ '--tilt': `${cardTilt}deg` }}
       >
         <div className="message-card-content">
-
           {/* 1. Header: Clean Font (Poppins) */}
           <div className="card-header">
             <span className="user-info">
@@ -67,9 +72,7 @@ const MessageCard = ({
           </div>
 
           {/* 2. Body: Handwriting Font (Indie Flower) */}
-          <div className="card-body">
-            {message}
-          </div>
+          <div className="card-body">{message}</div>
 
           {/* 3. Footer: Stats & Toggles */}
           <div className="message-card-footer">
@@ -96,7 +99,6 @@ const MessageCard = ({
               onCommentDeleted={onCommentChange}
             />
           )}
-
         </div>
       </div>
     </div>

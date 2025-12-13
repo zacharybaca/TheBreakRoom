@@ -10,9 +10,9 @@
 
   /* THE NEW LOOK: Frosted White Glass */
   /* Matches the Login Card vibe but slightly more transparent */
-  background: rgba(255, 255, 255, 0.85); 
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px); /* Blurs the background image behind it */
-  
+
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* Soft, deep shadow */
@@ -44,7 +44,7 @@
   background: #fff;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Lifts the composer slightly */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Lifts the composer slightly */
 }
 
 .nf-input {
@@ -54,12 +54,12 @@
   border: 2px solid #edf2f7;
   border-radius: 8px;
   color: #2d3748;
-  
+
   /* Typography */
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  
+
   resize: vertical;
   min-height: 100px;
   box-sizing: border-box;
@@ -98,7 +98,7 @@
     width: 95%;
     padding: 20px;
   }
-  
+
   .nf-header h1 {
     font-size: 1.6rem;
   }

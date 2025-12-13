@@ -39,12 +39,12 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
       setNewComment('');
       if (onCommentAdded) onCommentAdded();
     } else {
-      alert("Failed to post comment.");
+      alert('Failed to post comment.');
     }
   };
 
   const handleDelete = async (commentId) => {
-    if (!window.confirm("Delete this comment?")) return;
+    if (!window.confirm('Delete this comment?')) return;
 
     const prevComments = [...comments];
     setComments(comments.filter((c) => c._id !== commentId));
@@ -56,25 +56,46 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
     if (success) {
       if (onCommentDeleted) onCommentDeleted();
     } else {
-      alert("Failed to delete.");
+      alert('Failed to delete.');
       setComments(prevComments);
     }
   };
 
-  if (isLoading) return <div style={{ padding: '10px', fontSize: '0.9rem', fontStyle: 'italic', color: '#666' }}>Loading thoughts...</div>;
+  if (isLoading)
+    return (
+      <div
+        style={{
+          padding: '10px',
+          fontSize: '0.9rem',
+          fontStyle: 'italic',
+          color: '#666',
+        }}
+      >
+        Loading thoughts...
+      </div>
+    );
 
   return (
     <div className="comment-section">
       {/* List Area */}
       <div className="comment-list">
         {comments.length === 0 && (
-          <p style={{ color: '#777', fontSize: '0.9rem', textAlign: 'center', fontStyle: 'italic', marginBottom: '15px' }}>
+          <p
+            style={{
+              color: '#777',
+              fontSize: '0.9rem',
+              textAlign: 'center',
+              fontStyle: 'italic',
+              marginBottom: '15px',
+            }}
+          >
             No notes here yet. Add one below!
           </p>
         )}
 
         {comments.map((comment) => {
-          const isOwner = user?._id === comment.authorId?._id || user?.role === 'admin';
+          const isOwner =
+            user?._id === comment.authorId?._id || user?.role === 'admin';
 
           // Robust Avatar URL handling
           let avatarSrc = null;
@@ -91,17 +112,27 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
                   src={avatarSrc}
                   alt="Avatar"
                   className="comment-avatar"
-                  onError={(e) => { e.target.style.display = 'none'; }} // Hide if broken
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }} // Hide if broken
                 />
               ) : (
-                <FaUserCircle className="comment-avatar" style={{ padding: '2px', color: '#888', background: 'transparent', border: 'none' }} />
+                <FaUserCircle
+                  className="comment-avatar"
+                  style={{
+                    padding: '2px',
+                    color: '#888',
+                    background: 'transparent',
+                    border: 'none',
+                  }}
+                />
               )}
 
               <div className="comment-bubble">
                 <div className="comment-header">
                   <div>
                     <span className="comment-author">
-                      {comment.authorId?.name || "Unknown"}
+                      {comment.authorId?.name || 'Unknown'}
                     </span>
                     {comment.authorId?.job && (
                       <span className="comment-job">
@@ -129,7 +160,11 @@ const CommentSection = ({ postId, onCommentAdded, onCommentDeleted }) => {
       </div>
 
       {/* Input Area (Moved to bottom for better flow) */}
-      <form className="comment-input-wrapper" onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
+      <form
+        className="comment-input-wrapper"
+        onSubmit={handleSubmit}
+        style={{ marginTop: '20px' }}
+      >
         <input
           type="text"
           className="comment-input"

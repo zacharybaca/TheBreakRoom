@@ -8,7 +8,7 @@ passport.use(
       clientID: process.env.APPLE_CLIENT_ID,
       teamID: process.env.APPLE_TEAM_ID,
       keyID: process.env.APPLE_KEY_ID,
-      privateKeyString: process.env.APPLE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Common fix for ENV newlines
+      privateKeyString: process.env.APPLE_PRIVATE_KEY.replace(/\\n/g, "\n"), // Common fix for ENV newlines
       callbackURL: `${process.env.SERVER_URL}/auth/apple/callback`,
       passReqToCallback: true, // Important for Apple to get the POST body
     },
@@ -19,7 +19,7 @@ passport.use(
         const email = profile?.email || idToken?.email;
 
         if (!email) {
-           return done(new Error("No email found from Apple"), null);
+          return done(new Error("No email found from Apple"), null);
         }
 
         let user = await User.findOne({ email });

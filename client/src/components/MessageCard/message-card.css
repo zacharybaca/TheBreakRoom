@@ -19,7 +19,9 @@
   background-image: linear-gradient(135deg, #fffdf0 0%, #fef9c7 100%);
 
   border-radius: 4px; /* Sticky notes don't have large rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0,0,0,0.1); /* Realistic paper shadow */
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.1); /* Realistic paper shadow */
 
   /* Rotation logic */
   transform: rotate(var(--tilt, 0deg));
@@ -33,7 +35,9 @@
 /* Hover Effect: Lifts the paper up */
 .message-card:hover {
   transform: rotate(0deg) scale(1.02) !important;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
   z-index: 10; /* Brings it to front */
 }
 
@@ -52,7 +56,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 15px;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   padding-bottom: 8px;
 }
 
@@ -109,18 +113,26 @@
   transform: scale(1.15);
 }
 
-.report-btn { color: #a0aec0; }
-.report-btn:hover { color: #e53e3e; }
+.report-btn {
+  color: #a0aec0;
+}
+.report-btn:hover {
+  color: #e53e3e;
+}
 
-.delete-btn { color: #e53e3e; opacity: 0.7; }
-.delete-btn:hover { opacity: 1; }
-
+.delete-btn {
+  color: #e53e3e;
+  opacity: 0.7;
+}
+.delete-btn:hover {
+  opacity: 1;
+}
 
 /* --- Footer --- */
 .message-card-footer {
   margin-top: auto; /* Pushes footer to bottom */
   padding-top: 10px;
-  border-top: 1px dashed rgba(0,0,0,0.1); /* Perforated look */
+  border-top: 1px dashed rgba(0, 0, 0, 0.1); /* Perforated look */
   display: flex;
   gap: 20px;
   font-family: 'Poppins', sans-serif; /* Back to clean font for numbers */
@@ -160,5 +172,10 @@
 }
 
 /* Pin Assets - Ensure these paths match your folder */
-.message-card.pushpin::before { background-image: url('/assets/pushpin.png'); width: 24px; height: 24px; top: -10px; }
+.message-card.pushpin::before {
+  background-image: url('/assets/pushpin.png');
+  width: 24px;
+  height: 24px;
+  top: -10px;
+}
 /* ... (Keep your other pin styles here) ... */

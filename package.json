@@ -22,6 +22,6 @@
   "author": "Zachary Baca",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^9.0.0"
+    "concurrently": "^9.2.1"
   }
 }

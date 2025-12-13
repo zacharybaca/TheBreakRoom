@@ -83,7 +83,8 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 0.85rem;
 }
-.divider::before, .divider::after {
+.divider::before,
+.divider::after {
   content: '';
   flex: 1;
   border-bottom: 1px solid #e2e8f0;
@@ -106,7 +107,8 @@
   width: 100%;
 }
 
-.google-btn, .apple-btn {
+.google-btn,
+.apple-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,11 +125,13 @@
   transition: background-color 0.2s;
 }
 
-.google-btn:hover, .apple-btn:hover {
+.google-btn:hover,
+.apple-btn:hover {
   background-color: #f7fafc;
 }
 
-.google-btn img, .apple-btn img {
+.google-btn img,
+.apple-btn img {
   width: 20px;
   height: 20px;
   margin-right: 10px;

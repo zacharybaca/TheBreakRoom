@@ -14,7 +14,10 @@ import { sendEmailTest } from "../utils/mail/sendEmailTest.js";
 import { protect } from "../middleware/authMiddleware.js";
 
 // --- UPDATED IMPORT ---
-import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../utils/generateToken.js";
 
 const router = express.Router();
 
@@ -54,13 +57,16 @@ router.get(
     });
 
     // 3. Redirect to Frontend with Access Token only
-    res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${accessToken}`);
+    res.redirect(
+      `${process.env.CLIENT_URL}/oauth-success?token=${accessToken}`,
+    );
   },
 );
 
 router.get("/apple", passport.authenticate("apple"));
 
-router.post( // Apple uses POST
+router.post(
+  // Apple uses POST
   "/apple/callback",
   passport.authenticate("apple", { session: false }),
   async (req, res) => {
@@ -74,7 +80,9 @@ router.post( // Apple uses POST
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${accessToken}`);
+    res.redirect(
+      `${process.env.CLIENT_URL}/oauth-success?token=${accessToken}`,
+    );
   },
 );
 
