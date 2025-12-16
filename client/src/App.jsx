@@ -23,18 +23,7 @@ function App() {
     <div id="main-app-container">
       <NavBar />
 
-      {/* --- NEW HERO SECTION START --- */}
-      {!isAuthenticated ? (
-        <div className="hero-banner">
-          <div className="hero-content">
-            <h1>The Breakroom</h1>
-            <p>Welcome to The Breakroom — Now Online</p>
-          </div>
-        </div>
-      ) : (
-        ''
-      )}
-      {/* --- NEW HERO SECTION END --- */}
+      {/* The Hero Banner is now handled inside the Login component itself */}
 
       <main id="content">
         <Routes>
