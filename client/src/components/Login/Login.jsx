@@ -47,7 +47,6 @@ const Login = () => {
 
   return (
     <div className="split-screen-container">
-
       {/* LEFT SIDE: Visual Branding */}
       <div className="split-brand-side">
         <div className="brand-content">
@@ -74,7 +73,6 @@ const Login = () => {
       {/* RIGHT SIDE: The Login Form */}
       <div className="split-form-side">
         <div className="form-container">
-
           <div className="form-header">
             <h1>Welcome Back</h1>
             <h2>Log in to start chatting</h2>
@@ -123,7 +121,9 @@ const Login = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
-                aria-invalid={formik.touched.password && !!formik.errors.password}
+                aria-invalid={
+                  formik.touched.password && !!formik.errors.password
+                }
               />
               {formik.touched.password && formik.errors.password && (
                 <p id="password-error" className="error-text">
