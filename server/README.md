@@ -30,7 +30,6 @@ The backend server for Nine2Five, a social platform designed for workers in reta
 - [Project Structure](#project-structure)
 - [Deployment](#deployment)
 - [Notes for Frontend Integration](#notes-for-frontend-integration)
-- [Future Enhancements](#future-enhancements)
 
 ## Features
 
@@ -149,11 +148,12 @@ Ensure you have the following installed on your machine:
 
 ## **2. Auth Routes (`/api/auth`)**
 
-| Method | Endpoint    | Description       | Access  | Request Body                                          | Response                                 |
-| ------ | ----------- | ----------------- | ------- | ----------------------------------------------------- | ---------------------------------------- |
-| POST   | `/login`    | Login user        | Public  | JSON: `{ username, password }`                        | JWT token and user info                  |
-| POST   | `/register` | Register new user | Public  | JSON: `{ username, password, name, avatarUrl?, job }` | Created user object + token              |
-| POST   | `/logout`   | Logout user       | Private | None                                                  | `{ message: "Logged out successfully" }` |
+| Method | Endpoint    | Description          | Access  | Request Body                                          | Response                                 |
+| ------ | ----------- | -----------------    | ------- | ----------------------------------------------------- | ---------------------------------------- |
+| POST   | `/login`    | Login user           | Public  | JSON: `{ username, password }`                        | { accessToken, user }                    |
+| POST   | `/register` | Register new user    | Public  | JSON: `{ username, password, name, avatarUrl?, job }` | { accessToken, user }                    |
+| POST   | `/logout`   | Logout user          | Private | None                                                  | `{ message: "Logged out successfully" }` |
+| GET    | `/refresh`  | Refresh Access Token | Private | (Cookie)                                              | {accessToken}                            |
 
 ---
 
@@ -281,13 +281,20 @@ Ensure you have the following installed on your machine:
 - Structure of How Project File System is Set Up
 
 ```bash
-software-bug-tracker/
-├── client/               # Frontend (React with Vite)
+TheBreakRoom/
+├── client/               # Frontend (React + Vite)
+│   ├── src/
+│   │   ├── components/   # UI Components (MessageCard, etc.)
+│   │   ├── contexts/     # State (Auth, Fetcher)
+│   │   └── hooks/        # Custom Hooks
+│   └── package.json
 ├── server/               # Backend (Node.js + Express)
-├── models/               # Mongoose schemas for tasks and employees
-├── routes/               # API route definitions
-├── utils/                # Helper functions and middlewares
-└── README.md             # Project documentation
+│   ├── controllers/      # Route logic
+│   ├── models/           # Mongoose schemas (User, Post, Job)
+│   ├── routes/           # API Endpoints
+│   ├── emails/           # React Email Templates
+│   └── index.js          # Entry point
+└── package.json          # Root scripts (Concurrently)
 ```
 
 ## Deployment
@@ -313,11 +320,9 @@ software-bug-tracker/
 11. Reactions are one per user per post (upserted).
 12. Breakrooms allow multiple memberships per user (users can join more than one).
 13. Jobs link users with their profession and can be tied to Breakrooms for auto-suggestions.
+14. Rate Limiting: If the API returns a 429 status code, the user is sending too many requests (Login/Register). Display a "Please wait 15 minutes" message.
+15. Job Normalization: Send the job title as a simple string (e.g., "Cashier"). The backend handles capitalization and ID linking automatically.
+16. Soft Deletes: When a post is deleted, the backend sets isDeleted: true. The frontend should optimistically remove the post from the UI immediately.
+17. Reaction Counts: The Post object contains a reactionCounts object (e.g., { like: 5, love: 2 }). Sum these values on the client side to display the total.
 
 ---
-
-## Future Enhancements
-
-- Email Notifications: Notify users when tasks are assigned or updated.
-- Priority and due date filters.
-- Better chatbot NLP and response context.
