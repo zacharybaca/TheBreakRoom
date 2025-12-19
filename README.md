@@ -323,10 +323,3 @@ software-bug-tracker/
 13. Jobs link users with their profession and can be tied to Breakrooms for auto-suggestions.
 
 ---
-
-## Future Enhancements
-
-- Email Notifications: Notify users when tasks are assigned or updated.
-- Priority and due date filters.
-- Better chatbot NLP and response context.
-
