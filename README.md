@@ -28,7 +28,6 @@ The backend server for The Breakroom, a social platform designed for workers in 
 - [Project Structure](#project-structure)
 - [Deployment](#deployment)
 - [Notes for Frontend Integration](#notes-for-frontend-integration)
-- [Future Enhancements](#future-enhancements)
 
 ## Features
 
