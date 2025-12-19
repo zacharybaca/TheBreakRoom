@@ -3,39 +3,38 @@
 /* 1. The Feed Container */
 #news-feed {
   width: 100%;
-  max-width: 720px; /* Slightly wider for better readability */
+  max-width: 720px;
   padding: 30px;
   margin: 0 auto;
   box-sizing: border-box;
 
-  /* THE NEW LOOK: Frosted White Glass */
-  /* Matches the Login Card vibe but slightly more transparent */
+  /* Frosted White Glass */
   background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px); /* Blurs the background image behind it */
+  backdrop-filter: blur(12px);
 
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* Soft, deep shadow */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 /* 2. Header */
 .nf-header {
   text-align: center;
   margin-bottom: 30px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.05); /* Subtle divider */
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
   padding-bottom: 15px;
 }
 
 .nf-header h1 {
-  font-family: 'Poppins', sans-serif; /* Consistent Font */
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
   font-size: 2rem;
-  color: #2d3748; /* Dark slate text (not pure black) */
+  color: #2d3748;
   margin: 0;
   letter-spacing: -0.5px;
 }
 
-/* 3. Composer Section (The Text Area) */
+/* 3. Composer Section */
 .nf-composer {
   display: flex;
   flex-direction: column;
@@ -44,52 +43,58 @@
   background: #fff;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Lifts the composer slightly */
-}
-
-.nf-input {
-  width: 100%;
-  padding: 16px;
-  background: #f8fafc; /* Very light slate background */
-  border: 2px solid #edf2f7;
-  border-radius: 8px;
-  color: #2d3748;
-
-  /* Typography */
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1rem;
-  line-height: 1.5;
-
-  resize: vertical;
-  min-height: 100px;
-  box-sizing: border-box;
-  transition: all 0.2s ease;
-}
-
-.nf-input::placeholder {
-  color: #a0aec0;
-}
-
-.nf-input:focus {
-  outline: none;
-  background: #fff;
-  border-color: #667eea; /* Matches your Indigo brand color */
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* 4. Submit Button Positioning */
 .nf-submit {
   align-self: flex-end;
   min-width: 120px;
-  /* Note: The actual colors are handled by your ReusableStyledButton CSS */
 }
 
 /* 5. The List */
 .nf-list {
   display: flex;
   flex-direction: column;
-  gap: 25px; /* Nice breathing room between posts */
+  gap: 25px;
   padding-bottom: 20px;
+}
+
+/* --- QUILL EDITOR CUSTOMIZATION --- */
+
+.quill-wrapper {
+  background: #f8fafc; /* Match your old input background */
+  border-radius: 8px;
+  border: 2px solid #edf2f7;
+  overflow: hidden; /* Keeps the toolbar inside the radius */
+  transition: all 0.2s ease;
+}
+
+.quill-wrapper:focus-within {
+  background: #fff;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+/* The Toolbar (Top part) */
+.ql-toolbar.ql-snow {
+  border: none !important;
+  background: #edf2f7;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* The Input Area (Bottom part) */
+.ql-container.ql-snow {
+  border: none !important;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  min-height: 120px;
+}
+
+/* Placeholder styling */
+.ql-editor.ql-blank::before {
+  color: #a0aec0;
+  font-style: normal;
 }
 
 /* Mobile Responsiveness */
