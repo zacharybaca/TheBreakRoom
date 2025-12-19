@@ -1,16 +1,8 @@
-import { useState } from 'react';
 import './message-card.css';
-import {
-  FaRegCommentDots,
-  FaUserCircle,
-  FaHeart,
-  FaTrash,
-  FaFlag,
-} from 'react-icons/fa';
-import CommentSection from '../CommentSection/CommentSection';
+import { FaRegCommentDots, FaUserCircle, FaHeart, FaTrash } from 'react-icons/fa';
+import DOMPurify from 'dompurify'; // Make sure this is installed!
 
 const MessageCard = ({
-  postId,
   sender,
   message,
   attachment,
@@ -18,15 +10,12 @@ const MessageCard = ({
   reactionCounts,
   commentCount,
   isOwner,
-  onDelete,
-  onReport,
-  onCommentChange,
+  onDelete
 }) => {
-  const [showComments, setShowComments] = useState(false);
-
-  // Default tilt if none provided
+  // 1. Calculate random tilt if not provided
   const cardTilt = tilt ?? (Math.random() * 4 - 2).toFixed(2);
 
+  // 2. Helper: Sum up all reaction types
   const totalReactions = reactionCounts
     ? Object.values(reactionCounts).reduce((sum, count) => sum + count, 0)
     : 0;
@@ -37,68 +26,62 @@ const MessageCard = ({
     <div className="message-card-wrapper">
       <div
         className={`message-card ${attachment || 'pushpin'}`}
+        // We set a CSS variable here instead of a direct transform
         style={{ '--tilt': `${cardTilt}deg` }}
       >
         <div className="message-card-content">
-          {/* 1. Header: Clean Font (Poppins) */}
-          <div className="card-header">
-            <span className="user-info">
+
+          {/* Header: Sender & Delete Button */}
+          <h3 className="message-font-alt-style info-line item">
+            <span style={{ display: 'flex', alignItems: 'center' }}>
               <FaUserCircle className="card-icon" />
               <span>
-                <span className="info-text-title">From:</span>
-                {sender}
+                <span className="info-text-title">From:</span> {sender}
               </span>
             </span>
 
-            <div className="action-btn-group">
+            {/* Delete Button (Only visible if isOwner is true) */}
+            {isOwner && (
               <button
-                onClick={onReport}
-                className="action-btn report-btn"
-                title="Report this post"
+                onClick={onDelete}
+                className="delete-btn"
+                title="Delete Post"
               >
-                <FaFlag />
+                <FaTrash />
               </button>
+            )}
+          </h3>
 
-              {isOwner && (
-                <button
-                  onClick={onDelete}
-                  className="action-btn delete-btn"
-                  title="Delete Post"
-                >
-                  <FaTrash />
-                </button>
-              )}
-            </div>
+          {/* Body: Message */}
+          <div className="info-text info-line item" style={{ flexGrow: 1 }}>
+            <FaRegCommentDots className="card-icon" style={{ marginTop: '4px' }} />
+            <span>
+              <span className="info-text-title">Message: </span>
+
+              {/* RENDER HTML SAFELY */}
+              {/* This div allows bold/italic tags to display correctly */}
+              <div
+                  dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(message)
+                  }}
+                  style={{ display: 'inline-block' }}
+              />
+            </span>
           </div>
 
-          {/* 2. Body: Handwriting Font (Indie Flower) */}
-          <div className="card-body">{message}</div>
-
-          {/* 3. Footer: Stats & Toggles */}
+          {/* Footer: Stats (Likes & Comments) */}
           <div className="message-card-footer">
-            <span className="stat-item" title="Total Reactions">
-              <FaHeart style={{ color: '#e0245e' }} />
+            <span title="Total Reactions">
+              <FaHeart className="stat-icon" style={{ color: '#e0245e' }} />
               {totalReactions}
             </span>
 
-            <span
-              className="stat-item"
-              title="Toggle Comments"
-              onClick={() => setShowComments(!showComments)}
-            >
-              <FaRegCommentDots style={{ color: '#1da1f2' }} />
-              {totalComments} Comments
+            <span title="Comments">
+              <FaRegCommentDots className="stat-icon" style={{ color: '#1da1f2' }} />
+              {totalComments}
             </span>
           </div>
 
-          {/* 4. Comments Section */}
-          {showComments && (
-            <CommentSection
-              postId={postId}
-              onCommentAdded={onCommentChange}
-              onCommentDeleted={onCommentChange}
-            />
-          )}
         </div>
       </div>
     </div>
