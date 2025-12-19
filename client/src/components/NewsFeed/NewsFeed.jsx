@@ -1,4 +1,8 @@
 import { useState, useEffect } from 'react';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
+import DOMPurify from 'dompurify'; // Import Sanitizer
+
 import './news-feed.css';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton';
 import MessageCard from '../MessageCard/MessageCard';
@@ -28,11 +32,17 @@ const NewsFeed = () => {
   // 2. Handle Creating a New Post
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-    if (!newPostContent.trim()) return;
+
+    // Check if empty (Quill leaves HTML tags like <p><br></p> even when empty)
+    // We strip tags to check if there is real text.
+    if (!newPostContent.replace(/<(.|\n)*?>/g, '').trim()) return;
+
+    // Sanitize before sending to backend (Extra layer of safety)
+    const cleanContent = DOMPurify.sanitize(newPostContent);
 
     const { success, data } = await fetcher('/api/posts', {
       method: 'POST',
-      body: JSON.stringify({ content: newPostContent }),
+      body: JSON.stringify({ content: cleanContent }),
       headers: { 'Content-Type': 'application/json' },
     });
 
@@ -85,11 +95,17 @@ const NewsFeed = () => {
   };
 
   // 5. Handle Comment Count Update (Live Refresh)
-  // This allows the "5 comments" number to update when you add a comment
   const handleCommentChange = (postId, newCount) => {
-    // Optional optimization: If you want to be super precise, you can update the specific post in the state
-    // For now, even just triggering a re-fetch or doing nothing is fine,
-    // but passing a callback prevents errors if MessageCard tries to call it.
+    // Optional: Add logic here to update the post count in state if needed
+  };
+
+  // Quill Toolbar Configuration
+  const modules = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['clean']
+    ],
   };
 
   return (
@@ -100,12 +116,17 @@ const NewsFeed = () => {
 
       {/* Composer Section */}
       <section className="nf-composer">
-        <textarea
-          className="nf-input"
-          placeholder="Share an update..."
-          value={newPostContent}
-          onChange={(e) => setNewPostContent(e.target.value)}
-        />
+        <div className="quill-wrapper">
+            <ReactQuill
+                theme="snow"
+                value={newPostContent}
+                onChange={setNewPostContent}
+                modules={modules}
+                placeholder="Share an update..."
+                className="nf-editor"
+            />
+        </div>
+
         <ReusableStyledButton
           title="Post"
           type="submit"
@@ -124,7 +145,7 @@ const NewsFeed = () => {
           posts.map((post) => (
             <MessageCard
               key={post._id}
-              postId={post._id} // <--- CRITICAL: ADDED THIS LINE
+              postId={post._id}
               // Data Props
               sender={post.authorId?.name || 'Unknown Worker'}
               message={post.content}
@@ -134,9 +155,7 @@ const NewsFeed = () => {
               isOwner={user?._id === post.authorId?._id}
               onDelete={() => handleDeletePost(post._id)}
               onReport={() => handleReport(post._id)}
-              onCommentChange={() => {
-                /* Optional refresh logic */
-              }}
+              onCommentChange={handleCommentChange}
             />
           ))
         )}
