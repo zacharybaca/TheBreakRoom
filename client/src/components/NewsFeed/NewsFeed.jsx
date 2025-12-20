@@ -103,8 +103,8 @@ const NewsFeed = () => {
   const modules = {
     toolbar: [
       ['bold', 'italic', 'underline'],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      ['clean']
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['clean'],
     ],
   };
 
@@ -117,14 +117,14 @@ const NewsFeed = () => {
       {/* Composer Section */}
       <section className="nf-composer">
         <div className="quill-wrapper">
-            <ReactQuill
-                theme="snow"
-                value={newPostContent}
-                onChange={setNewPostContent}
-                modules={modules}
-                placeholder="Share an update..."
-                className="nf-editor"
-            />
+          <ReactQuill
+            theme="snow"
+            value={newPostContent}
+            onChange={setNewPostContent}
+            modules={modules}
+            placeholder="Share an update..."
+            className="nf-editor"
+          />
         </div>
 
         <ReusableStyledButton

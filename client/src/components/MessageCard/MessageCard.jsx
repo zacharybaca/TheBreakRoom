@@ -1,5 +1,10 @@
 import './message-card.css';
-import { FaRegCommentDots, FaUserCircle, FaHeart, FaTrash } from 'react-icons/fa';
+import {
+  FaRegCommentDots,
+  FaUserCircle,
+  FaHeart,
+  FaTrash,
+} from 'react-icons/fa';
 import DOMPurify from 'dompurify'; // Make sure this is installed!
 
 const MessageCard = ({
@@ -10,7 +15,7 @@ const MessageCard = ({
   reactionCounts,
   commentCount,
   isOwner,
-  onDelete
+  onDelete,
 }) => {
   // 1. Calculate random tilt if not provided
   const cardTilt = tilt ?? (Math.random() * 4 - 2).toFixed(2);
@@ -30,7 +35,6 @@ const MessageCard = ({
         style={{ '--tilt': `${cardTilt}deg` }}
       >
         <div className="message-card-content">
-
           {/* Header: Sender & Delete Button */}
           <h3 className="message-font-alt-style info-line item">
             <span style={{ display: 'flex', alignItems: 'center' }}>
@@ -54,17 +58,20 @@ const MessageCard = ({
 
           {/* Body: Message */}
           <div className="info-text info-line item" style={{ flexGrow: 1 }}>
-            <FaRegCommentDots className="card-icon" style={{ marginTop: '4px' }} />
+            <FaRegCommentDots
+              className="card-icon"
+              style={{ marginTop: '4px' }}
+            />
             <span>
               <span className="info-text-title">Message: </span>
 
               {/* RENDER HTML SAFELY */}
               {/* This div allows bold/italic tags to display correctly */}
               <div
-                  dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(message)
-                  }}
-                  style={{ display: 'inline-block' }}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(message),
+                }}
+                style={{ display: 'inline-block' }}
               />
             </span>
           </div>
@@ -77,11 +84,13 @@ const MessageCard = ({
             </span>
 
             <span title="Comments">
-              <FaRegCommentDots className="stat-icon" style={{ color: '#1da1f2' }} />
+              <FaRegCommentDots
+                className="stat-icon"
+                style={{ color: '#1da1f2' }}
+              />
               {totalComments}
             </span>
           </div>
-
         </div>
       </div>
     </div>

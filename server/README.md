@@ -149,7 +149,7 @@ Ensure you have the following installed on your machine:
 ## **2. Auth Routes (`/api/auth`)**
 
 | Method | Endpoint    | Description          | Access  | Request Body                                          | Response                                 |
-| ------ | ----------- | -----------------    | ------- | ----------------------------------------------------- | ---------------------------------------- |
+| ------ | ----------- | -------------------- | ------- | ----------------------------------------------------- | ---------------------------------------- |
 | POST   | `/login`    | Login user           | Public  | JSON: `{ username, password }`                        | { accessToken, user }                    |
 | POST   | `/register` | Register new user    | Public  | JSON: `{ username, password, name, avatarUrl?, job }` | { accessToken, user }                    |
 | POST   | `/logout`   | Logout user          | Private | None                                                  | `{ message: "Logged out successfully" }` |
