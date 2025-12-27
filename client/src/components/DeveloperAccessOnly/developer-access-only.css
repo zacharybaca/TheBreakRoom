@@ -2,104 +2,103 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Open+Sans&display=swap');
 
 .dao-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* Ensures it takes up substantial vertical space to sit nicely in the middle */
-    min-height: 70vh;
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Ensures it takes up substantial vertical space to sit nicely in the middle */
+  min-height: 70vh;
+  padding: 20px;
 }
 
 .dao-card {
-    /* --- THEME MATCHING --- */
-    /* Frosted Glass aesthetic matching NewsFeed */
-    background: rgba(255, 255, 255, 0.9); /* Slightly more opaque for emphasis */
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 24px;
-    box-shadow:
-        0 10px 40px rgba(0, 0, 0, 0.1), /* Deep shadow */
-        inset 0 0 20px rgba(255, 255, 255, 0.5); /* Inner glow */
+  /* --- THEME MATCHING --- */
+  /* Frosted Glass aesthetic matching NewsFeed */
+  background: rgba(255, 255, 255, 0.9); /* Slightly more opaque for emphasis */
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 24px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.1),
+    /* Deep shadow */ inset 0 0 20px rgba(255, 255, 255, 0.5); /* Inner glow */
 
-    /* Layout */
-    text-align: center;
-    padding: 50px 40px;
-    max-width: 550px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-    position: relative;
-    overflow: hidden;
+  /* Layout */
+  text-align: center;
+  padding: 50px 40px;
+  max-width: 550px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Optional: A subtle animated glow effect on hover */
 .dao-card.glow-on-hover:hover {
-    box-shadow:
-        0 15px 50px rgba(0, 0, 0, 0.15),
-        inset 0 0 30px rgba(255, 224, 102, 0.3); /* Subtle gold tint on hover */
-    border-color: rgba(255, 224, 102, 0.6);
-    transition: all 0.4s ease;
+  box-shadow:
+    0 15px 50px rgba(0, 0, 0, 0.15),
+    inset 0 0 30px rgba(255, 224, 102, 0.3); /* Subtle gold tint on hover */
+  border-color: rgba(255, 224, 102, 0.6);
+  transition: all 0.4s ease;
 }
 
-
 .dao-icon-wrapper {
-    /* Creates a circular background for the icon */
-    background: rgba(229, 62, 62, 0.1); /* Faint red background */
-    padding: 25px;
-    border-radius: 50%;
-    margin-bottom: 10px;
+  /* Creates a circular background for the icon */
+  background: rgba(229, 62, 62, 0.1); /* Faint red background */
+  padding: 25px;
+  border-radius: 50%;
+  margin-bottom: 10px;
 }
 
 .dao-icon {
-    /* A strong, professional "stop" red/crimson */
-    color: #c53030;
-    filter: drop-shadow(0 4px 6px rgba(197, 48, 48, 0.4));
+  /* A strong, professional "stop" red/crimson */
+  color: #c53030;
+  filter: drop-shadow(0 4px 6px rgba(197, 48, 48, 0.4));
 }
 
 .dao-card h1 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    /* Dark slate for strong contrast */
-    color: #1a202c;
-    margin: 0;
-    font-size: 2.2rem;
-    letter-spacing: -0.5px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  /* Dark slate for strong contrast */
+  color: #1a202c;
+  margin: 0;
+  font-size: 2.2rem;
+  letter-spacing: -0.5px;
 }
 
 .dao-card p {
-    font-family: 'Open Sans', sans-serif;
-    /* Slightly softer grey for readability */
-    color: #4a5568;
-    font-size: 1.15rem;
-    line-height: 1.7;
-    margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  /* Slightly softer grey for readability */
+  color: #4a5568;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin: 0;
 }
 
 /* Overriding styles for the reusable button within this context */
 .dao-button {
-    margin-top: 15px;
-    min-width: 180px;
-    font-size: 1.05rem;
+  margin-top: 15px;
+  min-width: 180px;
+  font-size: 1.05rem;
 }
 
 /* Responsive adjustments */
 @media screen and (max-width: 600px) {
-    .dao-card {
-        padding: 30px 20px;
-    }
+  .dao-card {
+    padding: 30px 20px;
+  }
 
-    .dao-card h1 {
-        font-size: 1.8rem;
-    }
+  .dao-card h1 {
+    font-size: 1.8rem;
+  }
 
-    .dao-card p {
-        font-size: 1rem;
-    }
+  .dao-card p {
+    font-size: 1rem;
+  }
 
-    .dao-icon {
-        width: 60px;
-        height: 60px;
-    }
+  .dao-icon {
+    width: 60px;
+    height: 60px;
+  }
 }

@@ -48,11 +48,7 @@ const ErrorModal = ({ errorStatement, errorIcon, onClose }) => {
       {/* Stop click propagation so clicking the card doesn't close it */}
       <div id="error-dialog-content" onClick={(e) => e.stopPropagation()}>
         <div id="error-title-container">
-          <img
-            src={finalIconSrc}
-            id="error-icon"
-            alt="Error icon"
-          />
+          <img src={finalIconSrc} id="error-icon" alt="Error icon" />
         </div>
 
         <h2 id="error-dialog-statement">

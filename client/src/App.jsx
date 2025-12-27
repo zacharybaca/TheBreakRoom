@@ -1,5 +1,11 @@
 import './App.css';
-import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import Login from './components/Login/Login.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import Footer from './components/Footer/Footer.jsx';
@@ -28,8 +34,8 @@ const ErrorRouteWrapper = () => {
 
   return (
     <ErrorModal
-      errorStatement={message || "Something went wrong!"}
-      errorIcon={icon || "/assets/error.png"}
+      errorStatement={message || 'Something went wrong!'}
+      errorIcon={icon || '/assets/error.png'}
       // 2. Critical: Navigate away when closed, don't just log to console
       onClose={() => navigate('/')}
     />

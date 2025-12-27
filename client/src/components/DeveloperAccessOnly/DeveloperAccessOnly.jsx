@@ -20,13 +20,14 @@ const DeveloperAccessOnly = () => {
         <p>
           Hold up! You don't have the required permissions to view this area.
           <br />
-          This part of the breakroom is reserved for administrators and developers only.
+          This part of the breakroom is reserved for administrators and
+          developers only.
         </p>
 
         <ReusableStyledButton
-            title="Go Back Home"
-            onClick={() => navigate('/')}
-            className="dao-button"
+          title="Go Back Home"
+          onClick={() => navigate('/')}
+          className="dao-button"
         />
       </div>
     </div>
