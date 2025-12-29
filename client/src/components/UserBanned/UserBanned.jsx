@@ -18,8 +18,14 @@ const UserBanned = () => {
         <h1>Account Suspended</h1>
 
         <p>
-          We're sorry, but your account has been suspended indefinitely due to a violation of our <a href="/terms" className="banned-link">Community Guidelines</a>.
-          <br /><br />
+          We're sorry, but your account has been suspended indefinitely due to a
+          violation of our{' '}
+          <a href="/terms" className="banned-link">
+            Community Guidelines
+          </a>
+          .
+          <br />
+          <br />
           You are currently unable to access The Breakroom.
         </p>
 

@@ -70,10 +70,10 @@
 }
 
 .estimated-time {
-    font-weight: 600;
-    color: #d69e2e;
-    display: block;
-    margin-top: 10px;
+  font-weight: 600;
+  color: #d69e2e;
+  display: block;
+  margin-top: 10px;
 }
 
 .maintenance-button {
@@ -86,15 +86,15 @@
 }
 
 .maintenance-button:hover {
-    background-color: #d69e2e !important;
-    transform: translateY(-2px);
+  background-color: #d69e2e !important;
+  transform: translateY(-2px);
 }
 
 .maintenance-sub-link {
-    background: none;
-    border: none;
-    color: #718096;
-    text-decoration: underline;
-    cursor: pointer;
-    font-size: 0.9rem;
+  background: none;
+  border: none;
+  color: #718096;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
