@@ -21,6 +21,7 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword.jsx';
 import OAuthSuccess from './components/OAuthSuccess/OAuthSuccess.jsx';
 import NewsFeed from './components/NewsFeed/NewsFeed.jsx';
 import DeveloperAccessOnly from './components/DeveloperAccessOnly/DeveloperAccessOnly.jsx';
+import PrivateProfileView from './components/PrivateProfileView/PrivateProfileView.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 // --- HELPER COMPONENT: ERROR ROUTE WRAPPER ---
@@ -105,6 +106,7 @@ function App() {
         /> */}
           <Route path="/chatroom" element={<ChatRoom />} />
           <Route path="/denied" element={<DeveloperAccessOnly />} />
+          <Route path="/private-profile" element={<PrivateProfileView />} />
         </Routes>
       </main>
       <Footer />
