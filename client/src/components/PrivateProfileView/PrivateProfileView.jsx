@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// Using Lucide-react as seen in your package.json
-import { ShieldBan } from 'lucide-react';
+// Switched to 'Lock' which implies privacy rather than a ban
+import { Lock } from 'lucide-react';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton';
 import './private-profile-view.css';
 
@@ -9,24 +9,28 @@ const PrivateProfileView = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="dao-container">
-      <div className="dao-card glow-on-hover">
-        <div className="dao-icon-wrapper">
-          <ShieldBan size={80} strokeWidth={1.5} className="dao-icon" />
+    <div className="ppv-container">
+      <div className="ppv-card glow-on-hover">
+        <div className="ppv-icon-wrapper">
+          <Lock size={80} strokeWidth={1.5} className="ppv-icon" />
         </div>
 
-        <h1>Restricted Profile</h1>
+        <h1>Profile Locked</h1>
 
         <p>
-          Sorry! The current user's profile you are trying to view is restricted or they are not apart of your network.
+          This user's profile is set to private.
           <br />
-          If you would like to view their profile, please send them a connection request.
+          To see their posts and updates, you need to be part of their network.
         </p>
+
+        {/* Future Feature Idea:
+           You could add a second button here: <ReusableStyledButton title="Connect" />
+        */}
 
         <ReusableStyledButton
           title="Go Back Home"
           onClick={() => navigate('/')}
-          className="dao-button"
+          className="ppv-button"
         />
       </div>
     </div>
