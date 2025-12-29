@@ -1,27 +1,25 @@
-/* Ensure the fonts used match the rest of your app */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Open+Sans&display=swap');
 
-.dao-container {
+.ppv-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Ensures it takes up substantial vertical space to sit nicely in the middle */
   min-height: 70vh;
   padding: 20px;
 }
 
-.dao-card {
-  /* --- THEME MATCHING --- */
-  /* Frosted Glass aesthetic matching NewsFeed */
-  background: rgba(255, 255, 255, 0.9); /* Slightly more opaque for emphasis */
+.ppv-card {
+  /* Glassmorphism Base */
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 24px;
-  box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.1),
-    /* Deep shadow */ inset 0 0 20px rgba(255, 255, 255, 0.5); /* Inner glow */
 
-  /* Layout */
+  /* Soft Blue Shadow instead of generic shadow */
+  box-shadow:
+    0 10px 40px rgba(66, 153, 225, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.5);
+
   text-align: center;
   padding: 50px 40px;
   max-width: 550px;
@@ -34,70 +32,67 @@
   overflow: hidden;
 }
 
-/* Optional: A subtle animated glow effect on hover */
-.dao-card.glow-on-hover:hover {
+/* Hover Effect: Soft Blue/Indigo Glow */
+.ppv-card.glow-on-hover:hover {
   box-shadow:
-    0 15px 50px rgba(0, 0, 0, 0.15),
-    inset 0 0 30px rgba(255, 224, 102, 0.3); /* Subtle gold tint on hover */
-  border-color: rgba(255, 224, 102, 0.6);
+    0 15px 50px rgba(66, 153, 225, 0.15),
+    inset 0 0 30px rgba(66, 153, 225, 0.1);
+  border-color: rgba(66, 153, 225, 0.4);
   transition: all 0.4s ease;
 }
 
-.dao-icon-wrapper {
-  /* Creates a circular background for the icon */
-  background: rgba(229, 62, 62, 0.1); /* Faint red background */
+.ppv-icon-wrapper {
+  /* Soft Blue Background for the icon circle */
+  background: rgba(66, 153, 225, 0.1);
   padding: 25px;
   border-radius: 50%;
   margin-bottom: 10px;
 }
 
-.dao-icon {
-  /* A strong, professional "stop" red/crimson */
-  color: #c53030;
-  filter: drop-shadow(0 4px 6px rgba(197, 48, 48, 0.4));
+.ppv-icon {
+  /* Privacy Blue Color */
+  color: #3182ce;
+  filter: drop-shadow(0 4px 6px rgba(49, 130, 206, 0.3));
 }
 
-.dao-card h1 {
+.ppv-card h1 {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  /* Dark slate for strong contrast */
-  color: #1a202c;
+  color: #2c5282; /* Darker blue-slate for text */
   margin: 0;
   font-size: 2.2rem;
   letter-spacing: -0.5px;
 }
 
-.dao-card p {
+.ppv-card p {
   font-family: 'Open Sans', sans-serif;
-  /* Slightly softer grey for readability */
   color: #4a5568;
   font-size: 1.15rem;
   line-height: 1.7;
   margin: 0;
 }
 
-/* Overriding styles for the reusable button within this context */
-.dao-button {
+.ppv-button {
   margin-top: 15px;
   min-width: 180px;
   font-size: 1.05rem;
 }
 
-/* Responsive adjustments */
+/* Mobile Responsiveness */
 @media screen and (max-width: 600px) {
-  .dao-card {
+  .ppv-card {
     padding: 30px 20px;
   }
 
-  .dao-card h1 {
+  .ppv-card h1 {
     font-size: 1.8rem;
   }
 
-  .dao-card p {
+  .ppv-card p {
     font-size: 1rem;
   }
 
-  .dao-icon {
+  .ppv-icon {
     width: 60px;
     height: 60px;
   }
