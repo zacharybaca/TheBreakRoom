@@ -22,6 +22,7 @@ import OAuthSuccess from './components/OAuthSuccess/OAuthSuccess.jsx';
 import NewsFeed from './components/NewsFeed/NewsFeed.jsx';
 import DeveloperAccessOnly from './components/DeveloperAccessOnly/DeveloperAccessOnly.jsx';
 import PrivateProfileView from './components/PrivateProfileView/PrivateProfileView.jsx';
+import UserBanned from './components/UserBanned/UserBanned.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
@@ -108,6 +109,7 @@ function App() {
           <Route path="/chatroom" element={<ChatRoom />} />
           <Route path="/denied" element={<DeveloperAccessOnly />} />
           <Route path="/private-profile" element={<PrivateProfileView />} />
+          <Route path="/banned" element={<UserBanned />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
