@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Open+Sans&display=swap');
+
+.banned-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 20px;
+}
+
+.banned-card {
+  /* Glassmorphism Base */
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 24px;
+
+  /* Deep Red Shadow for "Danger/Stop" */
+  box-shadow:
+    0 10px 40px rgba(229, 62, 62, 0.15),
+    inset 0 0 20px rgba(255, 255, 255, 0.5);
+
+  text-align: center;
+  padding: 50px 40px;
+  max-width: 550px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Effect: Red Glow */
+.banned-card.glow-on-hover:hover {
+  box-shadow:
+    0 15px 50px rgba(229, 62, 62, 0.25),
+    inset 0 0 30px rgba(229, 62, 62, 0.1);
+  border-color: rgba(229, 62, 62, 0.4);
+  transition: all 0.4s ease;
+}
+
+.banned-icon-wrapper {
+  /* Red Background Circle */
+  background: rgba(229, 62, 62, 0.1);
+  padding: 25px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.banned-icon {
+  /* Bright Red Icon */
+  color: #e53e3e;
+  filter: drop-shadow(0 4px 6px rgba(229, 62, 62, 0.3));
+}
+
+.banned-card h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #742a2a; /* Dark Red Text */
+  margin: 0;
+  font-size: 2.2rem;
+  letter-spacing: -0.5px;
+}
+
+.banned-card p {
+  font-family: 'Open Sans', sans-serif;
+  color: #4a5568;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.banned-link {
+  color: #e53e3e;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.banned-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.banned-button {
+  min-width: 200px;
+  font-size: 1.05rem;
+  /* Optional: Make the button red to match */
+  background-color: #e53e3e !important;
+  border-color: #c53030 !important;
+}
+
+.banned-button:hover {
+  background-color: #c53030 !important;
+}
+
+.contact-link {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.9rem;
+  color: #718096;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contact-link:hover {
+  color: #2d3748;
+  text-decoration: underline;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 600px) {
+  .banned-card {
+    padding: 30px 20px;
+  }
+
+  .banned-card h1 {
+    font-size: 1.8rem;
+  }
+
+  .banned-icon {
+    width: 60px;
+    height: 60px;
+  }
+}
