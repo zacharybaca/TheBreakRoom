@@ -24,6 +24,7 @@ import DeveloperAccessOnly from './components/DeveloperAccessOnly/DeveloperAcces
 import PrivateProfileView from './components/PrivateProfileView/PrivateProfileView.jsx';
 import UserBanned from './components/UserBanned/UserBanned.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
+import MaintenanceMode from './components/MaintenanceMode/MaintenanceMode.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 // --- HELPER COMPONENT: ERROR ROUTE WRAPPER ---
@@ -110,6 +111,7 @@ function App() {
           <Route path="/denied" element={<DeveloperAccessOnly />} />
           <Route path="/private-profile" element={<PrivateProfileView />} />
           <Route path="/banned" element={<UserBanned />} />
+          <Route path="/maintenance" element={<MaintenanceMode />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
