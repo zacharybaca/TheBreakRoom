@@ -25,6 +25,7 @@ import PrivateProfileView from './components/PrivateProfileView/PrivateProfileVi
 import UserBanned from './components/UserBanned/UserBanned.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
 import MaintenanceMode from './components/MaintenanceMode/MaintenanceMode.jsx';
+import SessionExpired from './components/SessionExpired/SessionExpired.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 // --- HELPER COMPONENT: ERROR ROUTE WRAPPER ---
@@ -112,6 +113,7 @@ function App() {
           <Route path="/private-profile" element={<PrivateProfileView />} />
           <Route path="/banned" element={<UserBanned />} />
           <Route path="/maintenance" element={<MaintenanceMode />} />
+          <Route path="/session-expired" element={<SessionExpired />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
