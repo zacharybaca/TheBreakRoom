@@ -9,8 +9,6 @@ export const createBreakroom = async (req, res, next) => {
       description,
       vibe,
       accent,
-      occupants,
-      newCount,
       iconURL,
       jobTags,
     } = req.body;
@@ -20,8 +18,6 @@ export const createBreakroom = async (req, res, next) => {
       description,
       vibe,
       accent,
-      occupants,
-      newCount,
       iconURL,
       jobTags,
     });
