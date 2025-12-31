@@ -26,6 +26,7 @@ import UserBanned from './components/UserBanned/UserBanned.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
 import MaintenanceMode from './components/MaintenanceMode/MaintenanceMode.jsx';
 import SessionExpired from './components/SessionExpired/SessionExpired.jsx';
+import AdminCreateBreakroom from './components/AdminCreateBreakroom/AdminCreateBreakroom.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 // --- HELPER COMPONENT: ERROR ROUTE WRAPPER ---
@@ -99,6 +100,7 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/breakrooms" element={<Breakrooms />} />
           <Route path="/breakrooms/create" element={<CreateBreakRoom />} />
+          <Route path="/admin/breakrooms/create" element={<AdminCreateBreakroom />} />
           {/* Developer Access Only */}
           {/* <Route
          path="/breakrooms/create"
