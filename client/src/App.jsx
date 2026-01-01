@@ -100,7 +100,10 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/breakrooms" element={<Breakrooms />} />
           <Route path="/breakrooms/create" element={<CreateBreakRoom />} />
-          <Route path="/admin/breakrooms/create" element={<AdminCreateBreakroom />} />
+          <Route
+            path="/admin/breakrooms/create"
+            element={<AdminCreateBreakroom />}
+          />
           {/* Developer Access Only */}
           {/* <Route
          path="/breakrooms/create"

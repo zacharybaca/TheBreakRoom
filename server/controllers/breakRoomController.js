@@ -4,14 +4,7 @@ import User from "../models/User.js";
 // Create a new breakroom
 export const createBreakroom = async (req, res, next) => {
   try {
-    const {
-      name,
-      description,
-      vibe,
-      accent,
-      iconURL,
-      jobTags,
-    } = req.body;
+    const { name, description, vibe, accent, iconURL, jobTags } = req.body;
 
     const breakroom = await Breakroom.create({
       name,

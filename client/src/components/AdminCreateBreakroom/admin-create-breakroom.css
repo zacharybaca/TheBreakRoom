@@ -25,7 +25,7 @@
   align-items: center;
   gap: 15px;
   margin-bottom: 10px;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding-bottom: 15px;
 }
 
@@ -174,9 +174,18 @@
   text-align: center;
 }
 
-.acb-message.success { background: #c6f6d5; color: #22543d; }
-.acb-message.error { background: #fed7d7; color: #822727; }
-.acb-message.info { background: #bee3f8; color: #2a4365; }
+.acb-message.success {
+  background: #c6f6d5;
+  color: #22543d;
+}
+.acb-message.error {
+  background: #fed7d7;
+  color: #822727;
+}
+.acb-message.info {
+  background: #bee3f8;
+  color: #2a4365;
+}
 
 /* Mobile */
 @media (max-width: 600px) {

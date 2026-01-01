@@ -51,7 +51,10 @@ const AdminCreateBreakroom = () => {
       // Reset form or navigate
       setTimeout(() => navigate('/breakrooms'), 1500);
     } else {
-      setMessage({ type: 'error', text: error || 'Failed to create breakroom.' });
+      setMessage({
+        type: 'error',
+        text: error || 'Failed to create breakroom.',
+      });
     }
   };
 
@@ -66,9 +69,7 @@ const AdminCreateBreakroom = () => {
         </div>
 
         {message && (
-          <div className={`acb-message ${message.type}`}>
-            {message.text}
-          </div>
+          <div className={`acb-message ${message.type}`}>{message.text}</div>
         )}
 
         <form onSubmit={handleSubmit} className="acb-form">
@@ -158,13 +159,18 @@ const AdminCreateBreakroom = () => {
           </div>
 
           {/* Preview Section */}
-          <div className="acb-preview" style={{
-            borderColor: formData.accentColor,
-            background: `linear-gradient(135deg, rgba(255,255,255,0.9), ${formData.accentColor}22)`
-          }}>
+          <div
+            className="acb-preview"
+            style={{
+              borderColor: formData.accentColor,
+              background: `linear-gradient(135deg, rgba(255,255,255,0.9), ${formData.accentColor}22)`,
+            }}
+          >
             <h4>Preview Card</h4>
             <h3>{formData.name || 'Breakroom Name'}</h3>
-            <span className="preview-vibe">{formData.accentVibe || 'Vibe'}</span>
+            <span className="preview-vibe">
+              {formData.accentVibe || 'Vibe'}
+            </span>
           </div>
 
           <ReusableStyledButton
