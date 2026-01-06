@@ -107,8 +107,8 @@
 /* Resizing the image inside the toggle button */
 #private-profile-button-container button img {
   /* ✅ CHANGE 2: Increase icon size for better visibility */
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 4.5rem;
+  height: 4.5rem;
   object-fit: contain;
 }
 
