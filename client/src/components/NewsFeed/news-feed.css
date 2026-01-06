@@ -5,8 +5,10 @@
   display: flex;
   justify-content: center;
   padding: 20px;
-  min-height: 100vh; /* Full viewport height */
-  min-width: 100vw; /* Full viewport width */
+  min-height: 100vh;
+  /* FIX: Changed from 100vw to 100% to prevent horizontal scrollbars on Windows */
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding doesn't add to width */
 }
 
 #news-feed {
@@ -16,6 +18,9 @@
   margin: 0 auto;
   box-sizing: border-box;
 
+  /* Ensure this element doesn't grow taller than needed unnecessarily */
+  height: fit-content;
+
   /* Frosted White Glass */
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
@@ -24,6 +29,8 @@
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
+
+/* ... (Keep the rest of your CSS exactly as it was) ... */
 
 /* 2. Header */
 .nf-header {
@@ -69,12 +76,11 @@
 }
 
 /* --- QUILL EDITOR CUSTOMIZATION --- */
-
 .quill-wrapper {
-  background: #f8fafc; /* Match your old input background */
+  background: #f8fafc;
   border-radius: 8px;
   border: 2px solid #edf2f7;
-  overflow: hidden; /* Keeps the toolbar inside the radius */
+  overflow: hidden;
   transition: all 0.2s ease;
 }
 
@@ -84,14 +90,12 @@
   box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
 }
 
-/* The Toolbar (Top part) */
 .ql-toolbar.ql-snow {
   border: none !important;
   background: #edf2f7;
   border-bottom: 1px solid #e2e8f0 !important;
 }
 
-/* The Input Area (Bottom part) */
 .ql-container.ql-snow {
   border: none !important;
   font-family: 'Open Sans', sans-serif;
@@ -99,13 +103,11 @@
   min-height: 120px;
 }
 
-/* Placeholder styling */
 .ql-editor.ql-blank::before {
   color: #a0aec0;
   font-style: normal;
 }
 
-/* Mobile Responsiveness */
 @media screen and (max-width: 600px) {
   #news-feed {
     width: 95%;
