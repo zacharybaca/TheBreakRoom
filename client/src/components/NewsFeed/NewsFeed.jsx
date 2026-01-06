@@ -109,7 +109,8 @@ const NewsFeed = () => {
   };
 
   return (
-    <div id="news-feed">
+    <div id="news-feed-container">
+      <div id="news-feed">
       <header className="nf-header">
         <h1>News Feed</h1>
       </header>
@@ -167,6 +168,8 @@ const NewsFeed = () => {
         )}
       </section>
     </div>
+    </div>
+
   );
 };
 
