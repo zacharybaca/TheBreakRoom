@@ -179,3 +179,34 @@
   top: -10px;
 }
 /* ... (Keep your other pin styles here) ... */
+
+/* Add this to the bottom of message-card.css */
+
+.stat-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  transition: transform 0.1s ease;
+}
+
+.stat-btn:hover {
+  transform: scale(1.1);
+}
+
+.stat-btn:active {
+  transform: scale(0.95);
+}
+
+.stat-display {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: default;
+}
