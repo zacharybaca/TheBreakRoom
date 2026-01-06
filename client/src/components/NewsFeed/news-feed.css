@@ -1,6 +1,14 @@
 /* news-feed.css */
 
 /* 1. The Feed Container */
+#news-feed-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  min-height: 100vh; /* Full viewport height */
+  min-width: 100vw; /* Full viewport width */
+}
+
 #news-feed {
   width: 100%;
   max-width: 720px;
