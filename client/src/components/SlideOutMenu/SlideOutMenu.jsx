@@ -76,7 +76,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
           </li>
           <hr />
           <li>
-            <Link to="/feed">
+            <Link to="/news-feed">
               <img
                 src="/assets/news-feed-icon.png"
                 className="menu-image-class"
@@ -109,7 +109,7 @@ const SlideOutMenu = ({ isOpen, onClose }) => {
           </li>
           <hr />
           <li>
-            <Link to="/breakrooms/create">
+            <Link to="/admin/breakrooms/create">
               <img
                 src="/assets/create-breakroom.png"
                 className="menu-image-class"
