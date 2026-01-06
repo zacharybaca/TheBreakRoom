@@ -9,11 +9,10 @@ import {
 import Login from './components/Login/Login.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import Footer from './components/Footer/Footer.jsx';
-import ErrorModal from './components/ErrorModal/ErrorModal.jsx'; // Keep your existing component
+import ErrorModal from './components/ErrorModal/ErrorModal.jsx'; 
 import Register from './components/Register/Register.jsx';
 import Confirmation from './components/Confirmation/Confirmation.jsx';
 import Breakrooms from './components/Breakrooms/Breakrooms.jsx';
-import CreateBreakRoom from './components/CreateBreakRoom/CreateBreakRoom.jsx';
 import Users from './components/Users/Users.jsx';
 import Loading from './components/Loading/Loading.jsx';
 import ChatRoom from './components/ChatRoom/ChatRoom.jsx';
@@ -99,7 +98,6 @@ function App() {
           />
           <Route path="/users" element={<Users />} />
           <Route path="/breakrooms" element={<Breakrooms />} />
-          <Route path="/breakrooms/create" element={<CreateBreakRoom />} />
           <Route
             path="/admin/breakrooms/create"
             element={<AdminCreateBreakroom />}
