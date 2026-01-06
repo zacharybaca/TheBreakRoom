@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
-import { io } from 'socket.io-client'; // Import Socket.io
+import { io } from 'socket.io-client';
 
 import './news-feed.css';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton';
@@ -22,7 +22,7 @@ const NewsFeed = () => {
   useEffect(() => {
     // A. Fetch Initial Posts
     const getPosts = async () => {
-      const { success, data } = await fetcher('/api/posts');
+      const { success, data } = await fetcher('/api/posts?withReactions=true');
       if (success) {
         setPosts(data);
       }
@@ -31,25 +31,23 @@ const NewsFeed = () => {
     getPosts();
 
     // B. Setup Real-time Listener
-    // Note: Ensure your backend .env CLIENT_URL matches where this runs
-    const socket = io('http://localhost:5000');
+    // FIX: Use the Environment Variable for the URL
+    const socketUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+    const socket = io(socketUrl);
 
     socket.on('new_post', (newPost) => {
-      // Add the new post to the top of the feed instantly
       setPosts((prevPosts) => [newPost, ...prevPosts]);
     });
 
-    // Cleanup listener on unmount
     return () => {
       socket.off('new_post');
       socket.disconnect();
     };
-  }, []); // Empty dependency array = runs once on mount
+  }, []);
 
   // 2. Handle Creating a New Post
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-
     if (!newPostContent.replace(/<(.|\n)*?>/g, '').trim()) return;
 
     const cleanContent = DOMPurify.sanitize(newPostContent);
@@ -61,12 +59,8 @@ const NewsFeed = () => {
     });
 
     if (success) {
-      // We don't strictly need to setPosts here if the Socket listener
-      // above catches the 'new_post' event, but keeping it ensures
-      // the user sees their own post even if the socket lags.
-      // We check for duplicates just in case:
       setPosts((prev) => {
-        if (prev.find(p => p._id === data._id)) return prev;
+        if (prev.find((p) => p._id === data._id)) return prev;
         return [data, ...prev];
       });
       setNewPostContent('');
@@ -106,15 +100,29 @@ const NewsFeed = () => {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    if (success) {
-      alert('Report submitted. Thank you for helping keep the breakroom clean.');
-    } else {
-      alert(`Failed to report: ${message}`);
+    if (success) alert('Report submitted.');
+    else alert(`Failed to report: ${message}`);
+  };
+
+  // 5. Handle Reaction (Like)
+  const handleReaction = async (postId) => {
+    // Optimistic UI Update (assumes +1 for now, real data comes on refresh or complexity)
+    // For now, we just trigger the API.
+    // You could manually update `reactionCounts` in state here for instant feedback.
+
+    const { success, data } = await fetcher(`/api/posts/${postId}/reactions`, {
+        method: 'POST',
+        body: JSON.stringify({ type: 'like' }),
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    if(success) {
+        // Update the specific post with the new reaction count from server
+        setPosts(current => current.map(p => p._id === postId ? { ...p, reactionCounts: data.reactionCounts } : p));
     }
   };
 
-  // 5. Handle Comment Count Update (Live Refresh)
-  // Now actually updates the UI number!
+  // 6. Handle Comment Count (Placeholder for future comment logic)
   const handleCommentChange = (postId, newCount) => {
     setPosts((currentPosts) =>
       currentPosts.map((p) =>
@@ -138,7 +146,6 @@ const NewsFeed = () => {
           <h1>News Feed</h1>
         </header>
 
-        {/* Composer Section */}
         <section className="nf-composer">
           <div className="quill-wrapper">
             <ReactQuill
@@ -150,7 +157,6 @@ const NewsFeed = () => {
               className="nf-editor"
             />
           </div>
-
           <ReusableStyledButton
             title="Post"
             type="submit"
@@ -159,7 +165,6 @@ const NewsFeed = () => {
           />
         </section>
 
-        {/* List Section */}
         <section className="nf-list">
           {isLoading ? (
             <p style={{ textAlign: 'center', color: '#666' }}>
@@ -177,12 +182,12 @@ const NewsFeed = () => {
                 isOwner={user?._id === post.authorId?._id}
                 onDelete={() => handleDeletePost(post._id)}
                 onReport={() => handleReport(post._id)}
-                // Pass the actual updater function down
+                // NEW: Pass the reaction handler
+                onReaction={() => handleReaction(post._id)}
                 onCommentChange={handleCommentChange}
               />
             ))
           )}
-
           {!isLoading && posts.length === 0 && (
             <p style={{ textAlign: 'center', color: '#999' }}>
               The breakroom is quiet... too quiet.
