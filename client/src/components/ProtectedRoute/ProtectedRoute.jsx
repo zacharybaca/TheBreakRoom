@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
 
   // 2. Access Check
   // FIX 1: We check if they are NOT authenticated
-  if (!isAuthenticated) {
+  if (isAuthenticated) {
     return (
       <Navigate
         to="/"
