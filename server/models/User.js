@@ -53,6 +53,17 @@ const userSchema = new mongoose.Schema(
     banReason: {
       type: String,
     },
+    // 1. Add this to track activity
+  lastActive: {
+    type: Date,
+    default: Date.now
+  },
+
+  // 2. Add this to track status
+  isActive: {
+    type: Boolean,
+    default: true
+  },
   },
   { timestamps: true },
 );
