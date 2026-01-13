@@ -5,12 +5,10 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
 import { useModal } from '../../hooks/useModal.js';
-import { useAuth } from '../../hooks/useAuth.js'; // Optional: Use Auth Context for login if preferred
 
 const Login = () => {
   const { onOpen } = useModal();
   const navigate = useNavigate();
-  const { loginUser } = useAuth(); // Using the context helper is usually cleaner, but we can keep fetch here if you prefer.
 
   // 1. State to track if the user is blocked due to inactivity
   const [isInactive, setIsInactive] = useState(false);
@@ -33,7 +31,8 @@ const Login = () => {
       setGeneralError('');
 
       try {
-        // We use JSON here to match standard MERN AuthController expectations
+        // We use a manual fetch here instead of useAuth() so we can
+        // handle specific status codes (403 Inactive vs 403 Banned)
         const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -61,7 +60,7 @@ const Login = () => {
 
         console.log('✅ Logged-in successfully:', data);
 
-        // Save token (or let AuthProvider handle it if using context)
+        // Save token to localStorage manually since we aren't using the context helper
         localStorage.setItem('accessToken', data.accessToken);
 
         resetForm();
