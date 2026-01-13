@@ -5,7 +5,16 @@ import { useFetcher } from '../../hooks/useFetcher';
 import './admin-reactivation-queue.css';
 
 const AdminReactivationQueue = () => {
-  const [requests, setRequests] = useState([]);
+  const [requests, setRequests] = useState([{
+    _id: 23,
+    firstName: "Test",
+    lastName: "Testing",
+    username: "Tester",
+    email: "test@test.com",
+    job: {
+      title: "Tester"
+    }
+  }]);
   const [loading, setLoading] = useState(true);
   const { fetcher } = useFetcher();
 
