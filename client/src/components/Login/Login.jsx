@@ -1,12 +1,13 @@
 import './login.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
 import { useModal } from '../../hooks/useModal.js';
 
 const Login = () => {
   const { onOpen } = useModal();
-
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       identifier: '',
@@ -38,6 +39,14 @@ const Login = () => {
 
         resetForm();
       } catch (err) {
+        if (err.includes("deactivated")) {
+          navigate('/session-expired', {
+          state: {
+             message: "Account Deactivated",
+             subtext: "You haven't logged in for 90 days."
+        }
+    });
+        }
         console.error('❌ Error submitting form:', err);
       } finally {
         setSubmitting(false);
