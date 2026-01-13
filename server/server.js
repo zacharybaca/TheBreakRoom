@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import http from "http";
 import { Server as SocketServer } from "socket.io";
 import rateLimit from "express-rate-limit";
+import startCleanupJob from "./services/cronService.js";
 
 // Config & Database
 import connectDB from "./config/db.js";
@@ -154,6 +155,9 @@ io.on("connection", (socket) => {
     console.log(`📨 Message sent to room ${data.room}:`, data);
   });
 });
+
+// -- Check for User Inactivity --
+startCleanupJob();
 
 // -- START SERVER --
 const PORT = process.env.PORT || 5000;
