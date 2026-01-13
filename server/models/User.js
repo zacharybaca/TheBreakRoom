@@ -64,6 +64,7 @@ const userSchema = new mongoose.Schema(
     type: Boolean,
     default: true
   },
+  reactivationRequested: { type: Boolean, default: false },
   },
   { timestamps: true },
 );
