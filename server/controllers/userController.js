@@ -279,3 +279,66 @@ export const banUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// @desc    User Requests Reactivation of Account
+// @route   POST /api/users/:id/request-reactivation
+// @access  Public
+
+// 1. User requests help (Public Route)
+export const requestReactivation = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+    if (user.isActive) return res.status(400).json({ message: "Account is already active." });
+
+    user.reactivationRequested = true;
+    await user.save();
+
+    res.status(200).json({ message: "Reactivation request sent to admins." });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Admin(s) Retrieve User Requests for Account Reactivation
+// @route   GET /api/admin/reactivation-requests
+// @access  Admin Only
+
+// 2. Admin fetches queue
+export const getReactivationRequests = async (req, res, next) => {
+  try {
+    // Find users who are inactive AND have requested help
+    const users = await User.find({ isActive: false, reactivationRequested: true })
+      .select('name username email lastActive avatarUrl job');
+
+    res.json(users);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Admin(s) are Able to Approve Account Reactivation Request
+// @route   PUT /api/admin/reactivation-requests/:id
+// @access  Admin Only
+
+// 3. Admin approves request
+export const approveReactivation = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.isActive = true;
+    user.reactivationRequested = false;
+    user.lastActive = new Date(); // Reset their timer so they don't get banned tomorrow
+
+    await user.save();
+
+    res.json({ message: `${user.name} has been reactivated!` });
+  } catch (err) {
+    next(err);
+  }
+};
