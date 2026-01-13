@@ -25,6 +25,7 @@ import NotFound from './components/NotFound/NotFound.jsx';
 import MaintenanceMode from './components/MaintenanceMode/MaintenanceMode.jsx';
 import SessionExpired from './components/SessionExpired/SessionExpired.jsx';
 import AdminCreateBreakroom from './components/AdminCreateBreakroom/AdminCreateBreakroom.jsx';
+import AdminReactivationQueue from './components/AdminReactivationQueue/AdminReactivationQueue.jsx';
 
 // Import the new standalone component
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
@@ -61,6 +62,8 @@ function App() {
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/loading" element={<Loading />} />
           <Route path="/oauth-success" element={<OAuthSuccess />} />
+          {/* -- Admin Reactivation Queue needs to be protected after component design is completed -- */}
+          <Route path="/admin/reactivation-requests" element={<AdminReactivationQueue />} />
 
           {/* Helper Routes */}
           <Route path="/error" element={<ErrorRouteWrapper />} />
