@@ -53,7 +53,7 @@ const AdminReactivationQueue = () => {
           {requests.map((user) => (
             <div key={user._id} className="arq-item glow-on-hover">
               <div className="arq-user-info">
-                <h3>{user.name}</h3>
+                <h3>`{user.firstName} {user.lastName}`</h3>
                 <span className="arq-meta">@{user.username} • {user.email}</span>
                 <span className="arq-job">{user.job?.title || 'No Job Title'}</span>
               </div>
