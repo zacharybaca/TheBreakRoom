@@ -55,6 +55,7 @@ const Users = () => {
                 email={person.email}
                 image={person.image}
                 website={person.website}
+                job={person.job}
                 attachment={person.attachment}
                 tilt={person.tilt}
               />
