@@ -1,13 +1,21 @@
 import './login.css';
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import ReusableStyledButton from '../ReusableStyledButton/ReusableStyledButton.jsx';
 import { useModal } from '../../hooks/useModal.js';
+import { useAuth } from '../../hooks/useAuth.js'; // Optional: Use Auth Context for login if preferred
 
 const Login = () => {
   const { onOpen } = useModal();
   const navigate = useNavigate();
+  const { loginUser } = useAuth(); // Using the context helper is usually cleaner, but we can keep fetch here if you prefer.
+
+  // 1. State to track if the user is blocked due to inactivity
+  const [isInactive, setIsInactive] = useState(false);
+  const [generalError, setGeneralError] = useState('');
+
   const formik = useFormik({
     initialValues: {
       identifier: '',
@@ -20,39 +28,76 @@ const Login = () => {
         .required('Password is required'),
     }),
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      try {
-        const formData = new FormData();
-        formData.append('identifier', values.identifier);
-        formData.append('password', values.password);
+      // Reset states on new attempt
+      setIsInactive(false);
+      setGeneralError('');
 
-        const res = await fetch('http://localhost:9000/api/login', {
+      try {
+        // We use JSON here to match standard MERN AuthController expectations
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
           method: 'POST',
-          body: formData,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(values),
         });
 
+        const data = await res.json();
+
+        // 2. Handle Errors
         if (!res.ok) {
-          throw new Error('Failed to login');
+          // Check for specific "Inactive" status (403) from backend
+          if (res.status === 403 && (data.message?.includes('inactive') || data.message?.includes('deactivated'))) {
+            setIsInactive(true);
+            return; // Stop here, UI will update to show Reactivate button
+          }
+
+          // Check for "Banned" status
+          if (res.status === 403 && data.message?.includes('suspended')) {
+             navigate('/banned');
+             return;
+          }
+
+          throw new Error(data.message || 'Failed to login');
         }
 
-        const data = await res.json();
         console.log('✅ Logged-in successfully:', data);
 
+        // Save token (or let AuthProvider handle it if using context)
+        localStorage.setItem('accessToken', data.accessToken);
+
         resetForm();
+        navigate('/news-feed'); // Success!
+
       } catch (err) {
-        if (err.includes("deactivated")) {
-          navigate('/session-expired', {
-          state: {
-             message: "Account Deactivated",
-             subtext: "You haven't logged in for 90 days."
-        }
-    });
-        }
-        console.error('❌ Error submitting form:', err);
+        console.error('❌ Login Error:', err.message);
+        setGeneralError(err.message);
       } finally {
         setSubmitting(false);
       }
     },
   });
+
+  // 3. Handler for Reactivation Request
+  const handleRequestReactivation = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/request-reactivation`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formik.values.identifier }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Reactivation request sent! Admins will review it shortly.");
+        setIsInactive(false); // Reset UI so they can try logging in later
+        navigate('/'); // Optional refresh
+      } else {
+        alert(data.message || "Failed to send request.");
+      }
+    } catch (error) {
+      alert("Network error. Please try again.");
+    }
+  };
 
   return (
     <div className="split-screen-container">
@@ -141,12 +186,42 @@ const Login = () => {
               )}
             </div>
 
-            <ReusableStyledButton
-              title={formik.isSubmitting ? 'Logging in...' : 'Login'}
-              type="submit"
-              disabled={formik.isSubmitting}
-              fullWidth
-            />
+            {/* General Error Message */}
+            {generalError && (
+              <div className="error-banner" style={{ color: 'red', textAlign: 'center', marginBottom: '10px' }}>
+                {generalError}
+              </div>
+            )}
+
+            {/* 4. Conditional Rendering: Login vs Reactivate */}
+            {isInactive ? (
+              <div className="inactive-notice" style={{ textAlign: 'center', animation: 'fadeIn 0.3s' }}>
+                <p style={{ color: '#e53e3e', fontWeight: 'bold', marginBottom: '10px' }}>
+                  Account Inactive due to absence.
+                </p>
+                <ReusableStyledButton
+                  title="Request Reactivation"
+                  type="button"
+                  onClick={handleRequestReactivation}
+                  fullWidth
+                  style={{ backgroundColor: '#dd6b20', borderColor: '#c05621' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsInactive(false)}
+                  style={{ background: 'none', border: 'none', textDecoration: 'underline', color: '#718096', marginTop: '10px', cursor: 'pointer' }}
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <ReusableStyledButton
+                title={formik.isSubmitting ? 'Logging in...' : 'Login'}
+                type="submit"
+                disabled={formik.isSubmitting}
+                fullWidth
+              />
+            )}
           </form>
 
           <div className="social-login-buttons-container">
