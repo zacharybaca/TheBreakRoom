@@ -45,6 +45,14 @@ export const login = async (req, res) => {
         reason: user.banReason || "Violation of community guidelines.",
       });
     }
+
+    // OPTIONAL: Block if inactive (instead of auto-reactivating)
+    if (!user.isActive) {
+       return res.status(403).json({
+         message: "Account deactivated due to inactivity.",
+         reason: "Please contact support to restore your access."
+       });
+    }
     // ----------------------
 
     const accessToken = generateAccessToken(user);
@@ -59,6 +67,14 @@ export const login = async (req, res) => {
       sameSite: "Strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+
+    // BEFORE sending the response, update the lastActive time
+    user.lastActive = new Date();
+
+    // Also ensure they are marked active if they return
+    user.isActive = true;
+
+    await user.save();
 
     res.status(200).json({
       _id: user._id,
