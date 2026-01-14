@@ -1,10 +1,5 @@
 import './App.css';
-import {
-  Routes,
-  Route,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Login from './components/Login/Login.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import Footer from './components/Footer/Footer.jsx';
@@ -63,7 +58,10 @@ function App() {
           <Route path="/loading" element={<Loading />} />
           <Route path="/oauth-success" element={<OAuthSuccess />} />
           {/* -- Admin Reactivation Queue needs to be protected after component design is completed -- */}
-          <Route path="/admin/reactivation-requests" element={<AdminReactivationQueue />} />
+          <Route
+            path="/admin/reactivation-requests"
+            element={<AdminReactivationQueue />}
+          />
 
           {/* Helper Routes */}
           <Route path="/error" element={<ErrorRouteWrapper />} />

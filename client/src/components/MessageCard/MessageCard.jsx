@@ -34,7 +34,6 @@ const MessageCard = ({
         style={{ '--tilt': `${cardTilt}deg` }}
       >
         <div className="message-card-content">
-
           {/* Header */}
           <h3 className="message-font-alt-style info-line item">
             <span style={{ display: 'flex', alignItems: 'center' }}>
@@ -75,12 +74,11 @@ const MessageCard = ({
 
           {/* Footer: Stats */}
           <div className="message-card-footer">
-
             {/* 1. LIKE BUTTON (Interactive) */}
             <button
-                onClick={onReaction}
-                className="stat-btn"
-                title="Like this post"
+              onClick={onReaction}
+              className="stat-btn"
+              title="Like this post"
             >
               <FaHeart className="stat-icon" style={{ color: '#e0245e' }} />
               {totalReactions}
@@ -94,7 +92,6 @@ const MessageCard = ({
               />
               {totalComments}
             </div>
-
           </div>
         </div>
       </div>

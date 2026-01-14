@@ -291,7 +291,8 @@ export const requestReactivation = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (!user) return res.status(404).json({ message: "User not found" });
-    if (user.isActive) return res.status(400).json({ message: "Account is already active." });
+    if (user.isActive)
+      return res.status(400).json({ message: "Account is already active." });
 
     user.reactivationRequested = true;
     await user.save();
@@ -310,8 +311,10 @@ export const requestReactivation = async (req, res, next) => {
 export const getReactivationRequests = async (req, res, next) => {
   try {
     // Find users who are inactive AND have requested help
-    const users = await User.find({ isActive: false, reactivationRequested: true })
-      .select('name username email lastActive avatarUrl job');
+    const users = await User.find({
+      isActive: false,
+      reactivationRequested: true,
+    }).select("name username email lastActive avatarUrl job");
 
     res.json(users);
   } catch (err) {

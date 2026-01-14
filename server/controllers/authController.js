@@ -48,10 +48,10 @@ export const login = async (req, res) => {
 
     // OPTIONAL: Block if inactive (instead of auto-reactivating)
     if (!user.isActive) {
-       return res.status(403).json({
-         message: "Account deactivated due to inactivity.",
-         reason: "Please contact support to restore your access."
-       });
+      return res.status(403).json({
+        message: "Account deactivated due to inactivity.",
+        reason: "Please contact support to restore your access.",
+      });
     }
     // ----------------------
 

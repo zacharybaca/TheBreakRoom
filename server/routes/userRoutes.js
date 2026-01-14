@@ -8,10 +8,10 @@ import {
   deleteUser,
   uploadAvatar,
   updateUserAvatar,
-  banUser,                 // <--- NEW IMPORT
-  requestReactivation,     // <--- NEW IMPORT
+  banUser, // <--- NEW IMPORT
+  requestReactivation, // <--- NEW IMPORT
   getReactivationRequests, // <--- NEW IMPORT
-  approveReactivation      // <--- NEW IMPORT
+  approveReactivation, // <--- NEW IMPORT
 } from "../controllers/userController.js";
 import { upload } from "../middleware/uploadMiddleware.js";
 import { protect, requireAdmin } from "../middleware/authMiddleware.js";
@@ -35,7 +35,12 @@ router.post("/request-reactivation", requestReactivation);
 // @route   GET /api/users/reactivation-requests
 // @access  Private/Admin
 // ⚠️ IMPORTANT: This must be defined BEFORE /:id routes!
-router.get("/reactivation-requests", protect, requireAdmin, getReactivationRequests);
+router.get(
+  "/reactivation-requests",
+  protect,
+  requireAdmin,
+  getReactivationRequests,
+);
 
 // =================================================================
 // STANDARD USER CRUD

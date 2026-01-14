@@ -19,8 +19,8 @@ const ProtectedRoute = ({ children }) => {
         to="/"
         // FIX 2: We pass 'from: location' so we can redirect them back later
         state={{
-            message: "Please log in to view that page.",
-            from: location
+          message: 'Please log in to view that page.',
+          from: location,
         }}
         replace
       />

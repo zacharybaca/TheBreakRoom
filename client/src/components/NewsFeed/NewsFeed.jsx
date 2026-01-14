@@ -32,7 +32,8 @@ const NewsFeed = () => {
 
     // B. Setup Real-time Listener
     // FIX: Use the Environment Variable for the URL
-    const socketUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+    const socketUrl =
+      import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
     const socket = io(socketUrl);
 
     socket.on('new_post', (newPost) => {
@@ -111,14 +112,18 @@ const NewsFeed = () => {
     // You could manually update `reactionCounts` in state here for instant feedback.
 
     const { success, data } = await fetcher(`/api/posts/${postId}/reactions`, {
-        method: 'POST',
-        body: JSON.stringify({ type: 'like' }),
-        headers: { 'Content-Type': 'application/json' }
+      method: 'POST',
+      body: JSON.stringify({ type: 'like' }),
+      headers: { 'Content-Type': 'application/json' },
     });
 
-    if(success) {
-        // Update the specific post with the new reaction count from server
-        setPosts(current => current.map(p => p._id === postId ? { ...p, reactionCounts: data.reactionCounts } : p));
+    if (success) {
+      // Update the specific post with the new reaction count from server
+      setPosts((current) =>
+        current.map((p) =>
+          p._id === postId ? { ...p, reactionCounts: data.reactionCounts } : p
+        )
+      );
     }
   };
 

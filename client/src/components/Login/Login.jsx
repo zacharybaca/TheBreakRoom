@@ -33,26 +33,33 @@ const Login = () => {
       try {
         // We use a manual fetch here instead of useAuth() so we can
         // handle specific status codes (403 Inactive vs 403 Banned)
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(values),
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+          }
+        );
 
         const data = await res.json();
 
         // 2. Handle Errors
         if (!res.ok) {
           // Check for specific "Inactive" status (403) from backend
-          if (res.status === 403 && (data.message?.includes('inactive') || data.message?.includes('deactivated'))) {
+          if (
+            res.status === 403 &&
+            (data.message?.includes('inactive') ||
+              data.message?.includes('deactivated'))
+          ) {
             setIsInactive(true);
             return; // Stop here, UI will update to show Reactivate button
           }
 
           // Check for "Banned" status
           if (res.status === 403 && data.message?.includes('suspended')) {
-             navigate('/banned');
-             return;
+            navigate('/banned');
+            return;
           }
 
           throw new Error(data.message || 'Failed to login');
@@ -65,7 +72,6 @@ const Login = () => {
 
         resetForm();
         navigate('/news-feed'); // Success!
-
       } catch (err) {
         console.error('❌ Login Error:', err.message);
         setGeneralError(err.message);
@@ -78,23 +84,26 @@ const Login = () => {
   // 3. Handler for Reactivation Request
   const handleRequestReactivation = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/request-reactivation`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: formik.values.identifier }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/request-reactivation`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: formik.values.identifier }),
+        }
+      );
 
       const data = await res.json();
 
       if (res.ok) {
-        alert("Reactivation request sent! Admins will review it shortly.");
+        alert('Reactivation request sent! Admins will review it shortly.');
         setIsInactive(false); // Reset UI so they can try logging in later
         navigate('/'); // Optional refresh
       } else {
-        alert(data.message || "Failed to send request.");
+        alert(data.message || 'Failed to send request.');
       }
     } catch (error) {
-      alert("Network error. Please try again.");
+      alert('Network error. Please try again.');
     }
   };
 
@@ -187,15 +196,31 @@ const Login = () => {
 
             {/* General Error Message */}
             {generalError && (
-              <div className="error-banner" style={{ color: 'red', textAlign: 'center', marginBottom: '10px' }}>
+              <div
+                className="error-banner"
+                style={{
+                  color: 'red',
+                  textAlign: 'center',
+                  marginBottom: '10px',
+                }}
+              >
                 {generalError}
               </div>
             )}
 
             {/* 4. Conditional Rendering: Login vs Reactivate */}
             {isInactive ? (
-              <div className="inactive-notice" style={{ textAlign: 'center', animation: 'fadeIn 0.3s' }}>
-                <p style={{ color: '#e53e3e', fontWeight: 'bold', marginBottom: '10px' }}>
+              <div
+                className="inactive-notice"
+                style={{ textAlign: 'center', animation: 'fadeIn 0.3s' }}
+              >
+                <p
+                  style={{
+                    color: '#e53e3e',
+                    fontWeight: 'bold',
+                    marginBottom: '10px',
+                  }}
+                >
                   Account Inactive due to absence.
                 </p>
                 <ReusableStyledButton
@@ -208,7 +233,14 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setIsInactive(false)}
-                  style={{ background: 'none', border: 'none', textDecoration: 'underline', color: '#718096', marginTop: '10px', cursor: 'pointer' }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    textDecoration: 'underline',
+                    color: '#718096',
+                    marginTop: '10px',
+                    cursor: 'pointer',
+                  }}
                 >
                   Cancel
                 </button>
