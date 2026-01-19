@@ -57,11 +57,6 @@ function App() {
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/loading" element={<Loading />} />
           <Route path="/oauth-success" element={<OAuthSuccess />} />
-          {/* -- Admin Reactivation Queue needs to be protected after component design is completed -- */}
-          <Route
-            path="/admin/reactivation-requests"
-            element={<AdminReactivationQueue />}
-          />
 
           {/* Helper Routes */}
           <Route path="/error" element={<ErrorRouteWrapper />} />
@@ -72,6 +67,15 @@ function App() {
           <Route path="/session-expired" element={<SessionExpired />} />
 
           {/* --- Protected Routes --- */}
+          <Route
+            path="/admin/reactivation-requests"
+            element={
+              <ProtectedRoute>
+                <AdminReactivationQueue />
+              </ProtectedRoute>
+              }
+          />
+
           <Route
             path="/news-feed"
             element={
