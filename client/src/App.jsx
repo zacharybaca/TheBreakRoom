@@ -68,15 +68,6 @@ function App() {
 
           {/* --- Protected Routes --- */}
           <Route
-            path="/admin/reactivation-requests"
-            element={
-              <ProtectedRoute>
-                <AdminReactivationQueue />
-              </ProtectedRoute>
-              }
-          />
-
-          <Route
             path="/news-feed"
             element={
               <ProtectedRoute>
@@ -113,6 +104,15 @@ function App() {
           />
 
           {/* Admin / Developer Routes */}
+          <Route
+            path="/admin/reactivation-requests"
+            element={
+              <ProtectedRoute>
+                <AdminReactivationQueue />
+              </ProtectedRoute>
+              }
+          />
+
           <Route
             path="/admin/breakrooms/create"
             element={
