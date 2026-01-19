@@ -5,32 +5,41 @@
   display: flex;
   width: 90%;
   max-width: 1200px;
-  min-height: 650px; /* Ensures a good height for the image */
+  min-height: 650px;
   background-color: #fff;
-  border-radius: 16px; /* Rounded outer corners */
-  overflow: hidden; /* Clips the child image to the radius */
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); /* Deep shadow for pop */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   margin: 40px auto;
 }
 
-/* --- 2. LEFT SIDE: Branding --- */
+/* --- 2. LEFT SIDE: Branding & Video --- */
 .split-brand-side {
   flex: 1; /* Takes up 50% width */
-  /* Using the same Unsplash Coffee Shop image */
-  background-image: url('https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80');
-  background-size: cover;
-  background-position: center;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   padding: 40px;
+  /* Removed static background-image since we use video now */
+  background-color: #1a202c; /* Fallback color */
+  overflow: hidden; /* Ensures video doesn't spill out */
+}
+
+/* The Video Element */
+.background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures video fills the area without stretching */
+    z-index: 0;
 }
 
 /* Dark Overlay for readability */
-.split-brand-side::before {
-  content: '';
+.video-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -38,13 +47,14 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(0, 0, 0, 0.7) 0%,
-    rgba(0, 0, 0, 0.4) 100%
+    rgba(0, 0, 0, 0.6) 0%, /* Slightly darker for video visibility */
+    rgba(0, 0, 0, 0.3) 100%
   );
   z-index: 1;
 }
 
-.brand-content {
+/* Ensure content sits on top */
+.brand-content.relative-content {
   position: relative;
   z-index: 2;
   text-align: left;
@@ -95,9 +105,9 @@
   backdrop-filter: blur(5px);
 }
 
-/* --- 3. RIGHT SIDE: Form Area --- */
+/* --- 3. RIGHT SIDE: Form Area (Unchanged) --- */
 .split-form-side {
-  flex: 1; /* Takes up 50% width */
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,11 +115,9 @@
   padding: 40px;
 }
 
-/* Adjusted Form Container */
 .form-container {
   width: 100%;
   max-width: 400px;
-  /* Removed background/shadow since the parent container handles it now */
   text-align: center;
   border-radius: 10px;
   padding: 5%;
@@ -130,7 +138,7 @@
   font-weight: 400;
 }
 
-/* --- Form Inputs (Clean Style) --- */
+/* --- Form Inputs --- */
 .form-group {
   margin-bottom: 20px;
   text-align: left;
@@ -230,13 +238,13 @@
 /* --- Mobile Responsiveness --- */
 @media screen and (max-width: 900px) {
   .split-screen-container {
-    flex-direction: column; /* Stack them */
+    flex-direction: column;
     width: 95%;
     margin: 20px auto;
   }
 
   .split-brand-side {
-    flex: 0 0 250px; /* Fixed height for header */
+    flex: 0 0 250px;
     padding: 30px;
   }
 
@@ -245,7 +253,7 @@
   }
   .brand-features {
     display: none;
-  } /* Hide features on mobile to save space */
+  }
   .brand-tagline {
     margin-bottom: 0;
   }

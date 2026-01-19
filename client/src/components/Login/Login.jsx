@@ -31,8 +31,7 @@ const Login = () => {
       setGeneralError('');
 
       try {
-        // We use a manual fetch here instead of useAuth() so we can
-        // handle specific status codes (403 Inactive vs 403 Banned)
+        // We use a manual fetch here so we can handle specific status codes
         const res = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`,
           {
@@ -46,14 +45,14 @@ const Login = () => {
 
         // 2. Handle Errors
         if (!res.ok) {
-          // Check for specific "Inactive" status (403) from backend
+          // Check for "Inactive" status (403)
           if (
             res.status === 403 &&
             (data.message?.includes('inactive') ||
               data.message?.includes('deactivated'))
           ) {
             setIsInactive(true);
-            return; // Stop here, UI will update to show Reactivate button
+            return;
           }
 
           // Check for "Banned" status
@@ -67,7 +66,7 @@ const Login = () => {
 
         console.log('✅ Logged-in successfully:', data);
 
-        // Save token to localStorage manually since we aren't using the context helper
+        // Save token to localStorage
         localStorage.setItem('accessToken', data.accessToken);
 
         resetForm();
@@ -97,8 +96,8 @@ const Login = () => {
 
       if (res.ok) {
         alert('Reactivation request sent! Admins will review it shortly.');
-        setIsInactive(false); // Reset UI so they can try logging in later
-        navigate('/'); // Optional refresh
+        setIsInactive(false);
+        navigate('/');
       } else {
         alert(data.message || 'Failed to send request.');
       }
@@ -109,9 +108,30 @@ const Login = () => {
 
   return (
     <div className="split-screen-container">
-      {/* LEFT SIDE: Visual Branding */}
-      <div className="split-brand-side">
-        <div className="brand-content">
+      {/* LEFT SIDE: Visual Branding with Video
+         We added the 'video-mode' class to handle positioning
+      */}
+      <div className="split-brand-side video-mode">
+
+        {/* The Video Element: Auto-plays, loops, and is muted */}
+        {/* IMPORTANT: Make sure your video file is in public/assets/ */}
+        <video
+            className="background-video"
+            autoPlay
+            loop
+            muted
+            playsInline
+        >
+            <source src="/assets/intro-video.mp4" type="video/mp4" />
+            {/* Fallback for browsers that don't support video */}
+            Your browser does not support the video tag.
+        </video>
+
+        {/* Dark Overlay to make text readable over video */}
+        <div className="video-overlay"></div>
+
+        {/* Content sits on top of video due to z-index */}
+        <div className="brand-content relative-content">
           <h1>The Breakroom</h1>
           <p className="brand-tagline">Where work stories find a home.</p>
 
@@ -132,7 +152,7 @@ const Login = () => {
         </div>
       </div>
 
-      {/* RIGHT SIDE: The Login Form */}
+      {/* RIGHT SIDE: The Login Form (Unchanged) */}
       <div className="split-form-side">
         <div className="form-container">
           <div className="form-header">
@@ -208,7 +228,7 @@ const Login = () => {
               </div>
             )}
 
-            {/* 4. Conditional Rendering: Login vs Reactivate */}
+            {/* Conditional Rendering: Login vs Reactivate */}
             {isInactive ? (
               <div
                 className="inactive-notice"
@@ -228,7 +248,10 @@ const Login = () => {
                   type="button"
                   onClick={handleRequestReactivation}
                   fullWidth
-                  style={{ backgroundColor: '#dd6b20', borderColor: '#c05621' }}
+                  style={{
+                    backgroundColor: '#dd6b20',
+                    borderColor: '#c05621',
+                  }}
                 />
                 <button
                   type="button"
