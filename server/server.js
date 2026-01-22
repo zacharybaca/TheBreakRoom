@@ -1,4 +1,3 @@
-// server.js
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
@@ -24,34 +23,30 @@ import breakroomRoutes from "./routes/breakroomRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
-import reactionRoutes from "./routes/reactionRoutes.js";
+// REMOVED: import reactionRoutes from "./routes/reactionRoutes.js";
 
 // -- CONFIGURATION --
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load env vars - Using path.join is safer for finding the file relative to this script
-// This assumes .env is in the same folder as server.js.
-// If your .env is in the root (one level up), change to: path.join(__dirname, "../.env")
 dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
 const server = http.createServer(app);
 
-// 1. CORS CONFIGURATION (Critical for Cookies/Auth)
-// Add your frontend URLs here. 5173 is standard for Vite.
+// 1. CORS CONFIGURATION
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  process.env.FRONTEND_URL, // Reads from your .env if set
-].filter(Boolean); // Removes undefined values
+  process.env.FRONTEND_URL,
+].filter(Boolean);
 
 // 2. Socket.IO with CORS
 const io = new SocketServer(server, {
   cors: {
     origin: allowedOrigins,
     methods: ["GET", "POST"],
-    credentials: true, // <--- CRITICAL: Allows cookies/headers
+    credentials: true,
   },
 });
 
@@ -65,9 +60,7 @@ app.use((req, res, next) => {
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, or Postman)
       if (!origin) return callback(null, true);
-
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       } else {
@@ -76,7 +69,7 @@ app.use(
         return callback(new Error(msg), false);
       }
     },
-    credentials: true, // <--- CRITICAL: Allows cookies to be sent back and forth
+    credentials: true,
   }),
 );
 
@@ -85,7 +78,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 // -- FILESYSTEM --
-// Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, "uploads");
 try {
   if (!fs.existsSync(uploadsDir)) {
@@ -95,13 +87,12 @@ try {
 } catch (err) {
   console.error("⚠️ Failed to create uploads directory:", err.message);
 }
-// Serve uploaded images
 app.use("/uploads", express.static(uploadsDir));
 
 // -- RATE LIMITING --
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 20, // Limit each IP to 20 requests per window
+  max: 20,
   message: {
     message:
       "Too many login/register attempts from this IP, please try again after 15 minutes",
@@ -109,20 +100,19 @@ const authLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
-// Apply rate limiting to auth routes
 app.use("/api/auth", authLimiter);
 
 // -- ROUTES --
 app.get("/", (req, res) => res.json({ message: "API is running..." }));
 
-app.use("/api/auth", authRoutes); // Login/Register
-app.use("/api/users", userRoutes); // Admin Management
-app.use("/api/posts", postRoutes); // Feed
-app.use("/api/comments", commentRoutes); // Comments (New)
-app.use("/api/jobs", jobRoutes); // Job Titles
-app.use("/api/breakrooms", breakroomRoutes); // Rooms
-app.use("/api/reports", reportRoutes); // Moderation (New)
-app.use("/api/reactions", reactionRoutes); // Reactions (New)
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes); // Reactions are now nested here!
+app.use("/api/comments", commentRoutes);
+app.use("/api/jobs", jobRoutes);
+app.use("/api/breakrooms", breakroomRoutes);
+app.use("/api/reports", reportRoutes);
+// REMOVED: app.use("/api/reactions", reactionRoutes);
 
 // 404 Fallback
 app.use((req, res) =>
@@ -142,7 +132,7 @@ io.on("connection", (socket) => {
 
   socket.on("chatMessage", (message) => {
     console.log("💬 Message received:", message);
-    io.emit("chatMessage", message); // broadcast globally
+    io.emit("chatMessage", message);
   });
 
   socket.on("join_room", (room) => {
