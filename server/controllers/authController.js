@@ -10,7 +10,6 @@ import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/mail/sendEmail.js";
 import { passwordResetTemplate } from "../utils/mail/templates.js";
 
-// ... helper functions (normalizeJobTitle, ensureSecrets) remain the same ...
 const ensureSecrets = () => {
   if (!process.env.ACCESS_TOKEN_SECRET || !process.env.REFRESH_TOKEN_SECRET) {
     throw new Error("JWT secrets are not defined in environment variables");
@@ -38,7 +37,7 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // --- NEW: BAN CHECK ---
+    // --- BAN CHECK ---
     if (user.isBanned) {
       return res.status(403).json({
         message: "Your account has been suspended.",
@@ -46,20 +45,18 @@ export const login = async (req, res) => {
       });
     }
 
-    // OPTIONAL: Block if inactive (instead of auto-reactivating)
+    // OPTIONAL: Block if inactive
     if (!user.isActive) {
       return res.status(403).json({
         message: "Account deactivated due to inactivity.",
         reason: "Please contact support to restore your access.",
       });
     }
-    // ----------------------
 
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
 
-    console.log("Access Token:", accessToken);
-    console.log("Refresh Token:", refreshToken);
+    // Removed sensitive console logs here
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
@@ -68,12 +65,9 @@ export const login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    // BEFORE sending the response, update the lastActive time
+    // Update lastActive
     user.lastActive = new Date();
-
-    // Also ensure they are marked active if they return
     user.isActive = true;
-
     await user.save();
 
     res.status(200).json({
@@ -82,7 +76,7 @@ export const login = async (req, res) => {
       name: user.name,
       job: user.job,
       isAdmin: user.isAdmin,
-      role: user.role, // Good to return role too
+      role: user.role,
       accessToken,
     });
   } catch (err) {
@@ -90,8 +84,6 @@ export const login = async (req, res) => {
     res.status(500).json({ message: "Error logging in", error: err.message });
   }
 };
-
-// ... register and logout remain the same ...
 
 // REFRESH TOKEN
 export const refreshAccessToken = async (req, res) => {
@@ -115,15 +107,13 @@ export const refreshAccessToken = async (req, res) => {
         const user = await User.findById(decoded.id);
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        // --- NEW: BAN CHECK FOR ACTIVE SESSIONS ---
-        // If they are banned, we deny the refresh and force them to logout
+        // --- BAN CHECK FOR ACTIVE SESSIONS ---
         if (user.isBanned) {
-          res.clearCookie("refreshToken"); // Kill the cookie
+          res.clearCookie("refreshToken");
           return res.status(403).json({
             message: "Your account has been suspended.",
           });
         }
-        // ------------------------------------------
 
         const accessToken = generateAccessToken(user);
         res.status(200).json({ accessToken });
@@ -137,9 +127,7 @@ export const refreshAccessToken = async (req, res) => {
   }
 };
 
-// ... getMe, resetPassword, testEmail remain the same ...
-
-// FORGOT PASSWORD (Small Bug Fix Included)
+// FORGOT PASSWORD
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
   if (!email)
@@ -153,7 +141,6 @@ export const forgotPassword = async (req, res) => {
     });
   }
 
-  // FIX: You were calling user.passwordResetToken() but the method is createPasswordResetToken()
   const resetToken = user.createPasswordResetToken();
 
   await user.save({ validateBeforeSave: false });
