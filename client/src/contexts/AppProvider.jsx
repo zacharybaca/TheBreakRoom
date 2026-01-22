@@ -1,4 +1,3 @@
-// AppProvider.jsx
 import { BrowserRouter as Router } from 'react-router-dom';
 import { FetcherProvider } from './Fetcher/FetcherProvider';
 import { AuthProvider } from './Auth/AuthProvider';
@@ -21,21 +20,27 @@ export const AppProvider = ({ children }) => {
   return (
     <Router>
       <AuthProvider>
-        <AppWrapper>
-          <SocketProvider>
-            <UsersProvider>
-              <PostsProvider>
-                <ModalProvider>
-                  <ConfirmationProvider>
-                    <ToggleProvider>
-                      <FetcherProvider>{children}</FetcherProvider>
-                    </ToggleProvider>
-                  </ConfirmationProvider>
-                </ModalProvider>
-              </PostsProvider>
-            </UsersProvider>
-          </SocketProvider>
-        </AppWrapper>
+        {/* 1. MOVED UP: FetcherProvider must wrap the data providers */}
+        <FetcherProvider>
+          <AppWrapper>
+            <SocketProvider>
+
+              {/* 2. Now UsersProvider is INSIDE FetcherProvider, so useFetcher will work */}
+              <UsersProvider>
+                <PostsProvider>
+                  <ModalProvider>
+                    <ConfirmationProvider>
+                      <ToggleProvider>
+                        {children}
+                      </ToggleProvider>
+                    </ConfirmationProvider>
+                  </ModalProvider>
+                </PostsProvider>
+              </UsersProvider>
+
+            </SocketProvider>
+          </AppWrapper>
+        </FetcherProvider>
       </AuthProvider>
     </Router>
   );
