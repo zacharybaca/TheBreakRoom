@@ -1,7 +1,18 @@
 import User from "../models/User.js";
 import Job from "../models/Job.js";
 import Comment from "../models/Comment.js";
-import Post from "../models/Post.js"; // <--- ADDED THIS (Required for deleteUser)
+import Post from "../models/Post.js";
+
+// Helper to clean job titles (Same logic as Job Controller)
+const normalizeJobTitle = (title) => {
+  if (!title) return "";
+  return title
+    .trim()
+    .toLowerCase()
+    .split(/\s+/) // Splits by any length of whitespace
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
 
 // @desc    Create a new user (Admin only)
 // @route   POST /api/users
@@ -16,10 +27,14 @@ export const createUser = async (req, res) => {
       return res.status(400).json({ message: "Username already exists" });
     }
 
-    // Handle job: either select existing or create new
-    let job = await Job.findOne({ title: jobTitle });
-    if (!job) {
-      job = await Job.create({ title: jobTitle });
+    // Handle job: Normalize first to prevent duplicates
+    let job;
+    if (jobTitle) {
+       const cleanTitle = normalizeJobTitle(jobTitle);
+       job = await Job.findOne({ title: cleanTitle });
+       if (!job) {
+         job = await Job.create({ title: cleanTitle });
+       }
     }
 
     // Create user
@@ -28,7 +43,7 @@ export const createUser = async (req, res) => {
       password,
       role: isAdmin ? "admin" : "user", // Sync role with isAdmin flag
       isAdmin: isAdmin || false,
-      job: job._id,
+      job: job ? job._id : undefined,
     });
 
     if (user) {
@@ -37,7 +52,7 @@ export const createUser = async (req, res) => {
         username: user.username,
         isAdmin: user.isAdmin,
         role: user.role,
-        job: job.title,
+        job: job ? job.title : null,
       });
     } else {
       res.status(400).json({ message: "Invalid user data" });
@@ -98,9 +113,10 @@ export const updateUser = async (req, res) => {
       }
 
       if (jobTitle) {
-        let job = await Job.findOne({ title: jobTitle });
+        const cleanTitle = normalizeJobTitle(jobTitle);
+        let job = await Job.findOne({ title: cleanTitle });
         if (!job) {
-          job = await Job.create({ title: jobTitle });
+          job = await Job.create({ title: cleanTitle });
         }
         user.job = job._id;
       }
@@ -112,7 +128,7 @@ export const updateUser = async (req, res) => {
         username: updatedUser.username,
         isAdmin: updatedUser.isAdmin,
         role: updatedUser.role,
-        job: jobTitle || (await Job.findById(updatedUser.job)).title,
+        job: jobTitle || (updatedUser.job ? (await Job.findById(updatedUser.job)).title : null),
       });
     } else {
       res.status(404).json({ message: "User not found" });
@@ -144,8 +160,8 @@ export const deleteUser = async (req, res) => {
     }
 
     // Cascade delete: remove all posts and comments by this user
-    await Post.deleteMany({ authorId: user._id }); // Note: Ensure your Post model uses 'authorId' or 'author'
-    await Comment.deleteMany({ authorId: user._id }); // Same for Comment
+    await Post.deleteMany({ authorId: user._id });
+    await Comment.deleteMany({ authorId: user._id });
 
     // Delete user
     await user.deleteOne();
@@ -233,8 +249,6 @@ export const updateUserAvatar = async (req, res) => {
   }
 };
 
-// --- NEW FUNCTION ADDED BELOW ---
-
 // @desc    Ban or Unban a user
 // @route   PUT /api/users/:id/ban
 // @access  Admin Only
@@ -250,7 +264,6 @@ export const banUser = async (req, res) => {
     }
 
     // Safety: Prevent banning other admins
-    // Checks both role and isAdmin flag for safety
     if (user.role === "admin" || user.isAdmin) {
       return res.status(400).json({ message: "You cannot ban another admin." });
     }
@@ -283,8 +296,6 @@ export const banUser = async (req, res) => {
 // @desc    User Requests Reactivation of Account
 // @route   POST /api/users/:id/request-reactivation
 // @access  Public
-
-// 1. User requests help (Public Route)
 export const requestReactivation = async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -306,11 +317,8 @@ export const requestReactivation = async (req, res, next) => {
 // @desc    Admin(s) Retrieve User Requests for Account Reactivation
 // @route   GET /api/admin/reactivation-requests
 // @access  Admin Only
-
-// 2. Admin fetches queue
 export const getReactivationRequests = async (req, res, next) => {
   try {
-    // Find users who are inactive AND have requested help
     const users = await User.find({
       isActive: false,
       reactivationRequested: true,
@@ -325,8 +333,6 @@ export const getReactivationRequests = async (req, res, next) => {
 // @desc    Admin(s) are Able to Approve Account Reactivation Request
 // @route   PUT /api/admin/reactivation-requests/:id
 // @access  Admin Only
-
-// 3. Admin approves request
 export const approveReactivation = async (req, res, next) => {
   try {
     const { id } = req.params;
