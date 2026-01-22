@@ -21,10 +21,11 @@ const reactionSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// 1. Prevent duplicate reactions: A user can only have ONE reaction per post
+// OPTIMIZED INDEX:
+// This single compound index does two jobs:
+// 1. Enforces Uniqueness: A user can only react once per post.
+// 2. Optimizes Lookup: Since 'post' is the first key, MongoDB uses this
+//    to find "all reactions for a post" without needing a separate index.
 reactionSchema.index({ post: 1, user: 1 }, { unique: true });
-
-// 2. Index for fast lookups: Essential for fetching "all reactions for this post"
-reactionSchema.index({ post: 1 });
 
 export default mongoose.model("Reaction", reactionSchema);
