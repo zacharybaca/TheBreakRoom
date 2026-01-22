@@ -9,8 +9,6 @@ const postSchema = new mongoose.Schema(
     },
     content: { type: String, required: true, maxlength: 2000 },
     imageUrl: { type: String },
-
-    // Vital for your specific app concept
     anonymous: { type: Boolean, default: false },
 
     tags: {
@@ -19,10 +17,7 @@ const postSchema = new mongoose.Schema(
       set: (tags) => tags.map((tag) => tag.toLowerCase()),
     },
 
-    // REMOVED: reactions: [] (This will explode on viral posts)
-    // REMOVED: comments: [] (Use the Comment model to query these)
-
-    // Keep these counts, they are excellent for performance
+    // Performance Optimization: Storing counts directly on the post
     reactionCounts: {
       like: { type: Number, default: 0 },
       love: { type: Number, default: 0 },
@@ -34,37 +29,26 @@ const postSchema = new mongoose.Schema(
 
     commentCount: { type: Number, default: 0 },
 
-    // --- Soft Delete Flag ---
+    // Soft Delete & Moderation
     isDeleted: { type: Boolean, default: false },
-
-    // NEW: Moderation for "venting" apps is crucial
-    // Add these to your schema definitions
     isFlagged: { type: Boolean, default: false },
     reportCount: { type: Number, default: 0 },
   },
   { timestamps: true },
 );
 
-// --- NEW MIDDLEWARE: Auto-filter deleted posts ---
-// This regex /^find/ covers find, findOne, findById, etc.
-postSchema.pre(/^find/, function (next) {
-  // 'this' refers to the query currently running.
-  // We add a filter to exclude any document where isDeleted is true.
-  this.find({ isDeleted: { $ne: true } });
-  next();
-});
-
-// Ensure this is in models/Post.js
+// --- METHOD: Recalculate Reactions ---
+// Called by reactionController when a user reacts
 postSchema.methods.updateReactionCounts = async function () {
   const Reaction = mongoose.model("Reaction");
 
-  // Aggregate all reactions for this post
+  // 1. Aggregate all reactions for this post by type
   const counts = await Reaction.aggregate([
     { $match: { post: this._id } },
     { $group: { _id: "$type", count: { $sum: 1 } } },
   ]);
 
-  // Reset counts
+  // 2. Reset current counts to 0
   this.reactionCounts = {
     like: 0,
     love: 0,
@@ -74,19 +58,19 @@ postSchema.methods.updateReactionCounts = async function () {
     angry: 0,
   };
 
-  // Apply new counts
+  // 3. Update with new aggregated data
   counts.forEach((c) => {
     if (this.reactionCounts.hasOwnProperty(c._id)) {
       this.reactionCounts[c._id] = c.count;
     }
   });
 
-  return this.save(); // This saves the post
+  return this.save();
 };
 
-// Indexes
+// Indexes for Feed Performance
 postSchema.index({ authorId: 1 });
 postSchema.index({ tags: 1 });
-postSchema.index({ createdAt: -1 }); // Critical for "Feed" queries
+postSchema.index({ createdAt: -1 });
 
 export default mongoose.model("Post", postSchema);
