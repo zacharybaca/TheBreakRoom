@@ -1,5 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import crypto from "crypto"; // Needed to generate dummy password
 import User from "../../models/User.js";
 
 passport.use(
@@ -7,7 +8,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.SERVER_URL}/auth/google/callback`,
+      // FIXED: Added '/api' because your server uses app.use('/api/auth', authRoutes)
+      callbackURL: `${process.env.SERVER_URL}/api/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -18,17 +20,21 @@ passport.use(
 
         if (!user) {
           // 2. Handle Username Uniqueness
-          // If "John Doe" exists, make this one "John Doe 1234"
-          let newUsername = name;
+          let newUsername = name.replace(/\s+/g, "").toLowerCase(); // Clean spaces
           const userExists = await User.findOne({ username: newUsername });
           if (userExists) {
-            newUsername += ` ${Math.floor(Math.random() * 10000)}`;
+            newUsername += `-${Math.floor(Math.random() * 10000)}`;
           }
 
+          // 3. Create User
           user = await User.create({
             email,
             username: newUsername,
+            name: name, // REQUIRED by your User model
+            // REQUIRED by your User model (Generate a random secure password)
+            password: crypto.randomBytes(32).toString("hex"),
             provider: "google",
+            isVerified: true, // Google emails are verified
           });
         }
 
