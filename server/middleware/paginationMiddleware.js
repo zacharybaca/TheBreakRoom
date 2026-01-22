@@ -1,4 +1,5 @@
-export const paginationMiddleware = (model, queryModifier) => {
+// Updated to accept a 'filter' object
+export const paginationMiddleware = (model, filter = {}, queryModifier) => {
   return async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -9,7 +10,8 @@ export const paginationMiddleware = (model, queryModifier) => {
     const results = {};
 
     try {
-      const totalDocs = await model.countDocuments().exec();
+      // 1. Apply filter to the count (e.g. don't count deleted posts)
+      const totalDocs = await model.countDocuments(filter).exec();
 
       if (endIndex < totalDocs) {
         results.next = {
@@ -25,7 +27,8 @@ export const paginationMiddleware = (model, queryModifier) => {
         };
       }
 
-      let query = model.find().limit(limit).skip(startIndex);
+      // 2. Apply filter to the query
+      let query = model.find(filter).limit(limit).skip(startIndex);
 
       // Apply custom query modifications (like populate/sort) if provided
       if (queryModifier) {
