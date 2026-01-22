@@ -1,57 +1,20 @@
-import React, { useState, useEffect } from 'react';
 import { Search, UserX, UserCheck, ShieldAlert } from 'lucide-react';
-import { useFetcher } from '../../hooks/useFetcher';
-import { useAuth } from '../../hooks/useAuth';
+import { useUsers } from '../../hooks/useUsers'; // Import Context
 import AdminBanUserModal from '../AdminBanUserModal/AdminBanUserModal';
 import './users.css';
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  // State for the Ban Modal
-  const [userToBan, setUserToBan] = useState(null);
-
-  const { fetcher } = useFetcher();
-  const { user: currentUser } = useAuth(); // Get currently logged-in user
-
-  // 1. Fetch Users on Load
-  useEffect(() => {
-    const getUsers = async () => {
-      // Assuming your backend route is /api/users
-      const { success, data } = await fetcher('/api/users');
-      if (success) {
-        setUsers(data);
-      }
-      setIsLoading(false);
-    };
-    getUsers();
-  }, []);
-
-  // 2. Search Filter Logic
-  const filteredUsers = users.filter((u) => {
-    const lowerQuery = searchQuery.toLowerCase();
-    return (
-      u.name.toLowerCase().includes(lowerQuery) ||
-      u.username?.toLowerCase().includes(lowerQuery) ||
-      u.job?.title?.toLowerCase().includes(lowerQuery)
-    );
-  });
-
-  // 3. Callback when a ban/unban is successful
-  const handleBanSuccess = () => {
-    // We update the local state instantly without re-fetching everything
-    setUsers((prevUsers) =>
-      prevUsers.map((u) => {
-        if (u._id === userToBan._id) {
-            // Toggle the ban status locally to reflect the change
-            return { ...u, isBanned: !u.isBanned };
-        }
-        return u;
-      })
-    );
-  };
+  // 1. Consume Context instead of local state
+  const {
+    filteredUsers,
+    isLoading,
+    searchQuery,
+    setSearchQuery,
+    userToBan,
+    setUserToBan,
+    handleBanSuccess,
+    currentUser
+  } = useUsers();
 
   return (
     <div id="users-page-container">
@@ -71,7 +34,7 @@ const Users = () => {
               type="text"
               placeholder="Search by name or job..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchQuery(e.target.value)} // Uses Context setter
               className="users-search-input"
             />
           </div>
@@ -105,15 +68,10 @@ const Users = () => {
                 </div>
 
                 {/* ADMIN ACTIONS */}
-                {/* Only show if:
-                    1. Current user IS admin
-                    2. Target user is NOT the current user (can't ban self)
-                    3. Target user is NOT an admin (can't ban peers)
-                */}
                 {currentUser?.isAdmin && currentUser?._id !== user._id && !user.isAdmin && (
                   <button
                     className={`admin-action-btn ${user.isBanned ? 'unban' : 'ban'}`}
-                    onClick={() => setUserToBan(user)}
+                    onClick={() => setUserToBan(user)} // Sets Context state
                     title={user.isBanned ? "Reactivate Account" : "Suspend Account"}
                   >
                     {user.isBanned ? <UserCheck size={18} /> : <UserX size={18} />}
@@ -128,12 +86,12 @@ const Users = () => {
         </div>
       </div>
 
-      {/* MODAL: Conditionally Rendered */}
+      {/* MODAL: Uses Context State */}
       {userToBan && (
         <AdminBanUserModal
           userToBan={userToBan}
-          onClose={() => setUserToBan(null)} // Close modal
-          onSuccess={handleBanSuccess}       // Update list on success
+          onClose={() => setUserToBan(null)}
+          onSuccess={handleBanSuccess}
         />
       )}
 
