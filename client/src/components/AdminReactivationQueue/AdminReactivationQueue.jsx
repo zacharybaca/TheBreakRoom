@@ -15,6 +15,9 @@ const AdminReactivationQueue = () => {
       job: {
         title: 'Tester',
       },
+      banReason: 'Harrassment',
+      avatarUrl: '',
+      lastActive: '',
     },
   ]);
   const [loading, setLoading] = useState(true);
@@ -79,7 +82,9 @@ const AdminReactivationQueue = () => {
                   @{user.username} • {user.email}
                 </span>
                 <span className="arq-job">
-                  {user.job?.title || 'No Job Title'}
+                  {user.banReason
+                    ? `Reason For Banning: ${user.banReason}`
+                    : 'No Reason Given'}
                 </span>
               </div>
 
