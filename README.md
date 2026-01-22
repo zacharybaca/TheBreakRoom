@@ -288,7 +288,7 @@ Ensure you have the following installed on your machine:
 - Structure of How Project File System is Set Up
 
 ```bash
-software-bug-tracker/
+thebreakroom-main/
 ├── client/               # Frontend (React with Vite)
   ├── public/
     ├── assets/           # Project asset files
