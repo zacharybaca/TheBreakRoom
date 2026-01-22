@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useFetcher } from '../../hooks/useFetcher';
 import { useAuth } from '../../hooks/useAuth';
+import { UsersContext } from './UsersContext';
 
 export const UsersProvider = ({ children }) => {
   const { fetcher } = useFetcher();
