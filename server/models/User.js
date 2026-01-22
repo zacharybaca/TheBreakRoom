@@ -17,13 +17,11 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
 
-    jobs: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Job",
-        required: true,
-      },
-    ],
+    // FIXED: Changed from array [jobs] to single object 'job' to match controller logic
+    job: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Job",
+    },
 
     bio: { type: String },
     gender: {
