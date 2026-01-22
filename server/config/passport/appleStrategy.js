@@ -37,7 +37,7 @@ passport.use(
           // Basic uniqueness check
           const userExists = await User.findOne({ username: newUsername });
           if (userExists) {
-             newUsername += Math.floor(Math.random() * 1000);
+            newUsername += Math.floor(Math.random() * 1000);
           }
 
           user = await User.create({

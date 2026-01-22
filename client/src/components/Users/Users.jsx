@@ -13,13 +13,12 @@ const Users = () => {
     userToBan,
     setUserToBan,
     handleBanSuccess,
-    currentUser
+    currentUser,
   } = useUsers();
 
   return (
     <div id="users-page-container">
       <div id="users-content">
-
         {/* Header Section */}
         <header className="users-header">
           <div className="header-text">
@@ -46,13 +45,15 @@ const Users = () => {
             <p className="loading-text">Loading directory...</p>
           ) : filteredUsers.length > 0 ? (
             filteredUsers.map((user) => (
-              <div key={user._id} className={`user-card ${user.isBanned ? 'banned-card' : ''}`}>
-
+              <div
+                key={user._id}
+                className={`user-card ${user.isBanned ? 'banned-card' : ''}`}
+              >
                 {/* Visual Banner for Banned Users */}
                 {user.isBanned && (
-                    <div className="banned-badge">
-                        <ShieldAlert size={14} /> Suspended
-                    </div>
+                  <div className="banned-badge">
+                    <ShieldAlert size={14} /> Suspended
+                  </div>
                 )}
 
                 <img
@@ -64,24 +65,36 @@ const Users = () => {
                 <div className="user-info">
                   <h3>{user.name}</h3>
                   <span className="user-username">@{user.username}</span>
-                  <span className="user-job">{user.job?.title || 'No Job Title'}</span>
+                  <span className="user-job">
+                    {user.job?.title || 'No Job Title'}
+                  </span>
                 </div>
 
                 {/* ADMIN ACTIONS */}
-                {currentUser?.isAdmin && currentUser?._id !== user._id && !user.isAdmin && (
-                  <button
-                    className={`admin-action-btn ${user.isBanned ? 'unban' : 'ban'}`}
-                    onClick={() => setUserToBan(user)} // Sets Context state
-                    title={user.isBanned ? "Reactivate Account" : "Suspend Account"}
-                  >
-                    {user.isBanned ? <UserCheck size={18} /> : <UserX size={18} />}
-                    {user.isBanned ? "Reactivate" : "Suspend"}
-                  </button>
-                )}
+                {currentUser?.isAdmin &&
+                  currentUser?._id !== user._id &&
+                  !user.isAdmin && (
+                    <button
+                      className={`admin-action-btn ${user.isBanned ? 'unban' : 'ban'}`}
+                      onClick={() => setUserToBan(user)} // Sets Context state
+                      title={
+                        user.isBanned ? 'Reactivate Account' : 'Suspend Account'
+                      }
+                    >
+                      {user.isBanned ? (
+                        <UserCheck size={18} />
+                      ) : (
+                        <UserX size={18} />
+                      )}
+                      {user.isBanned ? 'Reactivate' : 'Suspend'}
+                    </button>
+                  )}
               </div>
             ))
           ) : (
-            <p className="no-results">No users found matching "{searchQuery}"</p>
+            <p className="no-results">
+              No users found matching "{searchQuery}"
+            </p>
           )}
         </div>
       </div>
@@ -94,7 +107,6 @@ const Users = () => {
           onSuccess={handleBanSuccess}
         />
       )}
-
     </div>
   );
 };

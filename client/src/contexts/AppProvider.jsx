@@ -24,20 +24,16 @@ export const AppProvider = ({ children }) => {
         <FetcherProvider>
           <AppWrapper>
             <SocketProvider>
-
               {/* 2. Now UsersProvider is INSIDE FetcherProvider, so useFetcher will work */}
               <UsersProvider>
                 <PostsProvider>
                   <ModalProvider>
                     <ConfirmationProvider>
-                      <ToggleProvider>
-                        {children}
-                      </ToggleProvider>
+                      <ToggleProvider>{children}</ToggleProvider>
                     </ConfirmationProvider>
                   </ModalProvider>
                 </PostsProvider>
               </UsersProvider>
-
             </SocketProvider>
           </AppWrapper>
         </FetcherProvider>

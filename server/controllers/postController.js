@@ -54,7 +54,9 @@ export const createPost = async (req, res) => {
 
     res.status(201).json(formattedPost);
   } catch (err) {
-    res.status(400).json({ message: "Error creating post", error: err.message });
+    res
+      .status(400)
+      .json({ message: "Error creating post", error: err.message });
   }
 };
 
@@ -70,7 +72,7 @@ export const getPosts = async (req, res) => {
 
     // Optional: Filter by tag if provided
     if (req.query.tag) {
-        query.tags = req.query.tag;
+      query.tags = req.query.tag;
     }
 
     const posts = await Post.find(query)
@@ -84,28 +86,30 @@ export const getPosts = async (req, res) => {
 
     if (req.user) {
       // Get IDs of the posts we just fetched
-      const postIds = posts.map(p => p._id);
+      const postIds = posts.map((p) => p._id);
 
       // Find reactions by this user for these specific posts
       const reactions = await Reaction.find({
         user: req.user._id,
-        post: { $in: postIds }
+        post: { $in: postIds },
       });
 
       // Map postId -> reactionType (e.g., { "123": "like", "456": "heart" })
-      reactions.forEach(r => {
+      reactions.forEach((r) => {
         userReactionsMap[r.post.toString()] = r.type;
       });
     }
 
     // 3. FORMAT: Merge post data with the user's reaction status
-    const formattedPosts = posts.map(post =>
-      formatPostResponse(post, userReactionsMap[post._id.toString()])
+    const formattedPosts = posts.map((post) =>
+      formatPostResponse(post, userReactionsMap[post._id.toString()]),
     );
 
     res.status(200).json(formattedPosts);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching posts", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching posts", error: err.message });
   }
 };
 
@@ -113,21 +117,28 @@ export const getPosts = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     // 1. FILTER: Ensure we don't return deleted posts!
-    const post = await Post.findOne({ _id: req.params.id, isDeleted: false })
-      .populate("authorId", "username name avatarUrl job");
+    const post = await Post.findOne({
+      _id: req.params.id,
+      isDeleted: false,
+    }).populate("authorId", "username name avatarUrl job");
 
     if (!post) return res.status(404).json({ message: "Post not found" });
 
     // 2. USER CONTEXT: Fetch user's reaction for this single post
     let userReaction = null;
     if (req.user) {
-      const reaction = await Reaction.findOne({ user: req.user._id, post: post._id });
+      const reaction = await Reaction.findOne({
+        user: req.user._id,
+        post: post._id,
+      });
       if (reaction) userReaction = reaction.type;
     }
 
     res.status(200).json(formatPostResponse(post, userReaction));
   } catch (err) {
-    res.status(500).json({ message: "Error fetching post", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching post", error: err.message });
   }
 };
 
@@ -141,7 +152,10 @@ export const updatePost = async (req, res) => {
     }
 
     // 1. FILTER: Ensure we don't update a deleted post
-    const updatedPost = await Post.findOne({ _id: req.params.id, isDeleted: false });
+    const updatedPost = await Post.findOne({
+      _id: req.params.id,
+      isDeleted: false,
+    });
 
     if (!updatedPost) {
       return res.status(404).json({ message: "Post not found" });
@@ -151,7 +165,9 @@ export const updatePost = async (req, res) => {
       !req.user ||
       (req.user.role !== "admin" && !updatedPost.authorId.equals(req.user._id))
     ) {
-      return res.status(403).json({ message: "Not authorized to update this post" });
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this post" });
     }
 
     updatedPost.content = content ?? updatedPost.content;
@@ -164,7 +180,9 @@ export const updatePost = async (req, res) => {
 
     res.status(200).json(formatPostResponse(updatedPost));
   } catch (err) {
-    res.status(500).json({ message: "Error updating post", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error updating post", error: err.message });
   }
 };
 
@@ -181,7 +199,9 @@ export const deletePost = async (req, res) => {
       !req.user ||
       (req.user.role !== "admin" && !post.authorId.equals(req.user._id))
     ) {
-      return res.status(403).json({ message: "Not authorized to delete this post" });
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this post" });
     }
 
     post.isDeleted = true;
@@ -189,6 +209,8 @@ export const deletePost = async (req, res) => {
 
     res.status(200).json({ message: "Post deleted successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Error deleting post", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error deleting post", error: err.message });
   }
 };

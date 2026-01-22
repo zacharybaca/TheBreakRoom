@@ -30,11 +30,11 @@ export const createUser = async (req, res) => {
     // Handle job: Normalize first to prevent duplicates
     let job;
     if (jobTitle) {
-       const cleanTitle = normalizeJobTitle(jobTitle);
-       job = await Job.findOne({ title: cleanTitle });
-       if (!job) {
-         job = await Job.create({ title: cleanTitle });
-       }
+      const cleanTitle = normalizeJobTitle(jobTitle);
+      job = await Job.findOne({ title: cleanTitle });
+      if (!job) {
+        job = await Job.create({ title: cleanTitle });
+      }
     }
 
     // Create user
@@ -128,7 +128,11 @@ export const updateUser = async (req, res) => {
         username: updatedUser.username,
         isAdmin: updatedUser.isAdmin,
         role: updatedUser.role,
-        job: jobTitle || (updatedUser.job ? (await Job.findById(updatedUser.job)).title : null),
+        job:
+          jobTitle ||
+          (updatedUser.job
+            ? (await Job.findById(updatedUser.job)).title
+            : null),
       });
     } else {
       res.status(404).json({ message: "User not found" });

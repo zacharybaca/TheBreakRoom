@@ -71,7 +71,7 @@ export const UsersProvider = ({ children }) => {
         // Actions (Setters)
         setSearchQuery,
         setUserToBan,
-        fetchUsers,     // In case you need to manually refresh later
+        fetchUsers, // In case you need to manually refresh later
         handleBanSuccess,
       }}
     >

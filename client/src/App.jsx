@@ -95,7 +95,7 @@ function App() {
               <ProtectedRoute>
                 <AdminReactivationQueue />
               </ProtectedRoute>
-              }
+            }
           />
 
           <Route

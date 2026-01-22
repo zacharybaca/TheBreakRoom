@@ -29,13 +29,13 @@
 
 /* The Video Element */
 .background-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures video fills the area without stretching */
-    z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures video fills the area without stretching */
+  z-index: 0;
 }
 
 /* Dark Overlay for readability */
@@ -47,8 +47,8 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(0, 0, 0, 0.6) 0%, /* Slightly darker for video visibility */
-    rgba(0, 0, 0, 0.3) 100%
+    rgba(0, 0, 0, 0.6) 0%,
+    /* Slightly darker for video visibility */ rgba(0, 0, 0, 0.3) 100%
   );
   z-index: 1;
 }

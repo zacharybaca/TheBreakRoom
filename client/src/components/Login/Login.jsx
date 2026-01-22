@@ -112,19 +112,12 @@ const Login = () => {
          We added the 'video-mode' class to handle positioning
       */}
       <div className="split-brand-side video-mode">
-
         {/* The Video Element: Auto-plays, loops, and is muted */}
         {/* IMPORTANT: Make sure your video file is in public/assets/ */}
-        <video
-            className="background-video"
-            autoPlay
-            loop
-            muted
-            playsInline
-        >
-            <source src="/assets/intro-video.mp4" type="video/mp4" />
-            {/* Fallback for browsers that don't support video */}
-            Your browser does not support the video tag.
+        <video className="background-video" autoPlay loop muted playsInline>
+          <source src="/assets/intro-video.mp4" type="video/mp4" />
+          {/* Fallback for browsers that don't support video */}
+          Your browser does not support the video tag.
         </video>
 
         {/* Dark Overlay to make text readable over video */}
