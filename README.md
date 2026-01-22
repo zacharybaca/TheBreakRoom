@@ -290,10 +290,36 @@ Ensure you have the following installed on your machine:
 ```bash
 software-bug-tracker/
 ├── client/               # Frontend (React with Vite)
+  ├── public/
+    ├── assets/           # Project asset files
+  ├── src/
+    ├── components/       # Application components
+    ├── contexts/         # Context files for state management
+    ├── hooks/            # Custom hook files
+    ├── App.css           # CSS file for main app component
+    ├── App.jsx           # Main application component
+    ├── index.css         # Global index css file
+    ├── main.jsx          # Main component that encompasses the app component
+  ├── index.html          # HTML file that holds the App component
+  ├── package.json        # File that includes necessary packages to install for application
+  ├── README.md           # README for client portion of the application
+  ├── vite.config.js      # Configuration for using Vite in application
 ├── server/               # Backend (Node.js + Express)
-├── models/               # Mongoose schemas for tasks and employees
-├── routes/               # API route definitions
-├── utils/                # Helper functions and middlewares
+  ├── config/             # Configuration files
+    ├── passport/         # Files for passport configuration
+    ├── db.js             # Configuration file for database
+  ├── controllers/        # Folder that contains all controller files for application
+  ├── email/              # Configuration files for email functionality
+  ├── middleware/         # Files that contain middleware functions
+  ├── models/             # Folder that contains files for different models for database functionality
+  ├── routes/             # Folder that contains files for routes for regarding different components
+  ├── services/           # Folder that contains files for different services that the app uses
+  ├── uploads/            # Folder that contains profile images for user accounts
+  ├── utils/              # Folder that contains files for different utility functions
+  ├── README.md           # README for server portion of application
+├── .gitignore            # File that contains extensions to ignore when committing to Github
+├── logo.png              # Application logo
+├── package.json          # File that includes necessary packages to install for application
 └── README.md             # Project documentation
 ```
 
