@@ -21,25 +21,10 @@ import MaintenanceMode from './components/MaintenanceMode/MaintenanceMode.jsx';
 import SessionExpired from './components/SessionExpired/SessionExpired.jsx';
 import AdminCreateBreakroom from './components/AdminCreateBreakroom/AdminCreateBreakroom.jsx';
 import AdminReactivationQueue from './components/AdminReactivationQueue/AdminReactivationQueue.jsx';
+import ErrorRouteWrapper from './components/ErrorRouteWrapper/ErrorRouteWrapper.jsx';
 
 // Import the new standalone component
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
-
-// --- HELPER COMPONENT: ERROR ROUTE WRAPPER ---
-const ErrorRouteWrapper = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const { message, icon } = location.state || {};
-
-  return (
-    <ErrorModal
-      errorStatement={message || 'Something went wrong!'}
-      errorIcon={icon || '/assets/error.png'}
-      onClose={() => navigate('/')}
-    />
-  );
-};
 
 function App() {
   // We removed the destructuring of { isAuthenticated } here because
