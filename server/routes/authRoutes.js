@@ -3,11 +3,7 @@ import express from "express";
 import passport from "passport";
 import {
   login,
-  logout,
-  register,
   refreshAccessToken,
-  getMe,
-  resetPassword,
   forgotPassword,
 } from "../controllers/authController.js";
 import { sendEmailTest } from "../utils/mail/sendEmailTest.js";
@@ -22,12 +18,8 @@ import {
 const router = express.Router();
 
 // ... [Existing Standard Routes - register, login, etc. stay the same] ...
-router.post("/register", register);
 router.post("/login", login);
-router.post("/logout", logout);
 router.post("/refresh", refreshAccessToken);
-router.get("/me", protect, getMe);
-router.post("/reset-password", resetPassword);
 router.post("/forgot-password", forgotPassword);
 router.post("/test-email", sendEmailTest);
 
