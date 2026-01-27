@@ -1,35 +1,37 @@
 import './App.css';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+
+// Public / Auth
 import Login from './components/Login/Login.jsx';
+import Register from './components/Register/Register.jsx';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword.jsx';
+import Confirmation from './components/Confirmation/Confirmation.jsx';
+import OAuthSuccess from './components/OAuthSuccess/OAuthSuccess.jsx';
+
+// Core Features
+import NewsFeed from './components/NewsFeed/NewsFeed.jsx';
+import Users from './components/Users/Users.jsx';
+import Breakrooms from './components/Breakrooms/Breakrooms.jsx';
+import ChatRoom from './components/ChatRoom/ChatRoom.jsx';
+
+// Admin / Developer
+import AdminDashboard from './pages/AdminDashboard.jsx'; // <--- NEW IMPORT
+import AdminCreateBreakroom from './components/AdminCreateBreakroom/AdminCreateBreakroom.jsx';
+import DeveloperAccessOnly from './components/DeveloperAccessOnly/DeveloperAccessOnly.jsx';
+
+// Helpers / System
 import NavBar from './components/NavBar/NavBar.jsx';
 import Footer from './components/Footer/Footer.jsx';
-import ErrorModal from './components/ErrorModal/ErrorModal.jsx';
-import Register from './components/Register/Register.jsx';
-import Confirmation from './components/Confirmation/Confirmation.jsx';
-import Breakrooms from './components/Breakrooms/Breakrooms.jsx';
-import Users from './components/Users/Users.jsx';
 import Loading from './components/Loading/Loading.jsx';
-import ChatRoom from './components/ChatRoom/ChatRoom.jsx';
-import ForgotPassword from './components/ForgotPassword/ForgotPassword.jsx';
-import OAuthSuccess from './components/OAuthSuccess/OAuthSuccess.jsx';
-import NewsFeed from './components/NewsFeed/NewsFeed.jsx';
-import DeveloperAccessOnly from './components/DeveloperAccessOnly/DeveloperAccessOnly.jsx';
+import ErrorRouteWrapper from './components/ErrorRouteWrapper/ErrorRouteWrapper.jsx';
 import PrivateProfileView from './components/PrivateProfileView/PrivateProfileView.jsx';
 import UserBanned from './components/UserBanned/UserBanned.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
 import MaintenanceMode from './components/MaintenanceMode/MaintenanceMode.jsx';
 import SessionExpired from './components/SessionExpired/SessionExpired.jsx';
-import AdminCreateBreakroom from './components/AdminCreateBreakroom/AdminCreateBreakroom.jsx';
-import AdminReactivationQueue from './components/AdminReactivationQueue/AdminReactivationQueue.jsx';
-import ErrorRouteWrapper from './components/ErrorRouteWrapper/ErrorRouteWrapper.jsx';
-
-// Import the new standalone component
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
 
 function App() {
-  // We removed the destructuring of { isAuthenticated } here because
-  // ProtectedRoute now handles that logic internally!
-
   return (
     <div id="main-app-container">
       <NavBar />
@@ -88,20 +90,23 @@ function App() {
             }
           />
 
-          {/* Admin / Developer Routes */}
+          {/* --- Admin Routes --- */}
+
+          {/* 1. The Main Dashboard (Tickets, Users, Reactivation Queue) */}
           <Route
-            path="/admin/reactivation-requests"
+            path="/admin"
             element={
-              <ProtectedRoute>
-                <AdminReactivationQueue />
+              <ProtectedRoute requireAdmin={true}>
+                <AdminDashboard />
               </ProtectedRoute>
             }
           />
 
+          {/* 2. Specific Creation Tools (Kept separate for now) */}
           <Route
             path="/admin/breakrooms/create"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requireAdmin={true}>
                 <AdminCreateBreakroom />
               </ProtectedRoute>
             }
