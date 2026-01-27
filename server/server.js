@@ -23,6 +23,7 @@ import breakroomRoutes from "./routes/breakroomRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
+import supportRoutes from "./routes/supportRoutes.js";
 // REMOVED: import reactionRoutes from "./routes/reactionRoutes.js";
 
 // -- CONFIGURATION --
@@ -112,6 +113,7 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/breakrooms", breakroomRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/support", supportRoutes);
 // REMOVED: app.use("/api/reactions", reactionRoutes);
 
 // 404 Fallback
